@@ -1,0 +1,22 @@
+div.container {
+    width:100%;
+    
+}
+
+
+div.row::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+div.box{
+    width:90vw;
+    height:300px;
+    float: left;
+    background-color: cyan
+}
+
+
+div.btn{
+    float: left;
+}

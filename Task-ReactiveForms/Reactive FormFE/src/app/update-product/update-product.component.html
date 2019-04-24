@@ -1,0 +1,33 @@
+<form  [formGroup]="productForm"> 
+          <button (click)="close()"> Close </button>     
+          <h1> Product </h1>
+              <div>              
+                SKU <input type="text" formControlName="SKU" disabled>
+              </div>
+              <div>
+                Product Name <input type="text" id="name" class="form-control" formControlName="name" required >                 
+              </div>
+              <div>            
+              Quantity <input type="text" formControlName="quantity" placeholder="Quantity">
+              </div>
+  <button  [disabled]="productForm.invalid" (click)="updateProduct()" > Submit</button>
+</form>
+
+<!-- 
+<h2 mat-dialog-title>{{description}}</h2>
+
+ [formGroup]="form">
+  
+    <mat-form-field>
+        <input matInput
+                placeholder="Course Description"
+               formControlName="description">
+    </mat-form-field>
+      ....
+ 
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button"(click)="close()">Close</button>
+    <button class="mat-raised-button mat-primary"(click)="save()">Save</button>
+</mat-dialog-actions> -->

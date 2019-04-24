@@ -1,0 +1,109 @@
+<div class="navbar navbar-default">
+    <div class="navbar-header">
+        <a class="navbar-brand"> Image Upload</a>
+    </div>
+</div>
+
+<div class="container">
+    <h1> Upload Images </h1>
+
+    <form [formGroup]="uploadForm" (ngSubmit)="submitImages()">
+        <div class="alert alert-danger" role="alert" *ngIf="err">
+            {{errMessage}}
+        </div>
+
+        <br>
+
+        <input formControlName="inputImage" name="images" type="file" ng2FileSelect [uploader]="uploader" multiple accept="image/*"
+            ngf-max-size="2MB" (change)="update($event)" required/>
+
+
+        <br>
+        <div class="drop-zone" style="height:200px; border:1px dotted black">
+            <input class="drag-drop" formControlName="inputImage" name="images" type="file" ng2FileSelect [uploader]="uploader" multiple
+                accept="image/*" ngf-max-size="2MB" (change)="update($event)" required/>
+        </div>
+        <div>
+
+        </div>
+
+
+
+        <button class="btn" type="submit" >Upload Files</button>
+
+    </form>
+
+    <div class="container" *ngIf="imageURLs">
+            <h1>Selected Images</h1>
+
+            <table>
+                <!-- <thead>
+                    <tr>
+                        <th> File Name</th>
+                        <th> Remove </th>
+                    </tr>
+                </thead> -->
+                <tbody >
+                    <tr  *ngFor="let item of uploader.queue; index as i ">
+                        <!-- <div class="image gallery" *ngFor="let imageURL of imageURLs" > -->
+                        <td> {{item._file.name}} </td>
+                         <td *ngIf="imageURLs">  <img [src]="imageURLs[i].file" height=400px > </td>   
+                        <td class="text-center">
+                            <button (click)= "item.remove();">Remove </button>
+                        </td>
+                        <!-- </div> -->
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+
+
+
+    <div>
+        Upload Percentage:
+        <div class="progress">
+            {{uploadPercentage}}
+            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploadPrecentage + '%' }"></div>
+        </div>
+        <h1> </h1>
+        <!-- <div class="row" *ngIf="imageURLs">
+            <h1> Your Uploads </h1>
+            <div class="col-md-4" *ngFor="let image of imageURLs">
+              <div class="thumbnail">
+                
+                  <img [src]=image.file  style="width:100%">
+                  <div class="caption">
+                    <p>{{image.name}}</p>
+                  </div>
+                
+              </div>
+            </div>
+        </div> -->
+    </div>
+  
+    <div *ngIf = "uploadedImagesURL ">
+        <h1>    Uploaded Images  </h1>    
+            <tr>
+                <th> Image </th>
+                <th> Size </th>
+                <th> Original Image </th>
+                <th> Thumbnail 100x100</th>
+            </tr>
+             <tr *ngFor = "let image of uploadedImages ; index as i"> 
+                  <td> {{image.originalname}} </td>  
+                  <td> {{image.size}} </td>
+
+                   <td> <img src={{uploadedImagesURL[i].url}} height=200px  > </td>
+                   <td> <img src={{uploadedImagesURL[i].thumb100x100url}} > </td>
+                   <td > <button (click)="removeImage(image._id, i); "> Remove</button>  </td> 
+          
+
+             
+    
+            </div> 
+</div>
+
+   
+

@@ -1,0 +1,26 @@
+<div class="container">
+    <form  [formGroup]="jobForm">
+        <h2>Create Job</h2>
+        <div class="form-group">
+            
+                <input type="text"  formControlName="post" class="form-control" name="post" placeholder="job  title" required="required">  
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control"  formControlName="location"  name="location" placeholder="Location" required="required">
+        </div>
+        <div class="form-group">
+                <input type="text"  formControlName="domain" class="form-control" name="domain" placeholder="Job Domain" >
+           </div>
+       <div class="form-group">
+            <input type="text"  formControlName="requiredSkills" class="form-control" name="required skills" placeholder="required skills" >
+       </div>
+       <div class="form-group">
+            <textarea   formControlName="description" class="form-control" name="description" placeholder="About compnay" > </textarea>
+       </div>
+  
+
+<div class="text-center">
+<button type="submit" class="btn btn-success "  [disabled]="!jobForm.valid" (click)="createJob()">Register Now</button>
+</div>        
+ </form>
+</div>

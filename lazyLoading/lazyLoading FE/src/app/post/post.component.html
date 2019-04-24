@@ -1,0 +1,42 @@
+<div>
+  Lazy Loading Works
+  </div>
+
+<div class="header">
+    <div class="progress-container">
+      <div class="progress-bar" id="myBar"></div>
+    </div> 
+</div>
+
+<div class="container">
+
+    <div *ngIf="posts"  >
+        
+    
+            <div *ngFor="let post of posts; let i = index" class="card mb-3 " style="margin-bottom:25px;   border: 2px solid cyan;border-radius: 50px; ">              
+                <div class="row no-gutters">
+                  <div class="col-md-4 ">
+                    <img src={{imgURL}}{{post.imageURL}} height=200px width=300px class="rounded-pill" style="margin:25px 15px 15px 15px">
+                  </div>
+                  <div class="col-md-8 ">
+                    <div class="card-body" >
+                        <h2 style="text-align:center;">  {{post.title}} {{i+1}} </h2>
+                      <p class="card-text"> {{post.description}} </p>
+                      <p class="card-text"><small class="text-muted">Last updated 5000 years ago</small></p>
+                    </div>
+                  </div>
+                </div>
+            </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+

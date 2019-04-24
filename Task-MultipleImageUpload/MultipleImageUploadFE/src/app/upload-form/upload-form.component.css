@@ -1,0 +1,45 @@
+
+.drag-drop {
+    background-color: #E2C7C7;
+    border: none;
+    color: white;
+    margin: 0px;
+    padding: 0px;
+    text-decoration: none;
+    height:100%;
+    width : 100%;
+    cursor: pointer;
+  }
+
+  #clickHere {
+    position: absolute;
+    cursor: pointer;
+    left: 50%;
+    top: 50%;
+    margin-left: -50px;
+    margin-top: 20px;
+    line-height: 26px;
+    color: white;
+    font-size: 12px;
+    width: 100px;
+    height: 26px;
+    border-radius: 4px;
+    background-color: #dee78a;
+
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even){background-color: #f2f2f2}
+
+th {
+  background-color: #4CAF50;
+}

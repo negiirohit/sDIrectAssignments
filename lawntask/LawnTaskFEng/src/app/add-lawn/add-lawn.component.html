@@ -1,0 +1,59 @@
+<form  [formGroup]="lawnForm">
+        <button type="button" class="close" (click)="close()">&times;</button>
+         <p class="hint-text"> Add Lawn </p>
+        
+          <div class="form-group">
+               Silty : 
+               <input type="radio" name="silty" formControlName="silty" value="yes" checked> Yes
+               <input type="radio" name="silty"  formControlName="silty" value="no"> No<br>
+
+          </div>        	
+         
+          <div class="form-group">
+              Grass Type    <input type="text" class="form-control"  formControlName="grass"  name="grass" required="required">
+          </div>
+
+          <div class="form-group">
+             Square Foot <input type="number" class="form-control"  formControlName="squareFoot"  name="squarefoot" required="required">
+          </div>
+      
+          <input ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>      
+         
+          <div #gmap style="width:50%;height:200px"></div>          
+         
+          <div  class="form-group" formGroupName="address">
+            <h3>Address</h3>
+        
+            <div class="form-group">
+                <div class="col-xs-6">
+                  <input type="text"  class="form-control" formControlName="street" placeholder="street">
+                </div>
+                <div class="col-xs-6">
+                    <input type="text"  class="form-control" formControlName="city"  placeholder="City">
+                </div>
+            </div>
+
+            <div class="form-group" >
+                <div class="col-xs-6">   
+                  <input type="text"  class="form-control" formControlName="state"  placeholder="State">
+                </div>
+                <div class="col-xs-6">
+                  <input type="text" class="form-control" formControlName="country"  placeholder="Country">
+                </div>
+            </div>
+       </div>
+       <div class="form-group" >
+              <input type="text"  class="form-control" formControlName="temperature"  placeholder="Temperature of 12 Months seperated by ,">
+        </div>
+
+
+        <div class="form-group" >
+                <input type="text"  class="form-control" formControlName="precipitation"  placeholder="Precipitaion of 12 Months seperated by ,">
+          </div>
+
+      <div class="form-group">
+              <button type="submit" class="btn btn-success btn-lg btn-block"  [disabled]="!lawnForm.valid" (click)="addLawn()">Add Lawn</button>
+          </div>
+      </form>
+  
+      

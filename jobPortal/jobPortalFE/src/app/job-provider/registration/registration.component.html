@@ -1,0 +1,41 @@
+<div class="container">
+     <form  [formGroup]="registrationForm">
+                <h2>Register</h2>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-xs-6"><input type="text"  formControlName="company_title" class="form-control" name="company_title" placeholder="compamny title" required="required"></div>
+                        <div class="col-xs-6"><input type="text"  formControlName="company_type"  class="form-control" name="company_type" placeholder="company type" required="required"></div>
+                    </div>      
+                </div>
+                <div class="form-group">
+                <div class="row">
+                    <div class="col-xs-6">   
+                    <input type="number" class="form-control"  formControlName="year_founded"  name="year_founded" placeholder="year founded" required="required">
+                    </div>
+                    <div class="col-xs-6">
+                    <input type="size" class="form-control"  formControlName="size"  name="size" placeholder="No. of employee" >
+                    </div>
+                </div>
+                </div>
+               <div class="form-group">
+                    <input type="text"  formControlName="website" class="form-control" name="website" placeholder="URL">
+               </div>
+               <div class="form-group">
+                    <input type="text"  formControlName="domain" class="form-control" name="domain" placeholder="domain">
+               </div>
+               <div class="form-group">
+                    <textarea   formControlName="description" class="form-control" name="description" placeholder="About compnay" > </textarea>
+               </div>
+               <div class="form-group">
+                    <div class="row">
+                      <div class="col-xs-6"><input type="text"  formControlName="UIN" class="form-control" name="Unique Identification Number" placeholder="Unique Identification Number" required="required"></div>
+                      <div class="col-xs-6"><input type="password"  formControlName="password"  class="form-control" name="password" placeholder="password" required="required"></div>
+                    </div>      
+                </div>
+          
+        
+        <div class="text-center">
+        <button type="submit" class="btn btn-success "  [disabled]="!registrationForm.valid" (click)="registerCompany()">Register Now</button>
+        </div>        
+         </form>
+</div>

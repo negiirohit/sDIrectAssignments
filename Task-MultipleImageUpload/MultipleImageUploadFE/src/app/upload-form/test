@@ -1,0 +1,35 @@
+this.filePreviewPath = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(fileItem._file)));
+this.ppath.push(this.filePreviewPath);constructor(private fb: FormBuilder, private http: HttpClient, private sanitizer: DomSanitizer ) {
+
+this.uploader.onAfterAddingFile = (fileItem) => {
+    if (fileItem._file.size > 10000000) {
+this.warning = true;
+} else {
+this.warning = false;
+}
+if (this.uploader.queue.length >= 6) {
+this.limitWarning = true;
+} else {
+this.limitWarning = false;
+}
+this.filePreviewPath = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(fileItem._file)));
+this.ppath.push(this.filePreviewPath);
+};
+}
+
+
+
+
+this.filePreviewPath = this.sanitizer.bypassSecurityTrustUrl((window.URL.createObjectURL(fileItem._file)));
+this.ppath.push(this.filePreviewPath);<tr *ngFor="let item of uploader.queue">
+<td scope="row" width="5%">
+{{uploader.queue.indexOf(item) + 1}}
+</td>
+<td width="85%">
+{{item.file.name}} ({{item.file.size}} kB)
+<p *ngIf="item.file.size > 10000000" class="alert alert-warning">File size is greater than 10MB</p>
+</td>
+<td class="text-center" width="10%">
+<mat-icon (click)="ppath.splice(uploader.queue.indexOf(item), 1); item.remove();">delete</mat-icon>
+</td>
+</tr>

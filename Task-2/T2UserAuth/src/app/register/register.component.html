@@ -1,0 +1,47 @@
+<div div fxLayout="row" fxLayoutAlign="center center">
+     
+      <form novalidate [formGroup]="registrationForm" #fform="ngForm" (ngSubmit)="onSubmit()">
+          <h1 > Register Here </h1>
+        <p>
+            <mat-form-field class="half-width">
+              <input matInput formControlName="firstName" placeholder="First Name" type="text" required>
+              <mat-error *ngIf="formErrors.firstName">{{formErrors.firstname}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="half-width">
+              <input matInput formControlName="lastName" placeholder="Last Name" type="text" required>
+              <mat-error *ngIf="formErrors.lastName">{{formErrors.lastname}}</mat-error>
+            </mat-form-field>
+        </p>
+
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput formControlName="password" placeholder="********" type="password"  required>
+            <mat-error *ngIf="formErrors.password">{{formErrors.password}}</mat-error>
+          </mat-form-field>
+        </p>
+
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput formControlName="email" placeholder="Email" type="email" email required>
+            <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
+          </mat-form-field>
+        </p>
+
+        <p>
+          <mat-form-field class="full-width">
+            <input matInput formControlName="DOB" placeholder="" type="Date" required>
+            <mat-error *ngIf="formErrors.DOB">{{formErrors.DOB}}</mat-error>
+          </mat-form-field>
+        </p>
+
+        <p>
+            <mat-radio-group aria-label="Gender" formControlName="gender">
+              <mat-radio-button value="male">male</mat-radio-button>
+              <mat-radio-button value="female">female</mat-radio-button>
+            </mat-radio-group>
+        </p>
+
+        <button type="submit" mat-button class="background-primary text-floral-white">Submit</button>
+      </form>
+</div>

@@ -1,0 +1,62 @@
+<form  [formGroup]="nestedProductForm">      
+        <div formArrayName="product">
+                <h1> Products </h1>
+         
+                <button [disabled]=" disableAddButton" (click)="addProduct()"> Add Products</button>
+                <!-- <div *ngFor="let group of nestedProductForm.controls.product?.value;  let i = index;  trackBy: trackByFn" [formGroupName]="i"> -->
+                    <div *ngFor="let group of nestedProductForm.get('product').controls;  let i = index;  trackBy: trackByFn" [formGroupName]="i">   
+                    <h4>Product {{i+1}}</h4>
+                    <div>
+                       <input type="text" id="name" class="form-control" formControlName="name" required placeholder="name" >                 
+                       <p *ngIf="this.nestedProductForm.get('product').controls[i].controls.name.touched&&this.nestedProductForm.get('product').controls[i].controls.name.errors.required" >
+                        <small>Error: Name is required</small>
+                        </p>
+                        <p *ngIf="this.nestedProductForm.get('product').controls[i].controls.name.touched&&this.nestedProductForm.get('product').controls[i].controls.name.errors.minLength" >
+                            <small>Error: Name sholud contain minimum two characters</small>
+                            </p>
+                    </div>
+                    <div>              
+                      <input type="text" formControlName="SKU" placeholder="SKU">
+                    </div>
+                    <div>            
+                    <input type="text" formControlName="quantity" placeholder="Quantity">
+                    </div>
+                              
+                    <div>
+                        <button  (click)="removeProduct(i)"> Remove Product</button>
+                    </div>      
+                </div>
+                
+        </div>
+
+
+        <button *ngIf="productArray" [disabled]="nestedProductForm.invalid" (click)="submitProducts()" > Submit</button>
+  </form>
+
+                     
+                      
+<div *ngIf="products">
+    <h1> Available Products  </h1>
+    <table>
+            <tr>
+                <th> Product Name </th>
+                <th> SKU  </th>
+                <th> Qunatity </th>
+                <th> Create At</th>
+                <th> Remove  </th>
+                 <th> Edit Product  </th>
+            </tr>
+            <tr *ngFor="let product of products; let i = index">
+                <td>  {{product.name}}      </td>
+                <td>  {{product.SKU}}       </td>
+                <td>  {{product.quantity}}       </td>
+                <td>  {{product.createdAt}}       </td>
+                <td> <button (click)="removeProductDB(product.SKU,index)"> Remove Item </button>   </td>
+                <td>  <button (click)="editProduct(product)" > Edit Product </button>  </td>
+            </tr>
+    </table>
+</div>
+
+
+
+

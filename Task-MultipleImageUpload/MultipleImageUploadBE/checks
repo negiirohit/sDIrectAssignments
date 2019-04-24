@@ -1,0 +1,16 @@
+Checklist:
+
+1. Validations
+    Max limit of files 
+    Only image files 
+    Max limit of 1MBs for each file 
+
+2. Features
+     Related error and success messages
+     Progress bar
+
+3. Functionalities
+     Drag and Drop
+     Click upload 
+     Storinf Images on server side and Image details and path in DB
+     Storing file name and size in DB 

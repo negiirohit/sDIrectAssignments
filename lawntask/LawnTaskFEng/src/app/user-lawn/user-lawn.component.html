@@ -1,0 +1,27 @@
+
+
+<div  *ngIf="userLawns">
+    <h1> Your Lawns </h1>
+    <div  *ngFor="let lawn of userLawns" (click)="showDetails(lawn)" >
+        <h1> Lawn </h1>
+        <div>
+            <p> Grass Type: <span> {{lawn.grass}} </span> </p>
+            <p>  Silty: <span> {{lawn.silty}} </span> </p>
+            <p> SquareFoot:   <span> {{lawn.squareFoot}}</span> </p>
+                <div> Address : 
+                    <span> {{lawn.address.street}} </span>
+                    <span> {{lawn.address.city}} </span> 
+                    <span> {{lawn.address.state}} </span>
+                    <span> {{lawn.address.zip}} </span>
+                </div>
+            
+        </div>
+    </div>    
+</div>   
+
+<router-outlet></router-outlet>
+
+<div class="top-right">
+    <h1> Add more lawns  </h1>
+    <button class="btn btn-success"(click)="addLawn()"> Add Lawn </button>
+</div>

@@ -1,0 +1,13 @@
+
+
+<!-- <div>  Child to Parent msg event  </div>
+<div *ngIf="messageFromChild">{{messageFromChild}} </div>
+<div *ngIf="messageFromChild2">{{messageFromChild2}} </div>
+<div *ngIf= "receivedMsg"> {{receivedMsg}} </div>
+<app-child (msgEmitter)="receiveMsg($event)" [message]="messageToChild"> </app-child> -->
+
+<div> Parent </div>
+<div *ngIf="msg"> {{msg}} </div>
+<button (click)="sendMessage('msg from parent')"> sendMessage </button>
+<app-child> </app-child>
+<app-child2> </app-child2>

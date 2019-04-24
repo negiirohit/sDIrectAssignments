@@ -1,0 +1,66 @@
+<div> Location 
+    <div #gmap style="width:50%;height:50rem"></div> 
+</div>
+<div *ngIf="lawn">
+  <div class="flex " >
+    <h1> Temperature </h1>
+    <div class="flex-item"> 
+      <div style="display: block; height:75rem; width:75rem;">
+      <canvas baseChart width="400" height="400"
+                  [datasets]="lineChartDataTemp"
+                  [labels]="lineChartLabels"
+                  [options]="lineChartOptions"
+                  [colors]="lineChartColors"
+                  [legend]="lineChartLegend"
+                  [chartType]="lineChartType"
+                  [plugins]="lineChartPlugins"
+                  (chartHover)="chartHovered($event)"
+                  (chartClick)="chartClicked($event)"></canvas>
+      </div>
+    </div>
+    <div class="flex-item">
+      <table class="table table-responsive table-condensed">
+        <tr>
+          <th *ngFor="let label of lineChartLabels">{{label}}</th>
+        </tr>
+        <tr *ngFor="let d of lineChartDataTemp; let i=index" [class]="'line-'+i">
+          <td *ngFor="let label of lineChartLabels; let j=index">{{d && d.data[j]}}</td>
+        </tr>
+      </table>
+  
+    </div>
+
+    
+  </div>
+
+
+  <div class="flex">
+    <div class="flex-item">
+      <h1> Precipitation Level </h1>
+      <div style="display: block; height:75rem; width:75rem;">
+      <canvas baseChart width="400" height="400"
+                  [datasets]="lineChartDataPre"
+                  [labels]="lineChartLabels"
+                  [options]="lineChartOptions"
+                  [colors]="lineChartColors"
+                  [legend]="lineChartLegend"
+                  [chartType]="lineChartType"
+                  [plugins]="lineChartPlugins">
+      </canvas>
+      </div>
+    </div>
+    <div class="flex-item">
+      <table class="table table-responsive table-condensed">
+        <tr>
+          <th *ngFor="let label of lineChartLabels">{{label}}</th>
+        </tr>
+        <tr *ngFor="let d of lineChartDataPre; let i=index" [class]="'line-'+i">
+          <td *ngFor="let label of lineChartLabels; let j=index">{{d && d.data[j]}}</td>
+        </tr>
+      </table>
+  
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,23 @@
+<div *ngIf="company">
+  <div> {{company.company_title}} </div>
+  <div> {{company.company_type}} </div>
+  <div> {{company.size}} </div>
+
+<div>
+  <a routerLink="/company/createJob"> Add Jobs </a>
+</div>
+<div *ngIf="company.jobs"> 
+     Your Posted Jobs
+    <div *ngFor="let job of company.jobs">
+        {{job.post}}
+        {{job.location}}
+        {{job.description}}
+    </div> 
+</div>
+</div>
+
+<div class="container">
+ <div class>
+ 
+ 
+</div>

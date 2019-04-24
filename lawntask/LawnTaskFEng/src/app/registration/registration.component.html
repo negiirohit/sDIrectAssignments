@@ -1,0 +1,60 @@
+<div class="register">
+<div class="signup-form">
+    <form  [formGroup]="userRegistrationForm">
+		<h2>Register</h2>
+		<p class="hint-text">Create your account. It's free and only takes a minute.</p>
+    <div class="form-group">
+			<div class="row">
+				<div class="col-xs-6"><input type="text"  formControlName="firstName" class="form-control" name="first_name" placeholder="First Name" required="required"></div>
+				<div class="col-xs-6"><input type="text"  formControlName="lastName"  class="form-control" name="last_name" placeholder="Last Name" required="required"></div>
+            </div>      
+
+        </div>
+        <div class="form-group">
+        	<input type="email" class="form-control"  formControlName="email"  name="email" placeholder="Email" required="required">
+        </div>
+		    <div class="form-group">
+            <input type="password" class="form-control"  formControlName="password"  name="password" placeholder="Password" required="required">
+        </div>
+		<!-- <div class="form-group">
+            <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required="required">
+        </div>              <div class="form-group">
+			<label class="checkbox-inline"><input type="checkbox" required="required"> I accept the <a href="#">Terms of Use</a> &amp; <a href="#">Privacy Policy</a></label>
+    </div>
+       -->
+       <div class="form-group">
+          <input type="number" class="form-control"  formControlName="contact"  name="contact" placeholder="contact" required="required">
+      </div>
+      <input ngx-google-places-autocomplete [options]='options' #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"/>          
+      <div  class="form-group" formGroupName="address">
+          <h3>Address</h3>
+      
+          <div class="form-group">
+              <div class="col-xs-6">
+                <input type="text"  class="form-control" formControlName="street" placeholder="street">
+              </div>
+              <div class="col-xs-6">
+                  <input type="text"  class="form-control" formControlName="city"  placeholder="City">
+              </div>
+          </div>
+          <div class="form-group" >
+              <div class="col-xs-6">   
+                <input type="text"  class="form-control" formControlName="state"  placeholder="State">
+              </div>
+              <div class="col-xs-6">
+                <input type="text" class="form-control" formControlName="country"  placeholder="Zip">
+              </div>
+          </div>
+     </div>
+
+
+
+		<div class="form-group">
+            <button type="submit" class="btn btn-success btn-lg btn-block"  [disabled]="!userRegistrationForm.valid" (click)="registerUser()">Register Now</button>
+        </div>
+    </form>
+	<div class="text-center">Already have an account? <a href="#">Sign in</a></div>
+</div>
+
+</div>
+
