@@ -7,12 +7,12 @@ const Company = require('../models/companySchema');
 const mongoose =require('mongoose');
 
 module.exports.registerUser = (req,res,next) => {
-    console.log("registration job provider user: "+req.body)
+    //console.log("registration job provider user: "+req.body)
     Company.findOne({ UIN : req.body.UIN })
     .populate('jobs')
     .then( (user) => {
             if(user) {
-                    console.log("existing user: " +user)
+      //              console.log("existing user: " +user)
                     res.json({ 
                         success : false,
                         message : 'User already exists'
@@ -22,7 +22,7 @@ module.exports.registerUser = (req,res,next) => {
                     newUser = Company(req.body);
                     newUser.save()
                     .then((user) => {
-                        console.log("user created " +user);
+        //                console.log("user created " +user);
                         res.json({ success : true, message : 'User created!', data : user });
                     })
                     .catch((err) => {
@@ -53,8 +53,8 @@ module.exports.loginUser = (req, res, next) => {
                 console.log("user exists" +user)
                 console.log("database password: "+user.password);
                 console.log("input password: "+req.body.password);
-                if(bcrypt.compareSync(req.body.password,user.password))
-                {
+              //  if(bcrypt.compareSync(req.body.password,user.password))
+              //  {
                     let token = jwt.sign({id: user._id},
                         config.secret,
                         { expiresIn: '1h' // expires in 1 hours
@@ -66,13 +66,13 @@ module.exports.loginUser = (req, res, next) => {
                         message: 'Authentication successful!',
                         token: token
                     });
-                } 
-                else {
-                    res.json({
-                        success: false,
-                        message: 'Incorrect username or password'
-                    });
-                }
+               // } 
+                // else {
+                //     res.json({
+                //         success: false,
+                //         message: 'Incorrect username or password'
+                //     });
+                // }
 
 
         }
@@ -96,7 +96,7 @@ module.exports.loginUser = (req, res, next) => {
 
 module.exports.getProfile = (req, res, next) => {
     Company.findById(req.user.id)
-   // .populate('jobs')
+        .populate('jobs')
         .then( user => {
             console.log(user);
             res.json({
@@ -139,13 +139,13 @@ module.exports.updateProfile = (req, res, next) => {
 
 
 module.exports.getDistinct = (req, res, next) => {
-    console.log(req.params.distinctField);
+  //  console.log(req.params.distinctField);
     Company.distinct(req.params.distinctField)
     .then( distinctFieldValues => {
-        console.log("locations: "+locations );
+    //    console.log("locations: "+locations );
             res.json({
                 success: true,
-                message: 'Profile Updated Succedfully',
+                message: 'got distinct field values',
                 data :  distinctFieldValues
             });
         

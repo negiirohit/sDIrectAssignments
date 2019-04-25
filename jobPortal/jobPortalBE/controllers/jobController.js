@@ -1,18 +1,18 @@
 var express = require('express');
 const Company = require('../models/companySchema');
 const Job = require('../models/jobSchema');
+const JobSeeker = require('../models/jobSeeker');
 const mongoose =require('mongoose');
 
 module.exports.createJob = (req, res, next) => {
     var job = req.body;
     job.provider = req.user.id;
-
     Job.create(job)
     .then(job => {
-        JPUser.findOneAndUpdate({_id:req.user.id},{$push :{ jobs : job._id }},{new:true})
+        Company.findOneAndUpdate({_id:req.user.id},{$push :{ jobs : job._id }},{new:true})
         .populate('jobs')
         .then( user => {
-            console.log(user);
+        //    console.log(user);
             res.json({
                 success: true,
                 message: 'Job Created Succesfully',
@@ -34,9 +34,9 @@ module.exports.createJob = (req, res, next) => {
 
 module.exports.findJobs = (req, res, next) =>{
     Job.find(req.body)
-    .population('provider')
+    .populate('provider')
     .then( jobs =>{
-        console.log(jobs);
+      //  console.log(jobs);
         res.json({
             success:true,
             message: 'Jobs fetched',
@@ -51,6 +51,7 @@ module.exports.getAllJobs = (req, res, next) => {
     Job.find()
     .skip(skip_no)
     .limit(page_limit)
+    .populate('provider')
     .then((jobs) => {
   
         Job.countDocuments({})
@@ -69,10 +70,10 @@ module.exports.getAllJobs = (req, res, next) => {
   }
 
   module.exports.getDistinct = (req, res, next) => {
-    console.log(req.params.distinctField);
+    //console.log(req.params.distinctField);
     Job.distinct(req.params.distinctField)
     .then( distinctFieldValues => {
-        console.log("locations: "+distinctFieldValues );
+     //   console.log("locations: "+distinctFieldValues );
             res.json({
                 success: true,
                 message: 'got distinct',
@@ -101,12 +102,13 @@ module.exports.getJobs = (req, res, next) => {
     let query ={};
     if(field!='all')
         query[field] = value;
-    console.log(Job.find(query));    
+   // console.log(Job.find(query));    
     Job.find(query)
     .skip(skip_no)
     .limit(page_limit)
+    .populate('provider')
     .then((jobs) => {  
-     //   console.log(Job.count({query}));
+     //   console.log(jobs);
         Job.count(query)
         .then(count=> {
           res.statusCode = 200;
@@ -121,3 +123,42 @@ module.exports.getJobs = (req, res, next) => {
     }, (err) => next(err))
     .catch((err) => next(err));
   }
+
+  module.exports.applyForJob = (req, res, next) => {
+        console.log("req body: " + req.body.job_id);
+        let job_id = mongoose.Types.ObjectId(req.body.job_id)
+        console.log("job_id : "+job_id);
+        Job.findOneAndUpdate({_id : job_id},{$push : { applicants : req.user.id }})
+        .then((job) => {  
+           console.log("Applied for job: "+job);
+            JobSeeker.findOneAndUpdate({_id : req.user.id},{$push : { appliedJobs : job._id }})
+            .then( user => {
+                if(user){ 
+                    console.log("apllied for job: "+user);
+                    res.statusCode = 200;
+                    res.setHeader('Content-Type', 'application/json');
+                    res.json(
+                    {
+                      success:true,
+                      message: 'Applied Succesfully',
+                      data: user
+                    })
+                }
+                else 
+                    console.log("No user found");
+            })
+            .catch((err) => {
+                  console.log(err);
+                  next(err);
+            })
+          
+        })
+        .catch((err) => {
+            console.log(err);
+            next(err);
+      })
+
+
+  }
+
+

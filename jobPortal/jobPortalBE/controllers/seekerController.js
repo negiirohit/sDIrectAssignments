@@ -44,8 +44,7 @@ module.exports.registerUser = (req,res,next) => {
 }
 
 module.exports.loginUser = (req, res, next) => {
-    console.log('login User')
-    jobSeekerUser.findOne({ email : req.body.email })
+    jobSeeker.findOne({ email : req.body.email })
     .then((user) => {
         console.log("user exists" +user)
         console.log("database password: "+user.password);

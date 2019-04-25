@@ -15,7 +15,6 @@ export class AuthService {
     return this.http.post<any>(baseURL+'/seeker/register',user);
   }
 
-
   registerCompany(user) {
     return this.http.post<any>(baseURL+'/company/register',user);
   }
@@ -33,16 +32,27 @@ export class AuthService {
     return !!localStorage.getItem('token')
   }
 
-  loginUser(){
-    
-  }
   logOutUser()
   {
+    localStorage.removeItem('userType');
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
 
 
+  checkUserType(): String{
+
+    //Check for token if not token return
+    if(!localStorage.getItem('token'))
+      return;
+    let userType = localStorage.getItem('userType');
+    if(userType=='Company') 
+      return 'Company'; 
+    if(userType=='JobSeeker') 
+      return 'JobSeeker'
+
+    return;
+  }
 
   isAuthenticated() {
     // get the auth token from localStorage

@@ -6,9 +6,14 @@ const jobSchema = new Schema({
     location:String,
     description:String,
     requiredSkills:String,
+    domain:String,
+    applicants : [{
+        type : Schema.Types.ObjectId,
+        ref:'JobSeeker'
+    }],
     provider: {
         type : Schema.Types.ObjectId,
-        ref : 'JobProviderUser'
+        ref : 'Company'
     }
 })
 

@@ -49,7 +49,11 @@ const jobSeeker = new Schema({
         domain : String,
         keySkills : [String],
         qualifications : qualificationSchema 
-    }
+    },
+    appliedJobs : [{
+        type : Schema.Types.ObjectId,
+        ref : 'Job'
+    }]
 },
 {
     timestamps: true

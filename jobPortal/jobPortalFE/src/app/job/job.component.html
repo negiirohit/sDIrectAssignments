@@ -10,6 +10,7 @@
                       <h6 class="card-subtitle mb-2 text-muted">{{job.location}}</h6>
                       <p class="card-text"> {{job.description}} </p>
                       <a href="#" class="card-link"> {{job.provider.title}} </a>
+                      <button (click)="apply(job._id)"> Apply </button>                      
                     </div>
                   </div>
         </div>

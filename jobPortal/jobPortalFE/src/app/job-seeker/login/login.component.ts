@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
           {
             console.log(JSON.stringify(res));
             localStorage.setItem('token',res.token);
+            localStorage.setItem('userType','JobSeeker');
             this.router.navigate(['/seekerProfile']);   
           }
           else

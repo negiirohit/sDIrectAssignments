@@ -41,6 +41,7 @@ export class LoginProviderComponent implements OnInit {
         {
          console.log(JSON.stringify(res));
          localStorage.setItem('token',res.token);
+         localStorage.setItem('userType','Company');
          this.router.navigate(['/company/profile']);
         }
         else 

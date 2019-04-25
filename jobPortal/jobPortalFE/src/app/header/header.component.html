@@ -23,7 +23,8 @@
               </div>
             </div>
           </form> </li>
-          <li><a  *ngIf="authService.loggedIn()"><span class="glyphicon glyphicon-user"></span> Profile </a></li>   
+          <li><a  *ngIf="authService.checkUserType()=='Company'"><span class="glyphicon glyphicon-user"></span> Comapny Profile  </a></li>   
+          <li><a  *ngIf="authService.checkUserType()=='JobSeeker'"><span class="glyphicon glyphicon-user"></span> User Profile </a></li>             
           <li><a routerLink="register" *ngIf="!authService.loggedIn()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
           <li><a routerLink="login"  *ngIf="!authService.loggedIn()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
           <li><a (click)="authService.logOutUser()"  *ngIf="authService.loggedIn()"><span class="glyphicon glyphicon-log-in"></span> Log Out</a></li>

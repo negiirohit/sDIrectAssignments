@@ -28,5 +28,13 @@ export class JobService {
     return this.http.get<any>(baseURL+'/jobs/getJobs/'+field+'/'+value+'/'+page_no+'/'+page_limit);
   }
 
+  applyForJob(job_id){
+    console.log('job_id: '+job_id);
+    return this.http.post<any>(baseURL+'/jobs/apply',{'job_id':job_id});
+  }
+
+  checkAppliedJob(job_id){
+    
+  }
   
 }

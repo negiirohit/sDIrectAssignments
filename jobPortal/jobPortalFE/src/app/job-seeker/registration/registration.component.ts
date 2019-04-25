@@ -29,15 +29,16 @@ export class RegistrationComponent implements OnInit {
   registerJobSeeker(){
     
     let user=this.jobSeekerRegistrationForm.value;
-    console.log("login user "+user);
-    
-    this.authService.loginSeeker(user)
+    console.log("register user "+ JSON.stringify(user));    
+    this.authService.registerSeeker(user)
     .subscribe( res => {
       if(res.success){
+          console.log('job seeker registration succesful');
           console.log(JSON.stringify(res));
           this.loginUser(user);
       }
       else  
+        console.log('job Seeker registration failed');
         console.log(JSON.stringify(res));
     })
 
@@ -50,13 +51,17 @@ export class RegistrationComponent implements OnInit {
       res => {
         if(res.success)
          {
+           console.log('login success');
            console.log(JSON.stringify(res));
            localStorage.setItem('token',res.token);
+           localStorage.setItem('userType','JobSeeker');
            this.router.navigate(['/seekerProfile']);   
          }
-         else
-           console.log(JSON.stringify(res));
-         
+         else{
+            console.log('login success');
+            console.log(JSON.stringify(res));
+          }
+
        },
       err => console.log(err)
     )

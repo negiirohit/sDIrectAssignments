@@ -12,6 +12,7 @@ export class CompanyProfileComponent implements OnInit {
   constructor(private companyService:CompanyService) { }
 
   ngOnInit() {
+    console.log('on init called');
     this.getCompanyDetails();
   }
 
@@ -22,6 +23,7 @@ export class CompanyProfileComponent implements OnInit {
       {
         console.log(res.data);
         this.company = res.data;
+        
       }
       else
       {
