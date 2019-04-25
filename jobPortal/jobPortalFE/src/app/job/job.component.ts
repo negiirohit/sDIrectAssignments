@@ -53,19 +53,7 @@ export class JobComponent implements OnInit {
 
   apply(job_id){
     console.log('Job Id: '+job_id);
-    if(localStorage.getItem('userType')=='JobSeeker'){
-        this.jobService.applyForJob(job_id)
-        .subscribe( (res)=> {
-          if(res.success){
-              console.log('Job applied succesfully ');
-            //  this.router.navigate() navigate User Profile
-              
-          }
-        } )
-    }
-    else {
-      console.log("Please login first");
-    }
+    this.router.navigate(['/jobDetail'], { queryParams: { job_id: job_id } });
   }
 
 }

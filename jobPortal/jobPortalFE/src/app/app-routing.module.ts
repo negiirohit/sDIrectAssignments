@@ -11,7 +11,8 @@ import { DashboardComponent } from 'src/app/dashboard/dashboard.component';
 import { AppComponent } from 'src/app/app.component';
 import { JobComponent } from 'src/app/job/job.component';
 import { CompanyComponent } from 'src/app/company/company.component';
-const routes: Routes = [
+import { JobDetailComponent } from 'src/app/job-detail/job-detail.component';
+ const routes: Routes = [
   {
     path: 'login',
     component : LoginComponent
@@ -50,8 +51,10 @@ const routes: Routes = [
   },{
     path:'companies',
     component: CompanyComponent
+  },{
+    path:'jobDetail',
+    component : JobDetailComponent
   }
-
 ];
 
 @NgModule({

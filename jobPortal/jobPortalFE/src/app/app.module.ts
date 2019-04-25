@@ -22,6 +22,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { CompanyComponent } from './company/company.component';
 import { JobComponent } from './job/job.component';
 import { FooterComponent } from './footer/footer.component';
+import { JobDetailComponent } from './job-detail/job-detail.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { FooterComponent } from './footer/footer.component';
     DashboardComponent,
     CompanyComponent,
     JobComponent,
-    FooterComponent
+    FooterComponent,
+    JobDetailComponent
 
   ],
   imports: [

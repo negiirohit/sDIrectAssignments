@@ -162,3 +162,23 @@ module.exports.getJobs = (req, res, next) => {
   }
 
 
+module.exports.getJobDetail = (req, res, next) =>{
+    console.log('query params: '+JSON.stringify(req.params))
+
+    let job_id = req.params.job_id;
+
+    Job.findById(job_id)
+    .populate('provider')
+    .then((job) => {  
+     //   console.log(jobs);
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.json(
+          {
+            success:true,
+            message: 'Jobs fetched',
+            data: job
+          })
+    }).catch((err) => next(err));
+
+}

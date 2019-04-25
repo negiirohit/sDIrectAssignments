@@ -12,4 +12,7 @@ router.get('/getJobs/:field/:value/:page_no/:page_limit',jobController.getJobs);
 ///getJobs/'+field+'/'+value+'/'+page_no+'/'+page_limit);
 router.post('/apply',auth.verifyToken,jobController.applyForJob);
 
+router.get('/getJobDetail/:job_id',jobController.getJobDetail);
+
+
 module.exports = router;

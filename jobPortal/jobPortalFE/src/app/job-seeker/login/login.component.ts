@@ -34,21 +34,21 @@ export class LoginComponent implements OnInit {
      var User = this.userLoginForm.value;
      console.log(User);
      this.authService.loginSeeker(User)
-     .subscribe(
-       res => {
-         if(res.success)
-          {
-            console.log(JSON.stringify(res));
-            localStorage.setItem('token',res.token);
-            localStorage.setItem('userType','JobSeeker');
-            this.router.navigate(['/seekerProfile']);   
-          }
-          else
-            console.log(JSON.stringify(res));
+    //  .subscribe(
+      //  res => {
+        //  if(res.success)
+          // {
+            // console.log(JSON.stringify(res));
+            // localStorage.setItem('token',res.token);
+            // localStorage.setItem('userType','JobSeeker');
+            // this.router.navigate(['/seekerProfile']);   
+          // }
+          // else
+            // console.log(JSON.stringify(res));
           
-        },
-       err => console.log(err)
-     )
+        // },
+      //  err => console.log(err)
+    //  )
 }
 
 }

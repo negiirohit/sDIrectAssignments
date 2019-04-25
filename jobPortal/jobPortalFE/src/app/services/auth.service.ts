@@ -20,7 +20,36 @@ export class AuthService {
   }
 
   loginSeeker(user) {
-    return this.http.post<any>(baseURL+'/seeker/login',user);
+    this.http.post<any>(baseURL+'/seeker/login',user)
+    .subscribe(
+      res => {
+        if(res.success)
+        {
+          console.log('login success');
+          console.log(JSON.stringify(res));
+          localStorage.setItem('token',res.token);
+          localStorage.setItem('userType','JobSeeker');
+          if(localStorage.getItem('newUser'))
+          {
+            localStorage.removeItem('newUser');
+            this.router.navigate(['/seekerProfile']);   
+          }
+          else if(localStorage.getItem('refURL')) {
+             let url = localStorage.getItem('refURL');
+             localStorage.removeItem('refURL');
+             this.router.navigateByUrl(url);
+          }
+          else 
+               this.router.navigate(['/seekerProfile']); 
+         }
+         else{
+            console.log('login failed');
+            console.log(JSON.stringify(res));
+          }
+
+       },
+      err => console.log(err)
+    )
   }
 
   loginCompany(user) {

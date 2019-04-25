@@ -33,6 +33,11 @@ export class JobService {
     return this.http.post<any>(baseURL+'/jobs/apply',{'job_id':job_id});
   }
 
+  getJobDetail(job_id){
+    return this.http.get<any>(baseURL+'/jobs/getJobDetail/'+job_id);
+  }
+
+
   checkAppliedJob(job_id){
     
   }
