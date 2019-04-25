@@ -34,12 +34,16 @@ export class JobService {
   }
 
   getJobDetail(job_id){
-    return this.http.get<any>(baseURL+'/jobs/getJobDetail/'+job_id);
+    return this.http.get<any>(baseURL+'/companies/getJobDetail/'+job_id);
   }
 
 
   checkAppliedJob(job_id){
     
+  }
+
+  approveUser(approveDetails){
+    return this.http.post<any>(baseURL+'/jobs/approveUser/',approveDetails);
   }
   
 }

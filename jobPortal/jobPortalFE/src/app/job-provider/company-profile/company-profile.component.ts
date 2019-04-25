@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Input } from '@angular/core';
 import { CompanyService } from 'src/app/services/company.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-company-profile',
   templateUrl: './company-profile.component.html',
@@ -9,7 +10,7 @@ import { CompanyService } from 'src/app/services/company.service';
 export class CompanyProfileComponent implements OnInit {
 
   company:any;
-  constructor(private companyService:CompanyService) { }
+  constructor(private companyService:CompanyService,private router : Router) { }
 
   ngOnInit() {
     console.log('on init called');
@@ -31,5 +32,10 @@ export class CompanyProfileComponent implements OnInit {
         console.log(JSON.stringify(res));
       }
     })
+  }
+
+  viewMore(job_id){
+    console.log(job_id);
+    this.router.navigate(['/company/jobDetails'],{ queryParams: { job_id: job_id } });
   }
 }

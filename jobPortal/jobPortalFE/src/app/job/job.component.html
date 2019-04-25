@@ -2,14 +2,14 @@
   Find the right Job for you
 </h3>
 <h3 *ngIf="title"> {{title}}  </h3>
-<div *ngIf="jobs">
-        <div >
+<div class="container" *ngIf="jobs">
+        <div class="container">
                 <div class="card" style="width: 25rem; border:1px solid black; float:left; margin:5px" *ngFor="let job of jobs">
                     <div class="card-body">
                       <h5 class="card-title">{{job.post}}</h5>
                       <h6 class="card-subtitle mb-2 text-muted">{{job.location}}</h6>
                       <p class="card-text"> {{job.description}} </p>
-                      <a href="#" class="card-link"> {{job.provider.title}} </a>
+                      <a  class="card-link"> {{job.provider.title}} </a>
                       <button (click)="apply(job._id)"> Apply </button>                      
                     </div>
                   </div>

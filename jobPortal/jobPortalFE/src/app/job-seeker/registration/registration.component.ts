@@ -22,7 +22,8 @@ export class RegistrationComponent implements OnInit {
        lastName : [''],
        email : [''],
        password : [''],
-       confirmPassword : ['']
+       confirmPassword : [''],
+       age:['']
     })
   }
 

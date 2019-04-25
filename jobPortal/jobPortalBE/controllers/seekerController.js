@@ -114,4 +114,25 @@ module.exports.updateProfile = (req, res, next) => {
     })
 }
 
+module.exports.getProfile = (req, res, next ) => {
+    jobSeeker.findById(req.user.id)
+    .populate('appliedJobs')
+    .then( user => {
+            res.json({
+                success: true,
+                message: 'Feteched Succedfully',
+                data : user
+            });
+        
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(400);
+        res.json({
+             success : false,
+              message : err.message
+        }); 
+    })
+}
+
 

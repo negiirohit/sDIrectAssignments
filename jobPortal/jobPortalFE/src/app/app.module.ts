@@ -23,6 +23,9 @@ import { CompanyComponent } from './company/company.component';
 import { JobComponent } from './job/job.component';
 import { FooterComponent } from './footer/footer.component';
 import { JobDetailComponent } from './job-detail/job-detail.component';
+import { CompanyDetailComponent } from './company-detail/company-detail.component';
+import { CreateProfileComponent } from './job-seeker/create-profile/create-profile.component';
+import { CompanyJobDetailComponent } from './job-provider/company-job-detail/company-job-detail.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,10 @@ import { JobDetailComponent } from './job-detail/job-detail.component';
     CompanyComponent,
     JobComponent,
     FooterComponent,
-    JobDetailComponent
+    JobDetailComponent,
+    CompanyDetailComponent,
+    CreateProfileComponent,
+    CompanyJobDetailComponent
 
   ],
   imports: [

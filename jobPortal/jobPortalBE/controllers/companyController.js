@@ -5,7 +5,8 @@ const jwt = require('jsonwebtoken');
 const config = require('../config/config')
 const Company = require('../models/companySchema');
 const mongoose =require('mongoose');
-
+const Job = require('../models/jobSchema')
+const JobSeeker = require('../models/jobSeeker')
 module.exports.registerUser = (req,res,next) => {
     //console.log("registration job provider user: "+req.body)
     Company.findOne({ UIN : req.body.UIN })
@@ -46,33 +47,34 @@ module.exports.registerUser = (req,res,next) => {
 }
 
 module.exports.loginUser = (req, res, next) => {
-    Company.findOne({ UID : req.body.UID })
+    console.log("login user "+JSON.stringify(req.body));
+    Company.findOne({ UIN : req.body.UIN })
   //  .populate('jobs')
     .then((user) => {
         if(user){
                 console.log("user exists" +user)
                 console.log("database password: "+user.password);
                 console.log("input password: "+req.body.password);
-              //  if(bcrypt.compareSync(req.body.password,user.password))
-              //  {
+                if(bcrypt.compareSync(req.body.password,user.password))
+                {
                     let token = jwt.sign({id: user._id},
                         config.secret,
                         { expiresIn: '1h' // expires in 1 hours
                         }
                      );
-                    // return the JWT token 
+                     //return the JWT token 
                     res.json({
                         success: true,
                         message: 'Authentication successful!',
                         token: token
                     });
-               // } 
-                // else {
-                //     res.json({
-                //         success: false,
-                //         message: 'Incorrect username or password'
-                //     });
-                // }
+                } 
+                 else {
+                    res.json({
+                         success: false,
+                         message: 'Incorrect username or password'
+                     });
+                 }
 
 
         }
@@ -160,3 +162,77 @@ module.exports.getDistinct = (req, res, next) => {
 
 }
 
+
+module.exports.getCompanies = (req, res, next) => {
+    console.log('query params: '+JSON.stringify(req.params))
+    var field = req.params.field
+    var value = req.params.value
+    var page_limit = Number(req.params.page_limit)
+    var skip_no    = (Number(req.params.page_no)-1)*page_limit
+    let query ={};
+    if(field!='all')
+        query[field] = value;
+   // console.log(Job.find(query));    
+    Company.find(query)
+    .skip(skip_no)
+    .limit(page_limit)
+   // .populate('provider')
+    .then((companies) => {  
+     //   console.log(jobs);
+        Company.count(query)
+        .then(count=> {
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.json(
+          {
+            success:true,
+            message: 'Jobs fetched',
+            data: { count : count, companies: companies }
+          })
+        } )
+    }, (err) => next(err))
+    .catch((err) => next(err));
+  }
+
+
+  module.exports.getCompanyDetail = (req, res, next) =>{
+    console.log('query params: '+JSON.stringify(req.params))
+
+    let company_id = req.params.company_id;
+
+    Company.findById(company_id)
+    .populate('jobs')
+    .then((company) => {  
+     //   console.log(jobs);
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.json(
+          {
+            success:true,
+            message: 'Company detail fetched',
+            data: company
+          })
+    }).catch((err) => next(err));
+
+}
+
+module.exports.getJobDetail = (req, res, next) =>{
+    console.log('query params: '+JSON.stringify(req.params))
+
+    let job_id = req.params.job_id;
+
+    Job.findById(job_id)
+    .populate('applicants')
+    .then((job) => {  
+     //   console.log(jobs);
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.json(
+          {
+            success:true,
+            message: 'Jobs fetched',
+            data: job
+          })
+    }).catch((err) => next(err));
+
+}

@@ -40,27 +40,7 @@ export class JPRegistrationComponent implements OnInit {
         if(res.success){
           console.log('user created');
           console.log(res.data)
-          
-          this.authService.loginCompany(user)
-          .subscribe(
-            res => {
-             if(res.success)
-             {
-               console.log(JSON.stringify(res));
-               localStorage.setItem('token',res.token);
-               localStorage.setItem('userType','Company');
-               localStorage.setItem('user',res.data);
-               console.log(localStorage.getItem('user'));
-               this.router.navigate(['/company/profile']);
-             }
-             else 
-             {
-               console.log(res);
-             } 
-             },
-            err => console.log(err)
-          )
-        
+          this.authService.loginCompany(user)        
         }
         else
         {

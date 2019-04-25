@@ -35,22 +35,6 @@ export class LoginProviderComponent implements OnInit {
      var User = this.userLoginForm.value;
      console.log(User);
      this.authService.loginCompany(User)
-     .subscribe(
-       res => {
-        if(res.success)
-        {
-         console.log(JSON.stringify(res));
-         localStorage.setItem('token',res.token);
-         localStorage.setItem('userType','Company');
-         this.router.navigate(['/company/profile']);
-        }
-        else 
-        {
-          console.log(res);
-        } 
-        },
-       err => console.log(err)
-     )
-}
+  }
 
 }

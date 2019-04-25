@@ -6,5 +6,8 @@ const auth = require('../auth/authenticate')
 router.post('/register',seekerController.registerUser );
 router.post('/login',seekerController.loginUser );
 router.post('/updateProfile',auth.verifyToken,seekerController.updateProfile);
+router.get('/getProfile',auth.verifyToken,seekerController.getProfile);
+
+
 
 module.exports = router;

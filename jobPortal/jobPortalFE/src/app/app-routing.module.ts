@@ -12,6 +12,9 @@ import { AppComponent } from 'src/app/app.component';
 import { JobComponent } from 'src/app/job/job.component';
 import { CompanyComponent } from 'src/app/company/company.component';
 import { JobDetailComponent } from 'src/app/job-detail/job-detail.component';
+import { CompanyDetailComponent } from 'src/app/company-detail/company-detail.component';
+import { CreateProfileComponent } from 'src/app/job-seeker/create-profile/create-profile.component';
+import { CompanyJobDetailComponent } from 'src/app/job-provider/company-job-detail/company-job-detail.component';
  const routes: Routes = [
   {
     path: 'login',
@@ -26,20 +29,30 @@ import { JobDetailComponent } from 'src/app/job-detail/job-detail.component';
     component : JobSeekerProfileComponent
   },
   {
+    path:'createSeekerProfile',
+    component : CreateProfileComponent
+  },
+  {
     path:'company/regiser',
     component : JPRegistrationComponent
   },
   {
     path:'company/profile',
     component : CompanyProfileComponent
-  },{
+  },
+  {
     path:'company/createJob',
     component:  CreateJobComponent
   },
   {
     path:'company/login',
     component: LoginProviderComponent
-  },{
+  },
+  {
+    path:'company/jobDetails',
+    component : CompanyJobDetailComponent
+  },
+  {
     path:'dashboard',
     component: DashboardComponent
   },{
@@ -54,6 +67,9 @@ import { JobDetailComponent } from 'src/app/job-detail/job-detail.component';
   },{
     path:'jobDetail',
     component : JobDetailComponent
+  },{
+    path:'companyDetail',
+    component : CompanyDetailComponent
   }
 ];
 

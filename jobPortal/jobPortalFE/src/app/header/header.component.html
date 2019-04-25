@@ -23,8 +23,8 @@
               </div>
             </div>
           </form> </li>
-          <li><a  *ngIf="authService.checkUserType()=='Company'"><span class="glyphicon glyphicon-user"></span> Comapny Profile  </a></li>   
-          <li><a  *ngIf="authService.checkUserType()=='JobSeeker'"><span class="glyphicon glyphicon-user"></span> User Profile </a></li>             
+          <li><a  *ngIf="authService.checkUserType()=='Company'" routerLink="company/profile"><span class="glyphicon glyphicon-user"></span> Comapny Profile  </a></li>   
+          <li><a  *ngIf="authService.checkUserType()=='JobSeeker'" routerLink="seeker/profile"><span class="glyphicon glyphicon-user"></span> User Profile </a></li>             
           <li><a routerLink="register" *ngIf="!authService.loggedIn()"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
           <li><a routerLink="login"  *ngIf="!authService.loggedIn()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
           <li><a (click)="authService.logOutUser()"  *ngIf="authService.loggedIn()"><span class="glyphicon glyphicon-log-in"></span> Log Out</a></li>
@@ -38,16 +38,16 @@
                       <li><a routerLink="/jobs" [queryParams]="{'field':'all',value:'all'}">All Jobs</a></li>
                       <li class="dropdown-submenu">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Jobs By Location</a>
-                            <ul class="dropdown-menu" *ngIf="jobDetails">
-                              <li *ngFor="let location of jobDetails.location">
+                            <ul class="dropdown-menu" *ngIf="jobFields">
+                              <li *ngFor="let location of jobFields.location">
                                 <a routerLink="/jobs" [queryParams]="{'field':'location',value:location  }" >{{location}}</a></li>
                             </ul> 
                       </li>
                       <li class="dropdown-submenu">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Jobs By Domain</a>
-                            <ul class="dropdown-menu" *ngIf="jobDetails">
-                              <li *ngFor="let domain of jobDetails.domain">
-                                <a a routerLink="/jobs" [queryParams]="{'field':'domain',value:domain  }" >{{domain}}</a></li>
+                            <ul class="dropdown-menu" *ngIf="jobFields">
+                              <li *ngFor="let domain of jobFields.domain">
+                                <a  routerLink="/jobs" [queryParams]="{'field':'domain',value:domain  }" >{{domain}}</a></li>
                             </ul> 
                       </li>
                   </ul>
@@ -57,17 +57,21 @@
               <li>
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Companies <span class="caret"></span></a>
                   <ul class="dropdown-menu multi-level">
-                      <li><a routerLink="/jobs">All Companies</a></li>
+                      <li><a routerLink="/companies" [queryParams]="{'field':'all',value:'all'}">All Companies</a></li>
                       <li class="dropdown-submenu">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Companies By Location</a>
-                            <ul class="dropdown-menu" *ngIf="jobDetails">
-                              <li *ngFor="let location of jobDetails.location"><a>{{location}}</a></li>
+                            <ul class="dropdown-menu" *ngIf="companyFields">
+                              <li *ngFor="let location of companyFields.location">
+                                <a routerLink="/companies" [queryParams]="{'field':'location',value:location  }">{{location}}</a>
+                              </li>
                             </ul> 
                       </li>
                       <li class="dropdown-submenu">
                           <a href="#" class="dropdown-toggle" data-toggle="dropdown">Companies By Domain</a>
-                            <ul class="dropdown-menu" *ngIf="jobDetails">
-                              <li *ngFor="let domain of jobDetails.domain"><a>{{domain}}</a></li>
+                            <ul class="dropdown-menu" *ngIf="companyFields">
+                              <li *ngFor="let domain of companyFields.domain">
+                                <a  routerLink="/companies" [queryParams]="{'field':'domain',value:domain  }">{{domain}}</a>
+                              </li>
                             </ul> 
                       </li>
                   </ul>

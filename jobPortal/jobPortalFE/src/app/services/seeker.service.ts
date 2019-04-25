@@ -15,6 +15,8 @@ export class SeekerService {
     return this.http.post<any>(baseURL+'/seeker/updateProfile',user);
   }
 
-  
+  getSeekerProfile() {
+    return this.http.get<any>(baseURL+'/seeker/getProfile' );
+  }
 
 }

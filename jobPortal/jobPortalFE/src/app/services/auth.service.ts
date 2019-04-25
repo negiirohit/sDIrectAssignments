@@ -16,7 +16,7 @@ export class AuthService {
   }
 
   registerCompany(user) {
-    return this.http.post<any>(baseURL+'/company/register',user);
+    return this.http.post<any>(baseURL+'/companies/register',user);
   }
 
   loginSeeker(user) {
@@ -32,7 +32,8 @@ export class AuthService {
           if(localStorage.getItem('newUser'))
           {
             localStorage.removeItem('newUser');
-            this.router.navigate(['/seekerProfile']);   
+            this.router.navigate(['/createSeekerProfile']);  
+             
           }
           else if(localStorage.getItem('refURL')) {
              let url = localStorage.getItem('refURL');
@@ -53,7 +54,24 @@ export class AuthService {
   }
 
   loginCompany(user) {
-    return this.http.post<any>(baseURL+'/company/login',user);
+    console.log("login user: "+JSON.stringify(user));
+    this.http.post<any>(baseURL+'/companies/login',user)
+    .subscribe(
+      res => {
+       if(res.success)
+       {
+        console.log(JSON.stringify(res));
+        localStorage.setItem('token',res.token);
+        localStorage.setItem('userType','Company');
+        this.router.navigate(['/company/profile']);
+       }
+       else 
+       {
+         console.log(res);
+       } 
+       },
+      err => console.log(err)
+    )
   }
 
   loggedIn()

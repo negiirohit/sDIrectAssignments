@@ -11,6 +11,10 @@ const jobSchema = new Schema({
         type : Schema.Types.ObjectId,
         ref:'JobSeeker'
     }],
+    approvedApplicants : [{
+        type : Schema.Types.ObjectId,
+        ref:'JobSeeker'
+    }],
     provider: {
         type : Schema.Types.ObjectId,
         ref : 'Company'

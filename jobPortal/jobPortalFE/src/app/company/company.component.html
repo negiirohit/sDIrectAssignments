@@ -1,15 +1,15 @@
-<h3>
-  Find the right Job for you
-</h3>
-<div *ngIf="companies">
-        <div >
+
+<div class="container" *ngIf="companies">
+        <h1>{{title}}</h1>
+        <div class="container">
                 <div class="card" style="width: 25rem; border:1px solid black; float:left; margin:5px" *ngFor="let company of companies">
                     <div class="card-body">
                       <h3 class="card-title">{{company.company_title}}</h3>
                       <h4 class="card-subtitle mb-2 text-muted">{{company.company_type}}</h4>
                       <h5> {{company.size}}</h5>
                       <p class="card-text"> {{company.description}} </p>
-                      <a href="#" class="card-link"> {{company.website}} </a>
+                      <a class="card-link"> {{company.website}} </a>
+                      <button (click)="view(company._id)">View Company</button>
                     </div>
                   </div>
         </div>

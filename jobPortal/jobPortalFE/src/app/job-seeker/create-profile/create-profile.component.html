@@ -1,0 +1,130 @@
+<div class="container">
+    
+     <form  [formGroup]="profileForm">
+       <p class="hint-text"> Please Update Your Profile for Better Job Suggestions </p>
+       <div class="form-group">
+           <label for="Domain">Domain</label>
+           <select class="form-control" formControlName="domain" name="domain" id="Domain" >
+             <option *ngFor="let domain of domains">  {{domain}} </option>
+           </select>
+       </div>
+       <div class="form-group">
+           <div formArrayName="keySkills">
+               <h3>Skills</h3>
+               <div *ngFor="let skill of keySkills.controls; let i=index">
+                 <label>
+                   <input type="text" formControlName={{i}} name=i>
+                   <button (click)="removeSkill(i)"> remove </button> 
+                 </label>
+               </div>
+               <button (click)="addKeySkill()">Add More</button>
+           </div>   
+       </div>
+ 
+       <div class="form-group" formGroupName="qualifications">
+           <label for="Qualification">Qualification</label><br>
+           <button class='qualBtn'> HighSchool </button> 
+           <div class="form-group qualdiv" formGroupName="HighSchool"   style ="display: none;">
+                <label for="HighSchool"></label>
+               <div class="row">
+                 <div class="col-xs-4">
+                     <label for="year">year</label>
+                     <input type="number" class="form-control"  formControlName="year" name="year" >
+                 </div>
+                 <div class="col-xs-4">
+                     <label for="board">Board</label>
+                     <input type="text" class="form-control"  formControlName="board" name="board" >
+                 </div>
+               </div>
+               <div class="row">
+                 <div class="col-xs-4">
+                     <label for="subjects">Subjects</label>
+                     <input type="text" class="form-control"  formControlName="subjects" name="subjects" >
+                 </div>
+                 <div class="col-xs-4">
+                     <label for="percentage">percentage</label>
+                     <input type="text" class="form-control"  formControlName="percentage" name="percentage">
+                 </div>
+               </div>
+           </div>
+           <button class='qualBtn'> InterMediate </button>
+           <div class="form-group qualdiv" formGroupName="InterMediate"  style ="display: none;">
+                  <div class="row">
+                   <div class="col-xs-4">
+                       <label for="year">year</label>
+                       <input type="number" class="form-control"  formControlName="year" name="year" >
+                   </div>
+                   <div class="col-xs-4">
+                       <label for="board">Board</label>
+                       <input type="text" class="form-control"  formControlName="board" name="board">
+                   </div>
+                 </div>
+                 <div class="row">
+                   <div class="col-xs-4">
+                       <label for="subjects">Subjects</label>
+                       <input type="text" class="form-control"  formControlName="subjects" name="subjects">
+                   </div>
+                   <div class="col-xs-4">
+                       <label for="percentage">percentage</label>
+                       <input type="text" class="form-control"  formControlName="percentage" name="percentage">
+                   </div>
+                 </div>
+           </div>
+           <button class='qualBtn'> Graduation </button>
+           <div class="form-group qualdiv" formGroupName="Graduation"  style ="display: none;">
+               <div class="row">
+                   <div class="col-xs-4">
+                       <label for="year">year</label>
+                       <input type="number" class="form-control"  formControlName="year" name="year" >
+                   </div>
+                   <div class="col-xs-4">
+                       <label for="University">University</label>
+                       <input type="text" class="form-control"  formControlName="university" name="university">
+                   </div>
+                 </div>
+                 <div class="row">
+                   <div class="col-xs-4">
+                       <label for="course">course</label>
+                       <input type="text" class="form-control"  formControlName="course" name="course">
+                   </div>
+                   <div class="col-xs-4">
+                       <label for="percentage">percentage</label>
+                       <input type="text" class="form-control"  formControlName="percentage" name="percentage">
+                   </div>
+                 </div>
+           </div>
+ 
+           <button class='qualBtn'> Post Graduation </button>
+           <div class="form-group qualdiv" formGroupName="PG"   style ="display: none;">
+               <div class="row">
+                   <div class="col-xs-4">
+                       <label for="year">year</label>
+                       <input type="number" class="form-control"  formControlName="year" name="year" >
+                   </div>
+                   <div class="col-xs-4">
+                       <label for="University">University</label>
+                       <input type="text" class="form-control"  formControlName="university" name="univeristy">
+                   </div>
+                 </div>
+                 <div class="row">
+                   <div class="col-xs-4">
+                       <label for="course">course</label>
+                       <input type="text" class="form-control"  formControlName="course" name="course">
+                   </div>
+                   <div class="col-xs-4">
+                       <label for="percentage">percentage</label>
+                       <input type="text" class="form-control"  formControlName="percentage" name="percentage">
+                   </div>
+                 </div>
+           </div>
+ 
+ 
+       </div>
+ 
+       
+ 
+ 
+       <button (click)="updateUser()">Update</button>
+     </form>
+ </div>
+ 

@@ -34,6 +34,9 @@ const companySchema = new Schema({
     domain: {
         type : String
     },
+    location:{
+        type : String
+    },
     jobs: [{ 
         type : Schema.Types.ObjectId,
         ref:'Job'

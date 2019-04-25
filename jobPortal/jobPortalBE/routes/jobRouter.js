@@ -9,10 +9,11 @@ router.post('/createJob',auth.verifyToken,jobController.createJob);
 router.get('/getAllJobs/:page_no/:page_limit',jobController.getAllJobs);
 router.get('/getDistinct/:distinctField',jobController.getDistinct);
 router.get('/getJobs/:field/:value/:page_no/:page_limit',jobController.getJobs);
-///getJobs/'+field+'/'+value+'/'+page_no+'/'+page_limit);
 router.post('/apply',auth.verifyToken,jobController.applyForJob);
 
 router.get('/getJobDetail/:job_id',jobController.getJobDetail);
+router.post('/approveUser',jobController.approveApplicant);
 
+//post<any>(baseURL+'/jobs/approveUser/',approveDetails);
 
 module.exports = router;

@@ -10,7 +10,7 @@ export class CompanyService {
   constructor(private http: HttpClient,private router: Router) { }
 
   getCompanyProfile() {
-    return this.http.get<any>(baseURL+'/company/getCompanyProfile');
+    return this.http.get<any>(baseURL+'/companies/getCompanyProfile');
   }
 
   createJob(job){
@@ -18,7 +18,15 @@ export class CompanyService {
   }
 
   getDistinct(field){
-    return this.http.get<any>(baseURL+'/company/getDistinct/'+field)   
+    return this.http.get<any>(baseURL+'/companies/getDistinct/'+field)   
   }
   
+  getCompanies(field,value,page_no,page_limit){
+    // console.log("in side service: "+field+"value ")
+     return this.http.get<any>(baseURL+'/companies/getCompanies/'+field+'/'+value+'/'+page_no+'/'+page_limit);
+   }
+
+   getCompanyDetail(company_id){
+    return this.http.get<any>(baseURL+'/companies/getCompanyDetail/'+company_id);
+   }
 }

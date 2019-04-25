@@ -10,8 +10,8 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class HeaderComponent implements OnInit {
   
-  jobDetails : any = {};
-
+  jobFields : any = {};
+  companyFields : any = {};
   //jobLocations : any;
   //jobDomains : any;
   // companyLocations: any;
@@ -28,9 +28,19 @@ export class HeaderComponent implements OnInit {
     this.jobService.getDistinct(field)
     .subscribe( (res) => {
    //     console.log(res.data);
-        this.jobDetails[field]=res.data
-        //console.log('job details: ' +JSON.stringify(this.jobDetails));
+        this.jobFields[field]=res.data
+        console.log('job details: ' +JSON.stringify(this.jobFields));
       } )
+  
+    this.companyService.getDistinct(field)
+    .subscribe( (res) => {
+        console.log(res);
+        this.companyFields[field]=res.data
+        console.log('company details: ' +JSON.stringify(this.companyFields));
+        
+      } )
+
+      
   }
 
 }
