@@ -184,3 +184,6 @@ module.exports.getJobDetail = (req, res, next) =>{
 }
 
 
+module.exports.approveApplicant = (req, res, next) =>{
+    console.log()
+}
