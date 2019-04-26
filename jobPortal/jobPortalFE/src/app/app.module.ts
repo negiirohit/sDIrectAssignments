@@ -27,6 +27,10 @@ import { CompanyDetailComponent } from './company-detail/company-detail.componen
 import { CreateProfileComponent } from './job-seeker/create-profile/create-profile.component';
 import { CompanyJobDetailComponent } from './job-provider/company-job-detail/company-job-detail.component';
 
+
+import { FormsModule }   from '@angular/forms';
+import { ChatService } from 'src/app/services/chat.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,14 +49,16 @@ import { CompanyJobDetailComponent } from './job-provider/company-job-detail/com
     JobDetailComponent,
     CompanyDetailComponent,
     CreateProfileComponent,
-    CompanyJobDetailComponent
+    CompanyJobDetailComponent,
+    
 
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     AuthGuardService,
@@ -61,7 +67,9 @@ import { CompanyJobDetailComponent } from './job-provider/company-job-detail/com
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptorService,
     multi: true
-}],
+},
+  ChatService
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

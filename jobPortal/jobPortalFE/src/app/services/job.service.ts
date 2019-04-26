@@ -34,7 +34,7 @@ export class JobService {
   }
 
   getJobDetail(job_id){
-    return this.http.get<any>(baseURL+'/companies/getJobDetail/'+job_id);
+    return this.http.get<any>(baseURL+'/jobs/getJobDetail/'+job_id);
   }
 
 
@@ -45,5 +45,9 @@ export class JobService {
   approveUser(approveDetails){
     return this.http.post<any>(baseURL+'/jobs/approveUser/',approveDetails);
   }
-  
+
+  declineUser(declineDetails){
+    return this.http.post<any>(baseURL+'/jobs/declineUser/',declineDetails);
+  }
+
 }

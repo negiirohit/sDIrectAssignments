@@ -100,9 +100,19 @@ module.exports.getJobs = (req, res, next) => {
     var page_limit = Number(req.params.page_limit)
     var skip_no    = (Number(req.params.page_no)-1)*page_limit
     let query ={};
-    if(field!='all')
-        query[field] = value;
-   // console.log(Job.find(query));    
+    
+
+    // if(field!='all')
+        // query[field] = value;
+    if(field!='search'){
+        if(field!='all')
+            query[field] = value;
+    }
+    else{
+        query = { post : { $regex: value } }
+    }
+   
+    // console.log(Job.find(query));    
     Job.find(query)
     .skip(skip_no)
     .limit(page_limit)
@@ -131,7 +141,7 @@ module.exports.getJobs = (req, res, next) => {
         Job.findOneAndUpdate({_id : job_id},{$push : { applicants : req.user.id }})
         .then((job) => {  
            console.log("Applied for job: "+job);
-            JobSeeker.findOneAndUpdate({_id : req.user.id},{$push : { appliedJobs : job._id }})
+            JobSeeker.findOneAndUpdate({_id : req.user.id},{$push : { appliedJobs : job._id }},{new : true})
             .then( user => {
                 if(user){ 
                     console.log("apllied for job: "+user);
@@ -170,7 +180,7 @@ module.exports.getJobDetail = (req, res, next) =>{
     Job.findById(job_id)
     .populate('provider')
     .then((job) => {  
-     //   console.log(jobs);
+          console.log(job);
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json');
           res.json(
@@ -185,5 +195,38 @@ module.exports.getJobDetail = (req, res, next) =>{
 
 
 module.exports.approveApplicant = (req, res, next) =>{
-    console.log()
+    console.log(req.body);
+    Job.findOneAndUpdate({_id:req.body.job_id},{$push : { approvedApplicants : req.body.user_id }},{new : true})
+    .populate('applicants')
+    .then((job) => {  
+           console.log(job);
+             res.statusCode = 200;
+             res.setHeader('Content-Type', 'application/json');
+             res.json(
+             {
+               success:true,
+               message: 'Jobs fetched',
+               data: job
+             })
+    }).catch((err) => next(err));
+
+}
+
+
+module.exports.declineApplicant = (req, res, next) =>{
+    console.log(req.body);
+    Job.findOneAndUpdate({_id:req.body.job_id},{$pull : {applicants : req.body.user_id}},{new : true})
+    .populate('applicants')
+    .then((job) => {  
+        //   console.log(jobs);
+             res.statusCode = 200;
+             res.setHeader('Content-Type', 'application/json');
+             res.json(
+             {
+               success:true,
+               message: 'Jobs fetched',
+               data: job
+             })
+    }).catch((err) => next(err));
+
 }

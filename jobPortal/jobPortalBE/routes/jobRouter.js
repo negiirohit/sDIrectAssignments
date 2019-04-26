@@ -13,7 +13,7 @@ router.post('/apply',auth.verifyToken,jobController.applyForJob);
 
 router.get('/getJobDetail/:job_id',jobController.getJobDetail);
 router.post('/approveUser',jobController.approveApplicant);
+router.post('/declineUser',jobController.declineApplicant);
 
-//post<any>(baseURL+'/jobs/approveUser/',approveDetails);
 
 module.exports = router;

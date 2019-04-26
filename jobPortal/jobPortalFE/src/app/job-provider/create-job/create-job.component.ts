@@ -23,7 +23,9 @@ export class CreateJobComponent implements OnInit {
         location:[],
         description:[],
         requiredSkills:[],
-        domain:['']
+        domain:[''],
+        salary: [''],
+        experience :[]
       })
   }
 

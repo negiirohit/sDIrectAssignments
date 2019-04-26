@@ -1,18 +1,31 @@
-<h3>
-  Find the right Job for you
-</h3>
-<h3 *ngIf="title"> {{title}}  </h3>
+
 <div class="container" *ngIf="jobs">
-        <div class="container">
-                <div class="card" style="width: 25rem; border:1px solid black; float:left; margin:5px" *ngFor="let job of jobs">
-                    <div class="card-body">
-                      <h5 class="card-title">{{job.post}}</h5>
-                      <h6 class="card-subtitle mb-2 text-muted">{{job.location}}</h6>
-                      <p class="card-text"> {{job.description}} </p>
-                      <a  class="card-link"> {{job.provider.title}} </a>
-                      <button (click)="apply(job._id)"> Apply </button>                      
-                    </div>
-                  </div>
+         
+             <h3 class="text-center">
+                Find the right Job for you
+              </h3>
+              <h3 class="text-center" *ngIf="title"> {{title}}  </h3>
+        <div class="container" style="margin:50px" >
+                <!-- <div class="card" style="width: 25rem; border:1px solid black; float:left; margin:5px" > -->
+                    <!-- <div class="card-body"> -->
+                      <!-- <h5 class="card-title"></h5> -->
+                      <!-- <h6 class="card-subtitle mb-2 text-muted"></h6> -->
+                      <!-- <p class="card-text">  </p> -->
+                      <!-- <a  class="card-link">  </a> -->
+                                          <!--  -->
+                    <!-- </div> -->
+                  <!-- </div> -->
+        <div class="container row">
+                <div class="card col-sm-4" style="  padding:10px;  margin:10px;  border: 2px solid rgb(160, 172, 172);  border-radius: 12px;" *ngFor="let job of jobs">
+                     <div class="card-body">
+                       <h3 class="card-title">{{job.post}}</h3> 
+                       <h5 class="card-subtitle"><strong> Company: {{job.provider.company_title}} </strong> </h5> 
+                       <p class="card-test"> Location : {{job.location}} </p>
+                       <p class="card-text">{{job.salary}}</p>
+                       <button class="btn btn-primary stretched-link" (click)="apply(job._id)"> View Details </button> 
+                     </div>
+                </div>
+                  
         </div>
 
 
@@ -35,4 +48,7 @@
             </li>
           </ul>
         </div>
+
+    </div>
+
 </div>

@@ -7,6 +7,8 @@ const jobSchema = new Schema({
     description:String,
     requiredSkills:String,
     domain:String,
+    salary: String,
+    experience : String,
     applicants : [{
         type : Schema.Types.ObjectId,
         ref:'JobSeeker'

@@ -7,8 +7,8 @@
   <div>  Applicants   
 
       <div *ngFor="let user of job.applicants">
-          <button (click)="approve(user._id)"> Approve User </button>
-
+          <button (click)="approveUser(user._id)"> Approve User </button>
+          <button (click)="declineUser(user._id)"> Decline User </button>
           <div>
               <h1> Personal Details </h1>
               <h3> {{user.firstName}} {{user.lastName}} </h3>

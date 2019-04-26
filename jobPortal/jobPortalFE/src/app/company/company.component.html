@@ -1,37 +1,47 @@
-
 <div class="container" *ngIf="companies">
-        <h1>{{title}}</h1>
-        <div class="container">
-                <div class="card" style="width: 25rem; border:1px solid black; float:left; margin:5px" *ngFor="let company of companies">
-                    <div class="card-body">
-                      <h3 class="card-title">{{company.company_title}}</h3>
-                      <h4 class="card-subtitle mb-2 text-muted">{{company.company_type}}</h4>
-                      <h5> {{company.size}}</h5>
-                      <p class="card-text"> {{company.description}} </p>
-                      <a class="card-link"> {{company.website}} </a>
-                      <button (click)="view(company._id)">View Company</button>
+        
+
+       <h3 class="text-center" *ngIf="title"> {{title}}  </h3>
+       <div class="container" style="margin:50px" >
+
+
+            <div class="container">
+                    <div class="card" style="width:200px;  float:left; padding:30px;  margin:10px;  border: 2px solid rgb(160, 172, 172);  border-radius: 12px;" *ngFor="let company of companies">
+                        <div class="card-body">
+                          <h3 class="card-title">{{company.company_title}}</h3>
+                          <h4 class="card-subtitle mb-2 text-muted">Type : {{company.company_type}}</h4>
+                          <h5>Size: {{company.size}} Employee</h5>
+                          <p class="card-text"> {{company.description}} </p>
+                          <a class="card-link"> {{company.website}} </a>
+                        <br><br>
+                          <button class="btn btn-primary stretched-link" (click)="view(company._id)">View Company</button>
+                        </div>
                     </div>
-                  </div>
-        </div>
+            </div>
 
 
-        <div class="text-right">
-          <ul *ngIf="pager.pages && pager.pages.length" class="float-right pagination" >
-            <li [ngClass]="{disabled:pager.currentPage === 1}">
-                <a (click)="setPage(1)">First</a>
-            </li>
-            <li [ngClass]="{disabled:pager.currentPage === 1}">
-                <a (click)="setPage(pager.currentPage - 1)">&laquo;</a>
-            </li>
-            <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
-                <a (click)="setPage(page)">{{page}}</a>
-            </li>
-            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-                <a (click)="setPage(pager.currentPage + 1)">&raquo;</a>
-            </li>
-            <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
-                <a (click)="setPage(pager.totalPages)">Last</a>
-            </li>
-          </ul>
-        </div>
+
+       <div class="text-right">
+         <ul *ngIf="pager.pages && pager.pages.length" class="float-right pagination" >
+           <li [ngClass]="{disabled:pager.currentPage == 1}">
+               <a (click)="setPage(1)">First</a>
+           </li>
+           <li [ngClass]="{disabled:pager.currentPage == 1}">
+               <a (click)="setPage(pager.currentPage - 1)">&laquo;</a>
+           </li>
+           <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+               <a (click)="setPage(page)">{{page}}</a>
+           </li>
+           <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+               <a (click)="setPage(pager.currentPage + 1)">&raquo;</a>
+           </li>
+           <li [ngClass]="{disabled:pager.currentPage == pager.totalPages}">
+               <a (click)="setPage(pager.totalPages)">Last</a>
+           </li>
+         </ul>
+       </div>
+
+
+
+    </div>
 </div>

@@ -11,9 +11,9 @@ import { Router } from '@angular/router';
 })
 export class JobDetailComponent implements OnInit {
 
+  applyFlag : boolean = false;  
   job : any;
   constructor(private route: ActivatedRoute,private jobService : JobService, private router: Router ) { }
-
   ngOnInit() {
       this.getParams();
       this.getParams();
@@ -44,7 +44,34 @@ export class JobDetailComponent implements OnInit {
       } )
   }
 
+
+  getApplyFlag(){
+    return !!this.applyFlag;
+  }
+
   apply(){
+
+  //   if(localStorage.getItem('userType')=='JobSeeker'){
+  //     this.jobService.applyForJob(this.job._id)
+  //     .subscribe( (res)=> {
+  //       if(res.success){
+  //           console.log('Job applied succesfully ');
+  //         //  this.router.navigate() navigate User Profile
+       
+  //       }
+  //       else
+  //       {
+  //         console.log(JSON.stringify(res));
+  //       }
+  //     } )
+  // }
+  // else {
+  //   let url = this.router.url;
+  //   console.log("Please login first");
+  //   console.log(url);
+  //   localStorage.setItem('refURL',url);
+  //   this.router.navigate(['/login']);    
+  // }
 
     if(localStorage.getItem('userType')=='JobSeeker'){
       this.jobService.applyForJob(this.job._id)
@@ -61,13 +88,9 @@ export class JobDetailComponent implements OnInit {
       } )
   }
   else {
-    let url = this.router.url;
-    console.log("Please login first");
-    console.log(url);
-    localStorage.setItem('refURL',url);
-    this.router.navigate(['/login']);    
-  }
+      this.applyFlag = true;
 
+  }
 
   }
 

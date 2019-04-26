@@ -1,19 +1,25 @@
-<div *ngIf="job" class="container">
-      <div  class="container">
-                  <h1> Providing Company </h1>
-                  <h1> {{job.provider.company_title}} </h1>            
-                  <h2> {{job.provider.company_type}} </h2>
-                  <h2> {{job.provider.website}}  </h2>
-      </div>
 
+<div *ngIf="job" class="co    ntainer" style="margin:5vw 25vw 5vw; ">
+                  <h1 > Job Descrption </h1>
 
-      <div >
-            <h1>Details of job </h1>
-            <h2>Title: <strong> {{job.post}} </strong> </h2>
-            <h3>Domain <strong>  {{job.domain}} </strong> </h3>
-            <h3>Required Skills <strong> {{job.requiredSkills}} </strong> </h3>            
-            <h4>Location {{job.location}} </h4>             
-            <h3>Description: {{job.description}} </h3>
-            <button (click)="apply()"> Apply For Job </button>
-      </div>
+                  <div class="card" style="font-size:2rem">
+                        <div class="card-body">
+                          <h2 class="card-title"><strong>{{job.post}}</strong> </h2> 
+                          <h2 class="card-subtitle"><strong>Domain:  {{job.domain}}  </strong> </h2> 
+                          <p class="card-text"> Location : {{job.location}} </p>
+                          <p class="card-text">Salary: {{job.salary}}</p>
+                          <a routerLink="/companyDetail" [queryParams]="{ company_id: job.provider._id}"> <strong> Company : {{job.provider.company_title}} </strong> </a>
+                          <p>Required Skills <strong>Required Skills: {{job.requiredSkills}} </strong> </p>          
+                          <p>Location {{job.location}} </p>             
+                          <p>Description: {{job.description}} </p>
+                          <button class="btn btn-primary " (click)="apply()"> Apply For Job </button>      
+                        </div>
+                  </div>
 </div>
+
+
+
+
+
+
+

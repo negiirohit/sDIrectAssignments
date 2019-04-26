@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { JobService } from 'src/app/services/job.service';
 import { CompanyService } from 'src/app/services/company.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -10,13 +11,14 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class HeaderComponent implements OnInit {
   
+  search : any = 'jobs';
   jobFields : any = {};
   companyFields : any = {};
   //jobLocations : any;
   //jobDomains : any;
   // companyLocations: any;
   //companyDomains: any;
-  constructor(private jobService : JobService, private companyService : CompanyService, private authService : AuthService) { }
+  constructor(private router: Router,private jobService : JobService, private companyService : CompanyService, private authService : AuthService) { }
 
   ngOnInit() {
     this.getDistinctField('location');
@@ -42,5 +44,13 @@ export class HeaderComponent implements OnInit {
 
       
   }
+
+
+
+  searchJobs(){
+      console.log(this.search);  
+      this.router.navigate(['/jobs'],{ queryParams : {field:'search',value: this.search } });
+  }
+  
 
 }

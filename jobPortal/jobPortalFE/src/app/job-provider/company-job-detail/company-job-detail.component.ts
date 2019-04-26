@@ -37,7 +37,8 @@ export class CompanyJobDetailComponent implements OnInit {
     })
   }
 
-  approve(user_id){
+  approveUser(user_id){
+      console.log(user_id);
       let details = {
         user_id :user_id,
         job_id : this.job._id
@@ -53,5 +54,23 @@ export class CompanyJobDetailComponent implements OnInit {
       })
 
   }
+
+  declineUser(user_id){
+    console.log(user_id);
+    let details = {
+      user_id :user_id,
+      job_id : this.job._id
+    }
+    this.jobService.declineUser(details)
+    .subscribe(res => {
+      if(res.success){
+          console.log("User Declined");
+          this.job = res.data;
+          console.log(this.job);
+      }
+      console.log(JSON.stringify(res));
+    })
+
+}
 
 }

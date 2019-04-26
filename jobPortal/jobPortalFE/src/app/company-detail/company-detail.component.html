@@ -1,31 +1,31 @@
-<div style="border:solid black 1px">
-   <h1> Company Detail </h1>
-    <h1> {{company.company_title}} </h1>
-    <h2> Location : {{company.location}}</h2>
-    <h4> Type : {{company.company_type}} </h4> 
-    <h4> Domain: {{company.domain}} </h4>
-    <h4> Size : {{company.size}} </h4>
-    <h4> Website : {{company.website}} </h4>  
-</div>
 
-<div style="border:solid black 1px">
-<h1> Jobs By Company </h1>
-  <div *ngFor = "let job of company.jobs">
-      <h1> {{job.post}} </h1>
-      <h4> {{job.location}} </h4>
-      <h4> {{job.domain}} </h4>
-      <button (click)="viewJob(job._id)"> View Details </button>
-  </div> 
-</div>
+<div class="container" style="padding:50px 100px 100px 100px">
+        <div class="row">
+                        <div class="col-sm-6" style="border-right:3px solid rgb(144, 137, 137)" >
+                                <h1> Company Detail </h1>
+                                <div style="padding-left:50px;">
+                                        <h1><strong> {{company.company_title}} </strong> </h1>
+                                        <h2> Location : {{company.location}}</h2>
+                                        <h4> Type : {{company.company_type}} </h4> 
+                                        <h4> Domain: {{company.domain}} </h4>
+                                        <h4> Size : {{company.size}} </h4>
+                                        <h4> Website : {{company.website}} </h4>         
+                                </div>
+                        </div>
+                             
+                       <div class="col-sm-6" style="padding-left:100px">
+                            <h1> Jobs By Company </h1>
+                            <div *ngFor = "let job of company.jobs" style="padding-left:50px; padding-bottom:15px;">
+                                <h1> {{job.post}} </h1>
+                                <h4> {{job.location}} </h4>
+                                <h4> {{job.domain}} </h4>
+                                <button (click)="viewJob(job._id)"> View Details </button>
+                            </div> 
+                       </div>
+                       
+                
+        </div>
+                
 
-<!-- jobs: Array(2)
-0: {applicants: Array(3), _id: "5cc12d89ef51ad15697cb1ac", post: "test job", location: "Dehradun", domain: "IT", …}
-1: {applicants: Array(5), _id: "5cc12ed422017916097cdc4e", post: "test job 2", location: "Delhi", description: "test2", …}
-length: 2
-__proto__: Array(0)
-location: "Dehradun"
-password: "$2a$10$gcKq98s/DXjfdLlLb0jxSuQux2SjQ3DPnbelOplHgT3NoNefRBIUe"
-size: 2000
-updatedAt: "2019-04-25T03:51:48.927Z"
-website: "www.test.com"
-year_founded: 2000 -->
+     
+</div>

@@ -28,13 +28,20 @@ export class JobComponent implements OnInit {
     .subscribe(params => {
       this.field = params.field;
       this.value = params.value;  
-      if(this.field!='all')
-        this.title = 'Jobs By ' + this.field + ' in ' + this.value; 
-      else  
-        this.title = 'Showing All Jobs'
+    
+      this.setTitle();    
       this.setPage(1);
     });
     
+  }
+
+  setTitle(){
+    if(this.field == 'search')
+      this.title ='Showing related jobs to ' + this.value;       
+    else if(this.field!='all')
+      this.title = 'Jobs By ' + this.field + ' in ' + this.value; 
+    else   
+      this.title = 'Showing All Jobs'
   }
 
   setPage(page: number) {
@@ -43,6 +50,7 @@ export class JobComponent implements OnInit {
           if(res.data.jobs.length>0)
           {
             this.jobs = res.data.jobs;
+            console.log(this.jobs);
             this.job_count=res.data.count;
             this.pager = this.pagerService.getPager(this.job_count, page,this.page_limit);   
           }
@@ -55,6 +63,9 @@ export class JobComponent implements OnInit {
     console.log('Job Id: '+job_id);
     this.router.navigate(['/jobDetail'], { queryParams: { job_id: job_id } });
   }
+
+  //routerLink="/jobs" 
+
 
 }
 

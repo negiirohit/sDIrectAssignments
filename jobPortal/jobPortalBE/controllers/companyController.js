@@ -176,7 +176,6 @@ module.exports.getCompanies = (req, res, next) => {
     Company.find(query)
     .skip(skip_no)
     .limit(page_limit)
-   // .populate('provider')
     .then((companies) => {  
      //   console.log(jobs);
         Company.count(query)

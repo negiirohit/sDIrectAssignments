@@ -1,55 +1,60 @@
-<div class="*container" *ngIf="user">
-<div>
-    <h1> Personal Details </h1>
-    <h3> {{user.firstName}} {{user.lastName}} </h3>
-    <h3> {{user.email}} </h3>
-    <h3> {{user.age}} </h3>
-    <h3> </h3>
-    <h3> </h3>
-    <h3> </h3>
+<div class="container" style="padding:50px 100px 100px 100px">
+        <div class="row" *ngIf="user" style="border: 2px solid black; border-radius: 12px; padding:20px;">
+                <div class="col-sm-6" style="border-right:3px solid rgb(144, 137, 137);  " >
+                        <div>
+                            <h1> Personal Detail </h1>
+                            <div style="padding-left:50px;">
+                                <h3>Name: {{user.firstName}} {{user.lastName}} </h3>
+                                <h3>email: {{user.email}} </h3>
+                                <h3>age: {{user.age}} </h3>
+                            </div>
+                        </div>
+                        <div>
 
-</div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                                <h1> Profile </h1>
+                                <div style="padding-left:50px;">
+                                <div> <h3>Skills:  {{user.profile.keySkills}} </h3> </div>
+                                <div> 
+                                        <h1>  Educational Details  </h1>
+                                        <div> HighSchool : {{user.profile.qualifications.HighSchool.year }} {{user.profile.qualifications.HighSchool.board }}
+                                                {{user.profile.qualifications.HighSchool.percentage }} {{user.profile.qualifications.HighSchool.subjects }}
+                                        </div>
+                                        <div> InterMediate : {{user.profile.qualifications.InterMediate.year }} {{user.profile.qualifications.InterMediate.board }}
+                                            {{user.profile.qualifications.InterMediate.percentage }} {{user.profile.qualifications.InterMediate.subjects }}
+                                        </div>
+                                        <div> Graduation : {{user.profile.qualifications.Graduation.year }} {{user.profile.qualifications.Graduation.university }}
+                                                {{user.profile.qualifications.Graduation.percentage }} {{user.profile.qualifications.Graduation.course }}
+                                        </div>
+                                        <div> Post Graduation : {{user.profile.qualifications.PG.year }} {{user.profile.qualifications.PG.university }}
+                                                {{user.profile.qualifications.PG.percentage }} {{user.profile.qualifications.PG.course }}
+                                        </div>
+                                
+                                </div> 
+                                </div>
+                </div>
+       
 
-<div >
+        </div>    
+        <div class="row" *ngIf="user" style="margin-top:50px;">
+                        <h1 class="text-center"> Your Applied Jobs </h1>
+                        
+                        <div *ngFor = "let job of user.appliedJobs">
 
-    <h1> Profile </h1>
-    <h3> {{user.profile.keySkills}} </h3>
-    <div> 
-            <h1>  Educational Details  </h1>
-            <div> HighSchool : {{user.profile.qualifications.HighSchool.year }} {{user.profile.qualifications.HighSchool.board }}
-                    {{user.profile.qualifications.HighSchool.percentage }} {{user.profile.qualifications.HighSchool.subjects }}
-            </div>
-            <div> InterMediate : {{user.profile.qualifications.InterMediate.year }} {{user.profile.qualifications.InterMediate.board }}
-                {{user.profile.qualifications.InterMediate.percentage }} {{user.profile.qualifications.InterMediate.subjects }}
-            </div>
-            <div> Graduation : {{user.profile.qualifications.Graduation.year }} {{user.profile.qualifications.Graduation.university }}
-                    {{user.profile.qualifications.Graduation.percentage }} {{user.profile.qualifications.Graduation.course }}
-            </div>
-            <div> Post Graduation : {{user.profile.qualifications.PG.year }} {{user.profile.qualifications.PG.university }}
-                    {{user.profile.qualifications.PG.percentage }} {{user.profile.qualifications.PG.course }}
-            </div>
-    
-    </div>
-</div>
-
-<div>
-        <h1> Applied Jobs </h1>
-        <div *ngFor = "let job of user.appliedJobs">
-                <h1> {{job.post}} </h1>
-                <h4> {{job.location}} </h4>
-                <h4> {{job.domain}} </h4>
-                <button (click)="viewJob(job._id)"> View Details </button>
-        </div>
-</div>
-    <!-- get seeker res: {"success":true,"message":"Feteched Succedfully",
-    "data":{"profile":{"keySkills":["C","C++"],"domain":"",
-    "qualifications":{"HighSchool":{"year":null,"board":"","subjects":"",
-    "percentage":null},"InterMediate":{"year":null,"board":"","subjects":"",
-    "percentage":null},"Graduation":{"year":null,"university":"","percentage":null,
-    "course":""},"PG":{"year":null,"university":"","percentage":null,"course":""},
-    "_id":"5cc1927e7736bd5bce176ad0"}},
-    
-    "appliedJobs":["5cc12d89ef51ad15697cb1ac","5cc12ed422017916097cdc4e","5cc12ed422017916097cdc4e","5cc12ed422017916097cdc4e","5cc12ed422017916097cdc4e","5cc12ed422017916097cdc4e","5cc12d89ef51ad15697cb1ac","5cc12d89ef51ad15697cb1ac","5cc12d89ef51ad15697cb1ac"],
-    "_id":"5cc136ba561f001bbde613df",
-        "firstName":"Rohit","lastName":"Negi","email":"rn@gmail.com", -->
+                                <div class="card" style="width:300px;  float:left; padding:10px;  margin:10px;  border: 2px solid rgb(160, 172, 172);  border-radius: 12px;">
+                                    <div class="card-body">
+                                      <h3 class="card-title">Post: {{job.post}}</h3> 
+                                      <h5 class="card-subtitle"><strong> Company: {{job.provider.company_title}} </strong> </h5> 
+                                      <p class="card-test"> Location : {{job.location}} </p>
+                                      <p class="card-text">{{job.salary}}</p>
+                                      <button class="btn btn-primary stretched-link" (click)="view(job._id)"> View Details </button> 
+                                    </div>
+                               </div>
+                                
+                        </div>  
+                        
+                             
+        </div>                  
 </div>

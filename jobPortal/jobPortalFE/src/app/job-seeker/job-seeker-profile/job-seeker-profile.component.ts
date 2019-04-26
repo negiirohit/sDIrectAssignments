@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./job-seeker-profile.component.css']
 })
 export class JobSeekerProfileComponent implements OnInit {
-  user: { name: string; };
+  user: any;
 
 
   constructor(private jobService : JobService , 
@@ -25,9 +25,10 @@ export class JobSeekerProfileComponent implements OnInit {
   getUser(){
     this.seekerService.getSeekerProfile()
     .subscribe( res => {
-      console.log("get seeker res: "+JSON.stringify(res));
+      //console.log("get seeker res: "+JSON.stringify(res));
       if(res.success){
           this.user = res.data
+          console.log(this.user.appliedJobs);
       }
     })
     

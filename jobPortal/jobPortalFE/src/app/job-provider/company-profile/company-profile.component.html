@@ -1,19 +1,32 @@
-<div *ngIf="company">
-  <div> {{company.company_title}} </div>
-  <div> {{company.company_type}} </div>
-  <div> {{company.size}} </div>
+<div class="container">
+    <div class="row" *ngIf="company">
+        <div class="col-sm-4"></div>
+            <div class="col-sm-4" style="padding:50px 10px 50px 100px; border: 2px solid black; border-radius:15px">
+                <h1><strong> {{company.company_title}} </strong> </h1>
+                <h2> Location : {{company.location}}</h2>
+                <h4> Type : {{company.company_type}} </h4> 
+                <h4> Domain: {{company.domain}} </h4>
+                <h2> {{company.size}} </h2>        
+                <h4> Size : {{company.size}} </h4>
+                <h4> Website : {{company.website}} </h4>         
+    <button class="btn btn-primary" style="margin-left:10px;" routerLink="/company/createJob"> Add Job </button>
+    </div>
+    </div>
+    
+    <div class="row">
+        <div *ngIf="company.jobs"> 
+            <h1 class="text-center">  Your Posted Jobs </h1>
+           <div class="card col-sm-4"*ngFor="let job of company.jobs" style="width:300px;  float:left; padding:10px;  margin:10px;  border: 2px solid rgb(160, 172, 172);  border-radius: 12px;">
+              <div class="card-body">
+                <h3 class="card-title">{{job.post}}</h3> 
+                <p class="card-test"> Location : {{job.location}} </p>
+                <p class="card-text">{{job.salary}}</p>
+                <button class="btn btn-primary" (click)="viewMore(job._id)"> View Details </button> 
+              </div>
+         </div>
+       </div>
+       
+    </div>
 
-<div>
-  <a routerLink="/company/createJob"> Add Jobs </a>
-</div>
-<div *ngIf="company.jobs"> 
-     Your Posted Jobs
-    <div *ngFor="let job of company.jobs">
-        {{job.post}}
-        {{job.location}}
-        {{job.description}}
-        <button (click)="viewMore(job._id)"> View More </button>
-    </div> 
-</div>
 </div>
 
