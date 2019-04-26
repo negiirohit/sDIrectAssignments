@@ -30,7 +30,6 @@ import { CompanyJobDetailComponent } from './job-provider/company-job-detail/com
 
 import { FormsModule }   from '@angular/forms';
 import { ChatService } from 'src/app/services/chat.service';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -58,7 +57,7 @@ import { ChatService } from 'src/app/services/chat.service';
     AppRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [
     AuthGuardService,
