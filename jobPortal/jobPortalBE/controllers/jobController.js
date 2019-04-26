@@ -3,6 +3,8 @@ const Company = require('../models/companySchema');
 const Job = require('../models/jobSchema');
 const JobSeeker = require('../models/jobSeeker');
 const mongoose =require('mongoose');
+const mailer = require('./mailer');
+
 
 module.exports.createJob = (req, res, next) => {
     var job = req.body;
@@ -139,20 +141,29 @@ module.exports.getJobs = (req, res, next) => {
         let job_id = mongoose.Types.ObjectId(req.body.job_id)
         console.log("job_id : "+job_id);
         Job.findOneAndUpdate({_id : job_id},{$push : { applicants : req.user.id }})
+        .populate('provider')
         .then((job) => {  
            console.log("Applied for job: "+job);
             JobSeeker.findOneAndUpdate({_id : req.user.id},{$push : { appliedJobs : job._id }},{new : true})
             .then( user => {
                 if(user){ 
-                    console.log("apllied for job: "+user);
-                    res.statusCode = 200;
-                    res.setHeader('Content-Type', 'application/json');
-                    res.json(
-                    {
-                      success:true,
-                      message: 'Applied Succesfully',
-                      data: user
-                    })
+
+                        //  res.locals.mailDetails = {
+                            //  job_id : job._id,
+                            //  email : job.email,
+                             
+                        //  }
+                        // mailer.sendMail(req,res,next);
+                         //next();
+                         console.log("apllied for job: "+user);
+                         res.statusCode = 200;
+                         res.setHeader('Content-Type', 'application/json');
+                         res.json(
+                         {
+                           success:true,
+                           message: 'Applied Succesfully',
+                           data: user
+                         })
                 }
                 else 
                     console.log("No user found");

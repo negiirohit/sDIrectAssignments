@@ -23,6 +23,9 @@ const companySchema = new Schema({
     description: {
         type : String
     },
+    email : {
+        type : String
+    },
     UIN: {
         type : String,
         required: true

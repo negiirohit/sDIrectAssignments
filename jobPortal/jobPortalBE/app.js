@@ -10,7 +10,6 @@ var usersRouter = require('./routes/users');
 const seekerRouter = require('./routes/seekerRouter');
 const companyRouter = require('./routes/companyRouter');
 const jobRouter = require('./routes/jobRouter');
-const chatRouter = require('./routes/chatRouter');
 
 
 const config = require('./config/config');
@@ -45,7 +44,6 @@ app.use('/', indexRouter);
 app.use('/seeker', seekerRouter);
 app.use('/companies', companyRouter);
 app.use('/jobs',jobRouter);
-app.use('/chat',chatRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
