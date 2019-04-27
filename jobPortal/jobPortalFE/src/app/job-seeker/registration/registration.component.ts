@@ -13,6 +13,7 @@ export class RegistrationComponent implements OnInit {
   constructor(private fb: FormBuilder,private router: Router,private authService : AuthService) { }
 
   ngOnInit() {
+      this.authService.checkLogin();    
       this.createSeekerRegistrationForm()
   }
 

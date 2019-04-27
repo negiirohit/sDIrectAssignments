@@ -18,5 +18,8 @@ export class SeekerService {
   getSeekerProfile() {
     return this.http.get<any>(baseURL+'/seeker/getProfile' );
   }
+  removeApplication(job_id){
+    return this.http.post<any>(baseURL+'/seeker/removeApplication',job_id);    
+  }
 
 }

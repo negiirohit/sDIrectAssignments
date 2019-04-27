@@ -11,13 +11,10 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   
-  search : any = 'jobs';
+  search : any ;
   jobFields : any = {};
   companyFields : any = {};
-  //jobLocations : any;
-  //jobDomains : any;
-  // companyLocations: any;
-  //companyDomains: any;
+
   constructor(private router: Router,private jobService : JobService, private companyService : CompanyService, private authService : AuthService) { }
 
   ngOnInit() {

@@ -13,6 +13,7 @@ export class JPRegistrationComponent implements OnInit {
   constructor(private fb: FormBuilder, private authService : AuthService, private router: Router) { }
 
   ngOnInit() {
+    this.authService.checkLogin();
     this.createRegistrationForm();
   }
 

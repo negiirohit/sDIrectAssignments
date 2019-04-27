@@ -2,7 +2,21 @@
 <div class='img-container'> 
     <div class='img-text'>
 
-            Find the perfect Job For You
-            
+            <div class="row">
+                    Find the perfect Job For You
+            </div>
+            <div class="row text-center" style="padding:20px;">
+
+                <form class="navbar-form navbar-left" >
+                        <div class="input-group input-box">
+                          <input type="text" class="form-control input-box"  placeholder="Search" [(ngModel)]='search' name="search" id="search">
+                          <div class="input-group-btn">
+                            <button (click)="searchJobs()" class="btn btn-default input-box" type="submit">
+                              <i class="glyphicon glyphicon-search"></i>
+                            </button>
+                          </div>
+                        </div>
+                </form> 
+            </div>
     </div>
 </div>

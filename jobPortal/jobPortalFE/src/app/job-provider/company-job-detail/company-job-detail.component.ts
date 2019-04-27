@@ -10,10 +10,12 @@ import { ActivatedRoute } from '@angular/router';
 export class CompanyJobDetailComponent implements OnInit {
 
   job : any;
-  constructor(private jobService : JobService, private route:ActivatedRoute) { }
+  constructor(private jobService : JobService, private route:ActivatedRoute) {
+   }
 
   ngOnInit() {
-    this.getParams();
+    console.log()
+    this.getParams();    
   }
 
   getParams(){
@@ -31,7 +33,7 @@ export class CompanyJobDetailComponent implements OnInit {
       if(res.success){
           console.log("Job Details fetched succesfuly")
           this.job = res.data;
-          console.log(this.job);
+         // console.log(this.job);
       }
       console.log(JSON.stringify(res));
     })

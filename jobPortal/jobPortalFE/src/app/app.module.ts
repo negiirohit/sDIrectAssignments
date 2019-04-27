@@ -30,6 +30,8 @@ import { CompanyJobDetailComponent } from './job-provider/company-job-detail/com
 
 import { FormsModule }   from '@angular/forms';
 import { ChatService } from 'src/app/services/chat.service';
+import { SeekerProfileComponent } from './seeker-profile/seeker-profile.component';
+import { SeekerDetailComponent } from './seeker-detail/seeker-detail.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +51,8 @@ import { ChatService } from 'src/app/services/chat.service';
     CompanyDetailComponent,
     CreateProfileComponent,
     CompanyJobDetailComponent,
+    SeekerProfileComponent,
+    SeekerDetailComponent,
     
 
   ],

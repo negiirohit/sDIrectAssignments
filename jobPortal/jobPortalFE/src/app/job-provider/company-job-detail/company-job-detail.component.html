@@ -1,48 +1,62 @@
-<p>
-  company-job-detail works!
-</p>
+<div class="container">
 
-<div *ngIf="job">
-  <div> Job Details</div>
-  <div>  Applicants   
+   <div *ngIf="job">
+        <div  class="row align-items-center" > 
+                <div class=" card" style="font-size:2rem; padding:50px">
+                        <div class="card-body">
+                          <h2 class="card-title"><strong>Post: {{job.post}}</strong> </h2> 
+                          <h2 class="card-subtitle"><strong>Domain:  {{job.domain}}  </strong> </h2> 
+                          <p class="card-text"> Location : {{job.location}} </p>
+                          <p class="card-text">Salary: {{job.salary}}</p>
+                          <p>Required Skills <strong>Required Skills: {{job.requiredSkills}} </strong> </p>          
+                          <p>Location {{job.location}} </p>             
+                          <p>Description: {{job.description}} </p>
+                        </div>
+                </div>
+        </div>
 
-      <div *ngFor="let user of job.applicants">
-          <button (click)="approveUser(user._id)"> Approve User </button>
-          <button (click)="declineUser(user._id)"> Decline User </button>
-          <div>
-              <h1> Personal Details </h1>
-              <h3> {{user.firstName}} {{user.lastName}} </h3>
-              <h3> {{user.email}} </h3>
-              <h3> {{user.age}} </h3>
-              <h3> </h3>
-              <h3> </h3>
-              <h3> </h3>
+
+
+
+        <div *ngIf="job.applicants">
+           <div class="row" style="border: solid 1px rgb(224, 243, 117)"> 
+                <h1 class="text-center"> Applicants </h1>                                
+                <div class="col-sm-4" *ngFor="let user of job.applicants" style="border: solid 1px rgb(24, 24, 23)">
+                    <div>
+                        <h3> {{user.firstName}} {{user.lastName}} </h3>
+                        <h3> {{user.age}} </h3>
+                        <h3> {{user.profile.keySkills}} </h3>
+                    </div>
+
+                    <div >
+
+                        <h1> Profile </h1>
+                        <h3> {{user.profile.keySkills}} </h3>
+                        <div> 
+                                <h1>  Educational Details  </h1>
+                                <div> HighSchool : {{user.profile.qualifications.HighSchool.year }} {{user.profile.qualifications.HighSchool.board }}
+                                        {{user.profile.qualifications.HighSchool.percentage }} {{user.profile.qualifications.HighSchool.subjects }}
+                                </div>
+                                <div> InterMediate : {{user.profile.qualifications.InterMediate.year }} {{user.profile.qualifications.InterMediate.board }}
+                                    {{user.profile.qualifications.InterMediate.percentage }} {{user.profile.qualifications.InterMediate.subjects }}
+                                </div>
+                                <div> Graduation : {{user.profile.qualifications.Graduation.year }} {{user.profile.qualifications.Graduation.university }}
+                                        {{user.profile.qualifications.Graduation.percentage }} {{user.profile.qualifications.Graduation.course }}
+                                </div>
+                                <div> Post Graduation : {{user.profile.qualifications.PG.year }} {{user.profile.qualifications.PG.university }}
+                                        {{user.profile.qualifications.PG.percentage }} {{user.profile.qualifications.PG.course }}
+                                </div>
+                        
+                        </div>
+                
+                
+                   </div>
+                      <button (click)="approveUser(user._id)"> Approve User </button>
+                      <button (click)="declineUser(user._id)"> Decline User </button>
+                        
+                </div>
           </div>
-          
-          <div >
-          
-              <h1> Profile </h1>
-              <h3> {{user.profile.keySkills}} </h3>
-              <div> 
-                      <h1>  Educational Details  </h1>
-                      <div> HighSchool : {{user.profile.qualifications.HighSchool.year }} {{user.profile.qualifications.HighSchool.board }}
-                              {{user.profile.qualifications.HighSchool.percentage }} {{user.profile.qualifications.HighSchool.subjects }}
-                      </div>
-                      <div> InterMediate : {{user.profile.qualifications.InterMediate.year }} {{user.profile.qualifications.InterMediate.board }}
-                          {{user.profile.qualifications.InterMediate.percentage }} {{user.profile.qualifications.InterMediate.subjects }}
-                      </div>
-                      <div> Graduation : {{user.profile.qualifications.Graduation.year }} {{user.profile.qualifications.Graduation.university }}
-                              {{user.profile.qualifications.Graduation.percentage }} {{user.profile.qualifications.Graduation.course }}
-                      </div>
-                      <div> Post Graduation : {{user.profile.qualifications.PG.year }} {{user.profile.qualifications.PG.university }}
-                              {{user.profile.qualifications.PG.percentage }} {{user.profile.qualifications.PG.course }}
-                      </div>
-              
-              </div>
 
-
-      </div>
-
-  </div>
-
+        </div>
+   </div>
 </div>

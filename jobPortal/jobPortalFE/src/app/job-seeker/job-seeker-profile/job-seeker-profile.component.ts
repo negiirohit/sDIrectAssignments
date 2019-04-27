@@ -39,4 +39,15 @@ export class JobSeekerProfileComponent implements OnInit {
     this.router.navigate(['/jobDetail'], { queryParams: { job_id: job_id } });      
 }
 
+// removeApplication(job_id){
+//   this.seekerService.removeApplication(job_id).
+//   subscribe(res =>  {
+//     if(res.success){
+//       this.user = res.data
+//       console.log(this.user.appliedJobs);
+//      }
+//     console.log(res);
+//   })
+// }
+
 }

@@ -10,6 +10,16 @@ export class AuthService {
   constructor(private http: HttpClient,private router: Router) { }
   
 
+  checkLogin(){
+    if(this.loggedIn()){
+      if(this.checkUserType()=='Company')
+          this.router.navigate(['company/companyProfile'])
+      else  
+      this.router.navigate(['seeker/seekerProfile'])
+    }
+    return;
+  }
+
   registerSeeker(user){
     console.log("registering job seeker: "+user)
     return this.http.post<any>(baseURL+'/seeker/register',user);
@@ -41,7 +51,7 @@ export class AuthService {
              this.router.navigateByUrl(url);
           }
           else 
-               this.router.navigate(['/seekerProfile']); 
+               this.router.navigate(['seeker/seekerProfile']); 
          }
          else{
             console.log('login failed');

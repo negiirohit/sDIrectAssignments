@@ -102,19 +102,19 @@ module.exports.getJobs = (req, res, next) => {
     var page_limit = Number(req.params.page_limit)
     var skip_no    = (Number(req.params.page_no)-1)*page_limit
     let query ={};
-    
+    let query1 = {};
 
-    // if(field!='all')
-        // query[field] = value;
+    console.log("field"+field);
     if(field!='search'){
         if(field!='all')
             query[field] = value;
     }
     else{
-        query = { post : { $regex: value } }
+        query = { $or :[ {post : { $regex: value }},{requiredSkills : { $regex: value } }] }
+        console.log(query);
     }
    
-    // console.log(Job.find(query));    
+    //console.log(Job.find(query));    
     Job.find(query)
     .skip(skip_no)
     .limit(page_limit)
@@ -147,13 +147,8 @@ module.exports.getJobs = (req, res, next) => {
             JobSeeker.findOneAndUpdate({_id : req.user.id},{$push : { appliedJobs : job._id }},{new : true})
             .then( user => {
                 if(user){ 
-
-                        //  res.locals.mailDetails = {
-                            //  job_id : job._id,
-                            //  email : job.email,
-                             
-                        //  }
-                        // mailer.sendMail(req,res,next);
+                        console.log("sending mail");
+                        mailer.sendMail(job,user);
                          //next();
                          console.log("apllied for job: "+user);
                          res.statusCode = 200;

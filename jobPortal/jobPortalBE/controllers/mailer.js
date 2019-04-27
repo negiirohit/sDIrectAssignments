@@ -5,15 +5,11 @@ const config = require('../config/config');
 
 
 
-module.exports.sendMail = (req,res,next) => {
+module.exports.sendMail = (job,applicant) => {
 
+    console.log('sending mail');
 
-    const msg ={
-        name : req.body.name,
-        email: req.body.email,
-        message: req.body.message
-    }
-
+    console.log(job.email);
 
 //var transporter = nodemailer.createTransport('smtps://user%40gmail.com:pass@smtp.gmail.com');
 
@@ -27,16 +23,18 @@ module.exports.sendMail = (req,res,next) => {
     // setup e-mail data with unicode symbols
     var mailOptions = {
         from: '"Job Portal ?" <sdd.sdei@gmail.com>', // sender address
-        to: req.body.email, // list of receivers
-        subject: `Hi You Have Got a new application for  `, // Subject line
-        text: `Message ${req.body.message}`, // plaintext body
-        html: '<b>Thank You</b>' // html body
+        to: job.email, // list of receivers
+        subject: ` New application for ${job.post} `, // Subject line
+      //  text: `Hi You Have Got a new application for ${job.post} from ${applicant.firstName} ${applicant.lastName}.
+      //         To view profile click here http://localhost:4200/jobSeeker/seeker_id=${applicant._id}`, // plaintext body
+        html: `<div> Hi You Have Got a new application for ${job.post} from ${applicant.firstName} ${applicant.lastName}
+        To view profile  <a hrf="http://localhost:4200/jobSeekerProfile/seeker_id=${applicant._id}"> click here </a> </div><br><b>Thank You</b>` // html body
     };
     
     // send mail with defined transport object
     transporter.sendMail(mailOptions, function(error, info){
         if(error){
-            return console.log(error);
+            console.log(error);
         }
         console.log('Message sent: ' + info.response);
     });

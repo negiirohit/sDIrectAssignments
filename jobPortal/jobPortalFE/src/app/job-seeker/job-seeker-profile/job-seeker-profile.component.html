@@ -1,6 +1,6 @@
 <div class="container" style="padding:50px 100px 100px 100px">
-        <div class="row" *ngIf="user" style="border: 2px solid black; border-radius: 12px; padding:20px;">
-                <div class="col-sm-6" style="border-right:3px solid rgb(144, 137, 137);  " >
+        <div  *ngIf="user" style="border: 2px solid black; border-radius: 12px; padding:20px;">
+                <div class="row" style="border-right:3px solid rgb(144, 137, 137);  " >
                         <div>
                             <h1> Personal Detail </h1>
                             <div style="padding-left:50px;">
@@ -13,24 +13,24 @@
 
                     </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="row">
                                 <h1> Profile </h1>
                                 <div style="padding-left:50px;">
                                 <div> <h3>Skills:  {{user.profile.keySkills}} </h3> </div>
                                 <div> 
                                         <h1>  Educational Details  </h1>
-                                        <div> HighSchool : {{user.profile.qualifications.HighSchool.year }} {{user.profile.qualifications.HighSchool.board }}
+                                        <h2> HighSchool : {{user.profile.qualifications.HighSchool.year }} {{user.profile.qualifications.HighSchool.board }}
                                                 {{user.profile.qualifications.HighSchool.percentage }} {{user.profile.qualifications.HighSchool.subjects }}
-                                        </div>
-                                        <div> InterMediate : {{user.profile.qualifications.InterMediate.year }} {{user.profile.qualifications.InterMediate.board }}
+                                        </h2>
+                                        <h2> InterMediate : {{user.profile.qualifications.InterMediate.year }} {{user.profile.qualifications.InterMediate.board }}
                                             {{user.profile.qualifications.InterMediate.percentage }} {{user.profile.qualifications.InterMediate.subjects }}
-                                        </div>
-                                        <div> Graduation : {{user.profile.qualifications.Graduation.year }} {{user.profile.qualifications.Graduation.university }}
+                                        </h2>
+                                        <h2> Graduation : {{user.profile.qualifications.Graduation.year }} {{user.profile.qualifications.Graduation.university }}
                                                 {{user.profile.qualifications.Graduation.percentage }} {{user.profile.qualifications.Graduation.course }}
-                                        </div>
-                                        <div> Post Graduation : {{user.profile.qualifications.PG.year }} {{user.profile.qualifications.PG.university }}
+                                        </h2>
+                                        <h2> Post Graduation : {{user.profile.qualifications.PG.year }} {{user.profile.qualifications.PG.university }}
                                                 {{user.profile.qualifications.PG.percentage }} {{user.profile.qualifications.PG.course }}
-                                        </div>
+                                        </h2>
                                 
                                 </div> 
                                 </div>
@@ -50,6 +50,7 @@
                                       <p class="card-test"> Location : {{job.location}} </p>
                                       <p class="card-text">{{job.salary}}</p>
                                       <button class="btn btn-primary stretched-link" (click)="viewJob(job._id)"> View Details </button> 
+                                
                                     </div>
                                </div>
                                 

@@ -136,3 +136,25 @@ module.exports.getProfile = (req, res, next ) => {
 }
 
 
+module.exports.removeApplication = (req, res, next) =>{
+    console.log('remove application1 ');    
+    JobSeeker.findOneAndUpdate({_id:req.user.id},{$pull : {appliedJobs : req.body.job_id}},{new : true})
+    .populate('appliedJobs')
+    .then( user => {
+            console.log('remove application ');
+            res.json({
+                success: true,
+                message: 'Feteched Succedfully',
+                data : user
+            });
+        
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(400);
+        res.json({
+             success : false,
+              message : err.message
+        }); 
+    })
+}

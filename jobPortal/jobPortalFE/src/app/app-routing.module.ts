@@ -25,7 +25,7 @@ import { CompanyJobDetailComponent } from 'src/app/job-provider/company-job-deta
     component : RegistrationComponent
   },
   {
-    path:'seekerProfile',
+    path:'seeker/seekerProfile',
     component : JobSeekerProfileComponent
   },
   {
