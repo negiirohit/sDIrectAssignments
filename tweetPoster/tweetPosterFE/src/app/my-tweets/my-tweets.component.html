@@ -1,3 +1,24 @@
 <p>
   my-tweets works!
 </p>
+<div class="container">
+
+    <div class="row">
+        <form >
+            <div class="input-group">
+              <textarea type="text" class="form-control"  placeholder="tweet" [(ngModel)]='tweetPost' name="tweet" id="tweet">
+              </textarea>
+            </div> 
+          
+            <button (click)="postTweet()" class="btn btn-default" type="submit">Post</button>
+        </form>
+    </div>
+    
+    <div class="row" *ngIf="tweets">
+      <div> Your Tweets </div>
+      <div *ngFor="let tweet of tweets">
+          <p> {{tweet.post}}  </p>
+      </div>
+    </div>
+
+</div>

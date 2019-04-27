@@ -8,8 +8,6 @@ const Tweet = require('../models/tweet');
 
 const mongoose =require('mongoose');
 
-
-
 module.exports.register = (req,res,next) => {
     User.findOne({ handle : req.body.handle })
     .then( (user) => {
@@ -52,11 +50,9 @@ module.exports.register = (req,res,next) => {
 }
 
 module.exports.login = (req, res, next) => {
-
+    console.log(req.body);
     User.findOne({ handle : req.body.handle })
     .then((user) => {
-        if(user){
-            
             if(bcrypt.compareSync(req.body.password,user.password)){
 
                 let token = jwt.sign({id: user._id,handle: user.handle},config.secret,{ expiresIn: '24h' });
@@ -66,25 +62,16 @@ module.exports.login = (req, res, next) => {
                     message: 'Authentication successful!',
                     data : { token: token }
                 });
-
             } 
-            else {
-                res.status(401);
-                res.json({
-                    success: false,
-                    message: 'Incorrect username or password',
-                    data: null
-                });
-            }
-        }
-        else {
+            
+     
             res.status(401);
             res.json({
             success: false,
-            message: 'Authentication failed! Please check the request'
+            message: 'Incorrect username or password'
             });
 
-        }
+      
     })
     .catch((err) => {
         res.status(500);        
@@ -143,10 +130,11 @@ module.exports.getMentions = (req, res, next) => {
 
 module.exports.createTweet = (req, res, next) => {
     //Use authentication middleware before getTweets
-    req.body.handler = req.user.id;
+    req.body.tweet.handler = req.user.id;
+    console.log("tweet: "+JSON.stringify(req.body.tweet))
     Tweet.create(req.body)
     .then( tweet =>{
-
+        console.log("tweet created")
         return User.findOneAndUpdate({_id:req.user.id},{$push : { tweets : tweet._id }})
             .populate('tweets') 
             .then( user => {

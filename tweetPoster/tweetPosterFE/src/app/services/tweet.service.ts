@@ -12,11 +12,18 @@ export class TweetService {
 
 
   getTweets(){
-
+    return this.http.get<any>(baseURL+'/users/getTweets');    
   }
 
   getMentions(){
-
+    return this.http.get<any>(baseURL+'/users/getMentions');    
   }
 
+  postTweet(tweet){
+    return this.http.post<any>(baseURL+'/users/createTweet',tweet);    
+  }
+
+  getHandles(handle){
+    return this.http.get<any>(baseURL+'/users/findHandles/'+handle);    
+  }
 }

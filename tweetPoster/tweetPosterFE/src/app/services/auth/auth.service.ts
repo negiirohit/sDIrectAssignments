@@ -11,12 +11,12 @@ export class AuthService {
   constructor(private http: HttpClient,private router: Router) { }
   
   //Check if any user is logged in or not
-  checkLoggedin(){
+  loggedIn(){
     return !!localStorage.getItem('token')    
   }
   //verifyUser from backend
   isAuthenticatedUser(){
-      if(this.checkLoggedin()){
+      if(this.loggedIn()){
         let token = localStorage.getItem('token');
           // check if token is set, then...
           if (token) {
@@ -33,6 +33,7 @@ export class AuthService {
   }
   //Login User
   loginUser(user) {
+    console.log("login user: "+JSON.stringify(user));
     return this.http.post<any>(baseURL+'/users/login',user);
   }
   //Log out User

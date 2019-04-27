@@ -14,7 +14,8 @@ var User = new Schema({
         },
         handle:{
             type:String,
-            required : true            
+            required : true,
+            unique:true            
         },
         tweets: [{
             type:  Schema.Types.ObjectId, 
