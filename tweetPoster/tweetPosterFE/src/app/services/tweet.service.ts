@@ -20,10 +20,20 @@ export class TweetService {
   }
 
   postTweet(tweet){
+    console.log("tweet post service: "+tweet);
     return this.http.post<any>(baseURL+'/users/createTweet',tweet);    
   }
 
   getHandles(handle){
     return this.http.get<any>(baseURL+'/users/findHandles/'+handle);    
   }
+
+  getAllHandles(){
+    return this.http.get<any>(baseURL+'/users/findAllHandles/');        
+  }
+
+  getProfile(user_id){
+    return this.http.get<any>(baseURL+'/users/getProfile/'+user_id);
+  }
+
 }

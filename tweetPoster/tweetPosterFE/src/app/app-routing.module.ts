@@ -6,6 +6,7 @@ import { MyTweetsComponent } from 'src/app/my-tweets/my-tweets.component';
 import { MyMentionsComponent } from 'src/app/my-mentions/my-mentions.component';
 
 import { AuthGuardService } from 'src/app/services/auth/auth-guard.service';
+import { ProfileComponent } from 'src/app/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -25,7 +26,13 @@ const routes: Routes = [
     path:'user/mymentions',
     component : MyMentionsComponent,
     canActivate: [AuthGuardService]
+  },
+  {
+    path:'user/profile/:id',
+    component: ProfileComponent,
+    canActivate: [AuthGuardService]
   }
+
 ];
 
 @NgModule({

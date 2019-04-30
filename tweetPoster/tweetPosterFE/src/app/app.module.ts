@@ -17,6 +17,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from 'src/app/services/auth/auth.interceptor';
 import { HeaderComponent } from './header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+//Mention
+import { MentionModule } from 'angular-mentions';
+import { ProfileComponent } from './profile/profile.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,14 +27,16 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LoginComponent,
     MyMentionsComponent,
     MyTweetsComponent,
-    HeaderComponent
+    HeaderComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MentionModule
   ],
   providers: [AuthService,
     AuthGuardService,

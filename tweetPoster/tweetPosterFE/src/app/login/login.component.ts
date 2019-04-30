@@ -11,7 +11,7 @@ export class LoginComponent implements OnInit {
 
 
   userLoginForm : FormGroup
-  
+  loginError : string;
   constructor(private fb: FormBuilder,  private authService : AuthService, private router : Router) { 
   
   }
@@ -27,16 +27,29 @@ export class LoginComponent implements OnInit {
       handle : ['',[Validators.required,Validators.minLength(2),Validators.maxLength(25)]],
       password : ['',[Validators.required,Validators.minLength(2),Validators.maxLength(25)]],
     })
+
+    this.userLoginForm.valueChanges
+    .subscribe( data=> {
+        this.loginError='';
+    })
   }
   
 
   loginUser() {
+    this.loginError = "";
     let user = this.userLoginForm.value;
     this.authService.loginUser(user)
     .subscribe(
        res => {
-         localStorage.setItem('token',res.data.token);
-         this.router.navigate(['/user/mytweets']);
+         if(res.success){
+          console.log('login success');
+          localStorage.setItem('token',res.data.token);
+          this.router.navigate(['/user/mytweets']);
+         }
+         //console.log(res);
+         if(res.success===false){
+           this.loginError = res.message; 
+         }
     },
     err => console.log(err))
   }

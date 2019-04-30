@@ -1,9 +1,12 @@
-<div  style="padding:50px 400px 50px 400px;">
+<div class="container" style="padding:3vw 25vw 3vw 25vw;">
   <div>
       <form  [formGroup]="userRegistrationForm">
-      <h2 class="text-center">Register</h2>
+          <h2 class="text-center"> Register </h2>
       <p class="hint-text text-center">Create your account. It's free and only takes a minute.</p>
-
+          <div  class="alert alert-danger" *ngIf="registrationError">
+              {{registrationError}}
+          </div>
+          
           <div class="form-group">
             <input type="text" class="form-control"  formControlName="name"  name="name" placeholder="name" required="required">
           </div>
@@ -15,7 +18,9 @@
           <div class="form-group">
               <input type="password" class="form-control"  formControlName="password"  name="password" placeholder="Password" required="required">
           </div>
-        
+
+
+
           <div class="form-group">
               <button type="submit" class="btn btn-success btn-lg btn-block"  [disabled]="!userRegistrationForm.valid" (click)="registerUser()">Register Now</button>
           </div>
@@ -24,3 +29,30 @@
   </div>
   
   </div>
+
+
+  <!-- <div class="container" style="padding:3vw 25vw 3vw 25vw;">
+      <h2 class="text-center"> Login </h2>
+      <form class="form-horizontal" [formGroup]="userLoginForm">
+        <div class="form-group">
+          <label class="control-label " for="email">Email:</label>
+          <div >
+               <input class="form-control" type="text" formControlName="handle" placeholder="handle">              
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label col-sm-2" for="pwd">Password:</label>
+          <div >          
+            <input type="password" class="form-control" id="password" formControlName="password"  placeholder="Enter password" name="pwd">
+          </div>
+        </div>
+        <div *ngIf="loginError">
+          {{loginError}}
+        </div>
+        <div class="form-group">        
+          <div >
+            <button type="submit" class="btn btn-default" [disabled]="!userLoginForm.valid" (click)="loginUser()">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div> -->

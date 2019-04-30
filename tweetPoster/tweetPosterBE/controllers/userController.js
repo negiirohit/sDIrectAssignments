@@ -13,7 +13,7 @@ module.exports.register = (req,res,next) => {
     .then( (user) => {
             if(user) {
                     console.log("user already exists: " +user)
-                    res.status(422);
+                    //res.status(422);
                     res.json({ 
                         success : false,
                         message : 'User already exists',
@@ -40,7 +40,7 @@ module.exports.register = (req,res,next) => {
                         
     })
     .catch((err) => {
-        res.status(500);
+        //res.status(500);
         res.json({
             success : false,
             message : err.message,
@@ -53,19 +53,22 @@ module.exports.login = (req, res, next) => {
     console.log(req.body);
     User.findOne({ handle : req.body.handle })
     .then((user) => {
-            if(bcrypt.compareSync(req.body.password,user.password)){
 
-                let token = jwt.sign({id: user._id,handle: user.handle},config.secret,{ expiresIn: '24h' });
-                res.status(200);
-                res.json({
-                    success: true,
-                    message: 'Authentication successful!',
-                    data : { token: token }
-                });
-            } 
+            if(user!=null){
+                if(bcrypt.compareSync(req.body.password,user.password)){                    
+                                    let token = jwt.sign({id: user._id,handle: user.handle},config.secret,{ expiresIn: '24h' });
+                                    res.status(200);
+                                    res.json({
+                                        success: true,
+                                        message: 'Authentication successful!',
+                                        data : { token: token }
+                                    });
+                                } 
+                    
+            }
             
      
-            res.status(401);
+           // res.status(401);
             res.json({
             success: false,
             message: 'Incorrect username or password'
@@ -74,7 +77,7 @@ module.exports.login = (req, res, next) => {
       
     })
     .catch((err) => {
-        res.status(500);        
+        //res.status(500);        
         res.json({
             success : false,
             message : err.message,
@@ -85,7 +88,8 @@ module.exports.login = (req, res, next) => {
 
 module.exports.getTweets = (req, res, next) => {
     //Use authentication middleware before getTweets
-    Tweet.find({handler: req.user._id})
+    Tweet.find({handler: req.user.id})
+    .sort({_id:-1})
     .then( tweets =>{
         res.status(200);
         res.json({
@@ -95,7 +99,7 @@ module.exports.getTweets = (req, res, next) => {
         })
     })
     .catch((err) => {
-        res.status(500);        
+        //res.status(500);        
         res.json({
             success : false,
             message : err.message,
@@ -108,9 +112,13 @@ module.exports.getTweets = (req, res, next) => {
 
 module.exports.getMentions = (req, res, next) => {
     //Use authentication middleware before getTweets
+    console.log(req.user.handle);
     Tweet.find({content : { $regex: req.user.handle }})
+    .sort({_id:-1})
+    .populate('handler',{handle : 1})
     .then( tweets =>{
         res.status(200);
+        console.log("success");
         res.json({
             success: true,
             message: 'fetched tweets with mentions',
@@ -118,7 +126,8 @@ module.exports.getMentions = (req, res, next) => {
         })
     })
     .catch((err) => {
-        res.status(500);        
+        //res.status(500);    
+        console.log(err)    
         res.json({
             success : false,
             message : err.message,
@@ -130,25 +139,25 @@ module.exports.getMentions = (req, res, next) => {
 
 module.exports.createTweet = (req, res, next) => {
     //Use authentication middleware before getTweets
-    req.body.tweet.handler = req.user.id;
-    console.log("tweet: "+JSON.stringify(req.body.tweet))
+    req.body.handler = req.user.id;
+    console.log("tweet: "+JSON.stringify(req.body));
     Tweet.create(req.body)
     .then( tweet =>{
-        console.log("tweet created")
-        return User.findOneAndUpdate({_id:req.user.id},{$push : { tweets : tweet._id }})
+        console.log("tweet created" +tweet)
+        return User.findOneAndUpdate({_id:req.user.id},{$push : { tweets : tweet._id }},{password : 0 })
             .populate('tweets') 
             .then( user => {
                 res.status(200);
                 res.json({
                 success: true,
                 message: 'tweet created',
-                data: {user : user }
+                data: {user : user,createdTweet:tweet }
                 })        
                   
               } )
     })
     .catch((err) => {
-        res.status(500);        
+        //res.status(500);        
         res.json({
             success : false,
             message : err.message,
@@ -171,7 +180,28 @@ module.exports.findHandles = (req, res, next) => {
         })        
     })
     .catch((err) => {
-        res.status(500);        
+        //res.status(500);        
+        res.json({
+            success : false,
+            message : err.message,
+        }); 
+    });
+
+    
+}
+
+module.exports.findAllHandles = (req, res, next) => {
+    User.find({},{ handle : 1,_id:0 })
+    .then( handles => {
+        res.status(200);
+        res.json({
+        success: true,
+        message: 'find handles',
+        data: { handles : handles }
+        })        
+    })
+    .catch((err) => {
+        //res.status(500);        
         res.json({
             success : false,
             message : err.message,
@@ -182,3 +212,25 @@ module.exports.findHandles = (req, res, next) => {
 }
 
 
+module.exports.getProfile = (req, res, next) => {
+    console.log(req.params.handle)
+    User.findOne({handle:req.params.handle},{ password:0 })
+    .populate('tweets')
+    .then( user => {
+        res.status(200);
+        res.json({
+        success: true,
+        message: 'find handles',
+        data: { user : user }
+        })        
+    })
+    .catch((err) => {
+        //res.status(500);        
+        res.json({
+            success : false,
+            message : err.message,
+        }); 
+    });
+
+    
+}

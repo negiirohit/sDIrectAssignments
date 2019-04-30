@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class RegistrationComponent implements OnInit {
 
   userRegistrationForm : FormGroup
-  
+  registrationError : any;
   constructor(private fb: FormBuilder, private authService : AuthService, private router: Router) { 
   
   }
@@ -28,7 +28,12 @@ export class RegistrationComponent implements OnInit {
        handle : [''],
        password : ['']
     })
+    this.userRegistrationForm.valueChanges
+    .subscribe( data=> {
+        this.registrationError='';
+    })
   }
+
 
 
   registerUser()
@@ -38,7 +43,11 @@ export class RegistrationComponent implements OnInit {
     this.authService.registerUser(User)
     .subscribe( (res) => {
         if(res.success){
+          console.log('Registration success');
           this.loginUser(User);
+        }
+        else{
+          this.registrationError = res.message;
         }
          
     },err => {
@@ -51,6 +60,7 @@ export class RegistrationComponent implements OnInit {
    this.authService.loginUser(user)
    .subscribe(
      res => {
+       console.log('login success');      
        localStorage.setItem('token',res.data.token);
        this.router.navigate(['/user/mytweets']);
      },

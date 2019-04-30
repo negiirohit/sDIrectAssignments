@@ -8,7 +8,7 @@ var Tweet = new Schema({
         type: String,
         required : true
     },
-    handeler : {
+    handler : {
             type:  Schema.Types.ObjectId, 
             ref : 'User'
     }

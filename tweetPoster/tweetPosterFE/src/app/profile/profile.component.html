@@ -1,0 +1,17 @@
+<div class="container" *ngIf="profile">
+    <div class=row>
+        <h1>User : @{{profile.handle}}</h1>
+    </div>
+
+    <div class="row">
+        <div *ngFor="let tweet of profile.tweets">
+            <div> <p>{{tweet.content}} <br>
+                   <span>  </span>
+                  <span >- {{tweet.createdAt | date :'short'}} </span>
+                  </p>  
+                  
+            </div>
+        </div>
+    </div>
+
+</div>

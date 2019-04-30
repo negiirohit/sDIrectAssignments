@@ -13,28 +13,19 @@ export class MyMentionsComponent implements OnInit {
   constructor(private tweetService: TweetService) { }
 
 
-  tweets : any;
+  mentionedTweets : any;
   ngOnInit() {
-    this.fetchTweets();
+    this.fetchMentionedTweets();
   }
 
-  fetchTweets(){
-      this.tweetService.getTweets()
+  fetchMentionedTweets(){
+      this.tweetService.getMentions()
       .subscribe(res => {
-        this.tweets= res.data.tweets;
+        if(res.success){
+          console.log("Fetch mentioned tweet success ");
+          this.mentionedTweets= res.data.tweets;          
+        }
+        console.log(res);     
       } )
   }
-
-
-  postTweet(){
-    let tweet: any;
-    this.tweetService.postTweet(tweet)
-    .subscribe( res => {
-      if(res.success){
-          this.fetchTweets();
-      }
-    })
-  }
-
-
 }
