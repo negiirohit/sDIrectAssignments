@@ -2,12 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { TweetService } from 'src/app/services/tweet.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { URL } from 'url';
 
+let url : string = './my-tweets.component.html';
 
+//let v = 'a';
 @Component({
   selector: 'app-my-tweets',
+  //templateUrl: url,
+  //templateUrl:`./my-tweets.component.html?v=`+`${new Date().getTime()}`,
   templateUrl: './my-tweets.component.html',
-  styleUrls: ['./my-tweets.component.css']
+  styleUrls: [`./my-tweets.component.css?v=${new Date().getTime()}`]
 })
 export class MyTweetsComponent implements OnInit {
   tweetPost : any;
@@ -31,7 +36,6 @@ export class MyTweetsComponent implements OnInit {
   ngOnInit() {
     this.fetchTweets();
     this.input = <HTMLInputElement>document.getElementById('tweet');  
-  
   }
 
   //(change)="valuechange('event')" working but....
@@ -91,6 +95,16 @@ export class MyTweetsComponent implements OnInit {
   })
   }
 
+//Fetch all the tweets by User
+  fetchTweets(){
+    this.tweetService.getTweets()
+    .subscribe(res => {
+      console.log('Fetch Tweet Success ')
+      this.tweets= res.data.tweets;
+     // this.updateMentions();      
+    } )
+}
+
 /*
 //add anchor tags to the mentioned handels
 updateTweet(){
@@ -148,27 +162,26 @@ updateTweet(){
 */
 
 //update mentions in tweet with link to profils
- updateMentions(){
+updateMentions(){
   for(let i in this.tweets){
       let text = this.tweets[i].content;
       let regex = /[@].+/g;
       let found = text.split(' ')  
       let flag : boolean = false;              
       for(let i in found){
-          console.log(1);
           if(found[i].match(regex)){
               let handle = found[i].substring(1,found[i].length);
               flag=true;
-              let anchorString = '<strong> <a class="test" (click)="viewProfile()" style="color:black">'+handle+'</a> <strong>'
+              let anchorString = '<strong> <a class="test"  [routerLink]="/user/profile/'+handle+'" style="color:black">'+handle+'</a> </strong>'
+              console.log(anchorString);
               text = text.replace(found[i],anchorString);
-              console.log(2);
             }
       
       
       }
 
       if(flag){
-         this.tweets[i].content = '<p>'+text+'</p>'
+         this.tweets[i].content = ' <p>'+text+'</p> '
          //this.sanitizer.bypassSecurityTrustHtml('<p>'+text+'</p>');
          setTimeout( ()=>{
           this.addEvent();
@@ -177,7 +190,7 @@ updateTweet(){
   }    
   
     setTimeout( ()=>{
-     this.addEvent();
+     //this.addEvent();
     },100);   
  // this.addEvent();    
 }    
@@ -213,14 +226,13 @@ updateTweet(){
   }
 */
 
-  fetchTweets(){
-    this.tweetService.getTweets()
-    .subscribe(res => {
-      console.log('Fetch Tweet Success ')
-      this.tweets= res.data.tweets;
-      this.updateMentions();      
-    } )
+viewProfile(){
+  console.log("ViewProfile Called");
 }
+
+
+
+
 
 
 postTweet(){

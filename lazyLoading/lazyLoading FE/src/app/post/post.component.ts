@@ -9,8 +9,9 @@ import { baseURL } from '../shared/baseurl';
 
 @Component({
   selector: 'app-post',
-  templateUrl: './post.component.html',
-  styleUrls: ['./post.component.css']
+  //`./app/component/stuff/component.html?v=${new Date().getTime()}`
+  templateUrl: `./post.component.html?v=${new Date().getTime()}`,
+  styleUrls: [`./post.component.cssv=${new Date().getTime()}`]
 })
 export class PostComponent implements OnInit {
   imgURL = baseURL;

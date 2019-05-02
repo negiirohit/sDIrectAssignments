@@ -1,6 +1,8 @@
 <p>
   my-tweets works!
 </p>
+
+<a href="https://www.w3schools.com/html?v=as"> html </a>
 <div [innerHtml]="htmlData"> </div>
 <div class="container"  style="padding:3vw 25vw 3vw 25vw;">
 
@@ -30,7 +32,7 @@
       <div *ngFor="let tweet of tweets" style="border: solid 2px rgb(212, 219, 219); width:30vw; margin-bottom:10px">
           <div class="tweet-content"> 
                 <!-- <p>{{tweet.content}} <br>  </p>  -->
-                    <div [innerHtml]="tweet.content"> </div>
+                    <div [innerHtml]="tweet.content|linkhandle"> </div>
                 <p class="text-center">-{{tweet.createdAt | date :'short'}} </p>
                
                 

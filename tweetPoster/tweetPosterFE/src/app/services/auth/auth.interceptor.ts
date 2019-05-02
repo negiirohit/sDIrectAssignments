@@ -21,6 +21,15 @@ export class AuthInterceptor {
             Authorization: `Bearer ${this.getToken()}`
         }
         });
+
+
+
+        if(request.method === 'POST'){
+            request = request.clone({
+            headers : request.headers.set('Content-Type', 'application/json')
+            });
+            }
+
         return next.handle(request);
     }
 }

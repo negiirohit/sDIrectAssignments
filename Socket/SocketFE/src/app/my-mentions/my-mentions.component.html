@@ -1,0 +1,13 @@
+<p>
+  my-mentions works!
+</p>
+<div  class="container" style="padding:3vw 25vw 3vw 25vw;">
+<div class="row" *ngIf="mentionedTweets">
+  <div> Mentioned Tweets </div>
+  <div *ngFor="let tweet of mentionedTweets">
+      <p> {{tweet.content}}  </p>
+      <p>  <a  [routerLink]="['/user/profile',tweet.handler.handle]">{{tweet.handler.handle}}</a></p>
+      <p> --- {{tweet.createdAt | date :'short'}} </p>      
+  </div>
+</div>
+</div>
