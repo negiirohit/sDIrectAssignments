@@ -71,8 +71,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors());
-app.use('/', indexRouter);
-app.use('/products', productRouter);
+// app.use('/', indexRouter);
+app.use('/', productRouter);
 
 app.get('/swagger.json', function(req, res) {
   res.setHeader('Content-Type', 'application/json');

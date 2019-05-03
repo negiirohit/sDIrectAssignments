@@ -5,7 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 
-
+var swaggerJSDoc = require('swagger-jsdoc');
 
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -35,6 +35,28 @@ connect.then((db) => {
 //express application
 var app = express();
 
+// swagger definition
+var swaggerDefinition = {
+  info: {
+    title: 'Node Swagger API',
+    version: '1.0.0',
+    description: 'Demonstrating how to describe a RESTful API with Swagger',
+  },
+  host: 'localhost:3000',
+  basePath: '/',
+};
+
+// options for the swagger docs
+var options = {
+  // import swaggerDefinitions
+  swaggerDefinition: swaggerDefinition,
+  // path to the API docs
+  apis: ['./routes/*.js'],
+};
+
+// initialize swagger-jsdoc
+var swaggerSpec = swaggerJSDoc(options);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -57,6 +79,12 @@ app.use(cors());
 app.use('/', indexRouter);
 app.use('/users',userRouter);
 app.use('/lawns',lawnRouter);
+// serve swagger
+app.get('/swagger.json', function(req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -29,6 +29,7 @@ module.exports.verifyToken = (req, res, next) => {
     });
   } else {
     console.log("did not get any token")
+    res.statusCode(400);
     return res.json({
       success: false,
       message: 'Auth token is not supplied'
