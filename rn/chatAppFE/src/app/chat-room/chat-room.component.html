@@ -3,13 +3,25 @@
 </p>
 <div id="mario-chat">
   <h2>{{ username }}</h2>
-  <span><i *ngIf="isTyping" class="isTyping">typing...</i></span>
-  <div id="chat-window">
+ 
+  <div id="chat-window" style="margin:5vw 25vw 5vw;">
       <div *ngFor="let item of messageArray">
-          <p [class.userMessage] = "item.user == userService.getLoggedInUser().username" [class.secUserMessage]="item.user != userService.getLoggedInUser().username">{{ item.message }}</p>                
+          
+          <div *ngIf="item.from==userName;else other" id="currentuser">
+              <p class="msg">{{ item.message }}</p>    
+              <p class="user">{{item.from}}</p>    
+          </div>    
+          <ng-template #other >
+            <div id="otheruser">
+              <p class="msg">{{ item.message }}</p>    
+              <p class="user">{{item.from}}</p>
+            </div>  
+          </ng-template>    
       </div>
-      <!-- <div id="feedback"></div> -->
-  </div>
+  <p *ngIf="isTyping" class="isTyping">{{userNameTo}} is typing...</p>
   <input (keypress)="typing()" [(ngModel)]="message" name="message" type="text" placeholder="Message" />            
   <button id="send" (click)="sendMessage()">Send</button>    
+  
+      <!-- <div id="feedback"></div> -->
+  </div>
 </div>

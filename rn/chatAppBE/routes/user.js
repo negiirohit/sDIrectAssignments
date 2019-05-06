@@ -5,47 +5,130 @@ const auth = require('../auth/authenticate')
 
 
 
-
+/**
+ * @swagger 
+ * components:
+ * securitySchemes:
+ *   bearerAuth:            # arbitrary name for the security scheme
+ *     type: http
+ *     scheme: bearer
+ *     bearerFormat: JWT  
+ * 
+ * 
+ * definitions:
+ *   User:
+ *     properties:
+ *       name:
+ *         type: string
+ *       email:
+ *         type: email
+ *       paswword:
+ *         type: password
+ *  
+ */     
+/**
+ * @swagger
+ * /users/login:
+ *   post:
+ *     tags:
+ *       - user
+ *     description: login user
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: user
+ *         description: user login
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref:'#/definitions/User'
+ *     responses:
+ *       200:
+ *         description: Login succesfully
+ *       401:
+ *         description: User not found
+ *       403:
+ *         description: Username and password don't match
+ */
 router.post('/login',userController.login);
+
+/**
+ * @swagger
+ * /users/register:
+ *   post:
+ *     tags:
+ *       - user
+ *     description: register user
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: user
+ *         description: user resgistration
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref:'#/definitions/User'
+ *     responses:
+ *       200:
+ *         description:  succesfully
+ *      
+ */
 router.post('/register',userController.register);
 
 /**
  * @swagger
- * definitions:
- *   users:
- *     properties:
- *       name:
- *         type: string
- *       password:
- *         type: string
- *       email:
- *         type: string
- */
-/**
- * @swagger
- * /users:
+ * /users/getUsers/:
  *   get:
  *     tags:
- *       - Users
- *     description: Returns all users
+ *       - get all Users 
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: Authorization
+ *         in: header
+ *         required: true
+ *         type: string
+ *     description: get all users except requesting users
  *     produces:
  *       - application/json
  *     responses:
  *       200:
- *         description: An array of users
- *         schema:
- *           $ref: '#/definitions/users'
+ *         description: fetched all users
+ *       400:
+ *         description: Not Authorised
  */
+router.get('/getUsers',auth.verifyToken,userController.getUsers);
 
 
-router.get('/getUsers',userController.getUsers);
-/*
-router.get('/getTweets',auth.verifyToken,userController.getTweets);
-router.get('/getMentions',auth.verifyToken,userController.getMentions);
-router.post('/createTweet',auth.verifyToken,userController.createTweet);
-router.get('/findHandles/:handle',userController.findHandles);
-router.get('/findAllHandles/',userController.findAllHandles);
-router.get('/getProfile/:handle',userController.getProfile);
-*/
-//findAllHandles
+/**
+ * @swagger
+ * /users/isonline/{id}:
+ *   get:
+ *     tags:
+ *       - check if user is online or not 
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - name: Authorization
+ *         in: header
+ *         required: true
+ *         type: string
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         type: string
+ *  
+ *     description: get the status of user i.e, online or ofline
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: checked user
+ *       400:
+ *         description: Not Authorised
+ */
+router.get('/isOnline/:id',auth.verifyToken,userController.checkUserOnline);
+
 module.exports = router;
+
+

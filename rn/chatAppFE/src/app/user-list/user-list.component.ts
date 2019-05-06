@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SocketService } from 'src/app/services/socket.service';
 
 import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
@@ -10,11 +11,13 @@ import { Router } from '@angular/router';
 export class UserListComponent implements OnInit {
 
   users : any;
+  onlineUsers: any;
 
-  constructor(private userService : UserService, private router : Router) { }
+  constructor(private userService : UserService, private router : Router,private socketService : SocketService ) { }
   
   ngOnInit() {
       this.getAllUsers();
+      this.socketService.goOnline(); 
   }
   
   getAllUsers(){
@@ -22,6 +25,7 @@ export class UserListComponent implements OnInit {
       .subscribe( (res) => {
           if(res.success){
             this.users = res.data.users;
+            console.log(this.users);
           }
       })
   }
@@ -30,5 +34,6 @@ export class UserListComponent implements OnInit {
     console.log(user);
     this.router.navigate(['user/chatroom'], { queryParams: { name: user.name, id: user._id} });
   }
+
 
 }

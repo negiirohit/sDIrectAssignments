@@ -12,7 +12,9 @@
       <tbody>
         <tr *ngFor="let user of users">
           <td>{{ user.name }}</td>
-          <td><button class="btn btn-success button" (click)="goToChatRoom(user)" >Chat</button></td>
+          <td><button class="btn btn-success button" (click)="goToChatRoom(user)" >Chat</button>
+              <span *ngIf=user.online> online </span>
+          </td>
         </tr>   
       </tbody>
     </table>

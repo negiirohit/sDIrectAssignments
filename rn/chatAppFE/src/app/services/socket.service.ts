@@ -16,18 +16,25 @@ export class SocketService {
     this.socket = io(baseURL);
    }
 
-  joinRoom(data) {
-    console.log(data);
-    this.socket.emit('join', data);
-  }
 
-  sendMessage(data) {
-    this.socket.emit('message', data);
-  }
+   goOnline(){
+     this.socket.emit('goOnline',localStorage.getItem('id'));
+   }
 
+   goOfline(){
+     this.socket.emit('goOffline');
+   }
+
+   
+   joinRoom(data) {
+     this.socket.emit('join', data);
+   }
+  
+   // On new Message to chat room
   newMessageReceived() {
-    const observable = new Observable<{ user: String, message: String}>(observer => {
-      this.socket.on('new message', (data) => {
+    const observable = new Observable<any>(observer => {
+      this.socket.on('messageReceived', (data) => {
+        console.log("new message received");
         observer.next(data);
       });
       return () => {
@@ -42,7 +49,7 @@ export class SocketService {
   }
 
   receivedTyping() {
-    const observable = new Observable<{ isTyping: boolean}>(observer => {
+    const observable = new Observable<any>(observer => {
       this.socket.on('typing', (data) => {
         observer.next(data);
       });
@@ -51,6 +58,10 @@ export class SocketService {
       };
     });
     return observable;
+}
+
+sendMessage(data) {
+  this.socket.emit('message', data);
 }
 
 }

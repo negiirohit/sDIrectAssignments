@@ -16,8 +16,6 @@ module.exports.verifyToken = (req, res, next) => {
           message: 'Token is not valid'
         });
       } else {
-        console.log("authentication succesful");
-        //console.log("decoded user: "+JSON.stringify(user))
         req.user = user;
         next();
       }
@@ -30,3 +28,5 @@ module.exports.verifyToken = (req, res, next) => {
     });
   }
 };
+
+

@@ -4,14 +4,8 @@ const User = require('./user');
 
 
 const MsgSchema = new Schema({
-    to : {
-        type: [Schema.Types.ObjectId ],
-        ref : 'User'
-    },
-    from :{
-        type: [Schema.Types.ObjectId ],
-        ref : 'User' 
-    },
+    to : String,
+    from : String,
     message : {
         type : String,
         required : true
@@ -21,6 +15,7 @@ const MsgSchema = new Schema({
 })
 
 var Chat = new Schema({
+    chatRoom : String,
     members : {
        type: [Schema.Types.ObjectId ],
        ref : 'User'

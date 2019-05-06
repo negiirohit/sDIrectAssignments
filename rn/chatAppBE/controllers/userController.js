@@ -52,10 +52,10 @@ module.exports.register = (req,res,next) => {
 }
 
 module.exports.login = (req, res, next) => {
-    //console.log(io.message);
-    User.findOne({ handle : req.body.handle })
+    //console.log(req.body);
+    User.findOne({ email:req.body.email })
     .then((user) => {
-
+            //console.log(JSON.stringify(user));
             if(user!=null){
                 if(bcrypt.compareSync(req.body.password,user.password)){                    
                                     let token = jwt.sign({id: user._id,handle: user.handle},config.secret,{ expiresIn: '24h' });
@@ -66,13 +66,20 @@ module.exports.login = (req, res, next) => {
                                         data : { token: token ,user : user}
                                     });
                                 } 
+                                else{
+                                    // res.status(401);
+                                     res.json({
+                                     success: false,
+                                     message: 'Incorrect username or password'
+                                     });
+                                 }
                     
             }
-            else{
+            else {
            // res.status(401);
             res.json({
             success: false,
-            message: 'Incorrect username or password'
+            message: 'No user found'
             });
         }
 
@@ -88,7 +95,8 @@ module.exports.login = (req, res, next) => {
 }
 
 module.exports.getUsers = (req, res, next ) => {
-    User.find({ })
+    //console.log(req.user.id);
+    User.find({ _id : { $ne : req.user.id  } })
     .then((users) => {
             res.json({
                 success: true,
@@ -104,3 +112,59 @@ module.exports.getUsers = (req, res, next ) => {
         }); 
     });
 }
+
+module.exports.checkUserOnline = (req,res,next) => {
+
+    User.findById(req.params.id)
+    .then(user => {
+        if(user.online){
+            res.json({
+                success: true,
+                message: 'Checked User',
+                data : {"online":user.online }
+            });
+        }
+    } )
+
+}
+
+
+
+//Functions for socket
+module.exports.goOnline = (user_id,socket_id) =>{
+    User.findByIdAndUpdate({ _id : user_id },{online:true,Socket_id:socket_id})
+    .then((user) => {
+        return true;
+    })
+    .catch((err) => {
+        console.log(err);
+        return false;
+    });
+}  
+
+//Functions for socket
+module.exports.goOffline = (socket_id) =>{
+    User.findOneAndUpdate({Socket_id:socket_id},{online:false})
+    .then((user) => {
+        return true;
+    })
+    .catch((err) => {
+        console.log(err);
+        return false;
+    });
+}  
+
+module.exports.checkUserOnlineSocket = (id) => {
+        console.log("id "+id)
+        User.findById(id)
+        .then(user => {
+                console.log(user);
+                if(user.online==true){
+                    console.log(true);
+                    return true;                    
+                }
+                else 
+                    return false;
+        })
+    
+    }

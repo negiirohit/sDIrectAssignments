@@ -5,13 +5,19 @@ const socket = require('socket.io');
 
 //require swagger
 var swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
 const userRouter = require('./routes/user');
+const userController = require('./controllers/userController');
+const chatRouter = require('./routes/chat');
+
+
 const config = require('./config/config');
 const mongoose = require('mongoose');
 const cors = require('cors');
 //routes
 const User = require('./models/user');
+const Chat = require('./models/chat');
 const http = require('http');
 
 
@@ -25,8 +31,8 @@ const connect = mongoose.connect(url, {
 
 
 connect.then((db) => {
-    console.log("Connected correctly to server");
-}, (err) => { console.log(err); });
+    //console.log("Connected correctly to server");
+}, (err) => { console.log("db connection error "+err); });
 
 
 const app = express();
@@ -58,53 +64,87 @@ app.use(bodyParser.json());
 
 app.use(cors());
 app.use('/users',userRouter);
+app.use('/chats',chatRouter);
 // serve swagger
 app.get('/swagger.json', function(req, res) {
     res.setHeader('Content-Type', 'application/json');
     res.send(swaggerSpec);
   });
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 var server = http.Server(app);
 let socketIO = require('socket.io');
 let io = socketIO(server);
 
 
-// io.message = "testing";
-//Socket
+//Socket Configuration
 io.on('connection', (socket) => {
-    console.log("connected to socket")
+    
+    console.log("new user connected");    
 
-    socket.on('join', (data) => {
-        console.log(data);
-        socket.join(data.room);
-        console.log("room joined")
-        //  chatRooms.find({}).toArray((err, rooms) => {
-        //      if(err){
-        //          console.log(err);
-        //          return false;
-        //      }
-        //      count = 0;
-        //      rooms.forEach((room) => {
-        //          if(room.name == data.room){
-        //              count++;
-        //          }
-        //      });
-        //      if(count == 0) {
-        //          chatRooms.insert({ name: data.room, messages: [] }); 
-        //      }
-        // });
+    socket.on('join', function( data) {
+
+    socket.join(data.room,()=>{
+        Chat.findOneAndUpdate({chatRoom : data.room},{})
+        .then( room => {
+            if(room==null)
+                Chat.create({chatRoom : data.room})
+                .then( room=>{
+                    console.log("chat room created succesfuly");
+                } )
+        } )
     });
 
+    })
+
+    socket.on('goOnline', function(id){
+        //console.log(id);
+        userController.goOnline(id,socket.id);
+    });
+
+
+    socket.on('goOffline', function(id){ 
+        userController.goOffline(socket.id);
+       // socket.broadcast('userOfline',id);
+    });
+
+
+    socket.on('disconnect', function(){    
+        console.log("disconnect");    
+       //socket.broadcast('userOfline',socket.id);
+        userController.goOffline(socket.id);        
+    });
+
+
+
+
     socket.on('message', (data) => {
-        io.in(data.room).emit('new message', {user: data.user, message: data.message});
-        chatRooms.update({name: data.room}, { $push: { messages: { user: data.user, message: data.message } } }, (err, res) => {
-            if(err) {
-                console.log(err);
-                return false;
-            }
-            console.log("Document updated");
-        });
+        io.in(data.room).emit('messageReceived', {from: data.userNameFrom, message: data.message});
+        Chat.findOneAndUpdate({chatRoom : data.room},{$push:{messages: {from:data.userNameFrom, message: data.message, to: data.userNameTo } } })
+        .then( room =>{
+            console.log(room);
+        } )
+        User.findById(data.userIdTo)
+        .then(user => {
+                let msg ;
+                if(user.online==false){ 
+                    if(data.message.indexOf('hi')>=0||data.message.indexOf('hello')>=0||data.message.indexOf('hey')>=0){
+                        msg = 'hi';
+                        console.log(msg);
+                    }
+                    else if(data.message.indexOf('how')>=0){
+                        msg = 'fine'
+                    }
+                    else{
+                        msg = 'User is currently ofline will connect you shortly'
+                    }            
+                 
+                    io.in(data.room).emit('messageReceived', {from: 'Auto Generated message', message: msg});                                               
+                }           
+        })
+        
+
     });
 
     socket.on('typing', (data) => {
@@ -113,8 +153,6 @@ io.on('connection', (socket) => {
 
 
 });
-
-
 
 
 server.listen(3000, () => {

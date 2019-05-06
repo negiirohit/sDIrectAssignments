@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { baseURL } from 'src/app/shared/baserurl';
 import { Router } from '@angular/router';
+import { SocketService } from 'src/app/services/socket.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  
 
-  constructor(private http: HttpClient,private router: Router) { }
+  constructor(private http: HttpClient,private router: Router,private socketService: SocketService) { }
   
   //Check if any user is logged in or not
   loggedIn(){
@@ -33,13 +35,16 @@ export class AuthService {
   }
   //Login User
   loginUser(user) {
+    //this.socketService.();
     console.log("login user: "+JSON.stringify(user));
     return this.http.post<any>(baseURL+'/users/login',user);
   }
   //Log out User
   logOutUser() {
+    this.socketService.goOfline();
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+    localStorage.removeItem('id');
     this.router.navigate(['/login']);
   }  
 }

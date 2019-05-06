@@ -18,8 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //Mention
 import { MentionModule } from 'angular-mentions';
 
-//add pipes
-import { LinkHandlePipe } from 'src/app/pipes/link-handle.pipe';
+
 import { UserListComponent } from './user-list/user-list.component';
 import { ChatRoomComponent } from './chat-room/chat-room.component';
 import { SocketService } from 'src/app/services/socket.service';
@@ -31,7 +30,6 @@ import { UserService } from 'src/app/services/user.service';
     RegistrationComponent,
     LoginComponent,
     HeaderComponent,
-    LinkHandlePipe,
     UserListComponent,
     ChatRoomComponent
   ],

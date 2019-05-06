@@ -14,9 +14,6 @@ getUsers() {
     return this.http.get<any>(baseURL+'/users/getUsers');    
 }
 
-getChatRoomsChat(chatRoom) {
-  return this.http.get<any>(baseURL+'/users/getUsers/'+chatRoom);
-}
 
 getLoggedInUser(){
   return localStorage.getItem('user');
@@ -26,12 +23,24 @@ getLoggedInUserId(){
   return localStorage.getItem('id');
 }
 
-getChatRoom(user){
-  return this.http.get<any>(baseURL+'/chat/findRoom/'+user.id)
-}
-
 createChatRoom(user){
   return this.http.post<any>(baseURL+'/chat/createRoom/',user.id)
+}
+
+checkOnline(id){
+  this.http.get<any>(baseURL+'/users/isOnline/'+id).subscribe( res =>{
+    if(res.online){
+      return true;  
+    }
+    return false;    
+  } )
+}
+
+
+getChatMessages(chatRoom){
+  //router.get('/getChatMessages/:chatRoom',chatController.getChatMessgaes);
+   return this.http.get<any>(baseURL+'/chats/getChatMessages/'+chatRoom);    
+
 }
 
 }
