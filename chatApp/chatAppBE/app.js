@@ -143,7 +143,7 @@ io.on('connection', (socket) => {
                     else{
                         msg = 'User is currently ofline '
                     }            
-                    console.log(msg);
+                   // console.log(msg);
                     io.in(data.room).emit('messageReceived', {from: 'Auto Generated message', message: msg});                                               
                 }           
         })
