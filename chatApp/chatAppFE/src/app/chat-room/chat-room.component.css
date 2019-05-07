@@ -1,0 +1,45 @@
+#currentuser{
+    background-color: rgb(228, 238, 228);
+    /*text-align: right;
+     margin-left : 20%; */
+
+    border-radius: 10px;
+    padding-left:60%; 
+}
+
+
+
+#otheruser{
+        background-color: rgb(233, 224, 232);
+       /* text-align: left;
+        margin-right : 20%; */
+        border-radius: 10px;
+        padding-left:20px;
+    }
+#currentuser > span{
+    text-align: right;
+    padding-left:0%; 
+    
+}
+
+.dot {
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+.center {
+    margin: auto;
+    width: 60%;
+    border: 3px solid rgb(169, 172, 165);
+    border-radius:10px;
+    padding: 10px;
+}
+
+
+.msgBox {
+    /*text-align: right;
+     margin-left : 20%; */
+
+}
