@@ -25,6 +25,10 @@ const MsgSchema = new Schema({
         type : String,
         required : true
     },
+    image :{
+        img: 
+        { data: Buffer, contentType: String }
+    },
     messageStatus :{
             status : String,
             time : { type : Date, default: Date.now }

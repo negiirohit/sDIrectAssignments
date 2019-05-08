@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { SocketService } from '../services/socket.service';
-import { windowWhen } from 'rxjs/internal/operators/windowWhen';
+
+import { UploadComponent } from 'src/app/upload/upload.component';
+//Dialog 
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
   selector: 'app-chat-room',
@@ -34,7 +37,7 @@ export class ChatRoomComponent implements OnInit {
   messageStatus : string;
 
   constructor(private route : ActivatedRoute, private socketService : SocketService, 
-              private userService : UserService, private router : Router) {
+              private userService : UserService, private router : Router,private dialog: MatDialog) {
 
       //Observable for receiving new message
       this.socketService.newMessageReceived().subscribe(data => {
@@ -127,6 +130,24 @@ export class ChatRoomComponent implements OnInit {
   markRead(){
     let data = { userNameTo:this.userNameTo, userIdTo:this.userIdTo, room: this.chatRoom, userNameFrom: this.userName} 
     this.socketService.markRead(data);
+  }
+
+
+  //Multimedia upload Dialog
+  uploadMedia(  ){
+
+    let data = { userNameTo:this.userNameTo, userIdTo:this.userIdTo, room: this.chatRoom, userNameFrom: this.userName} 
+    const dialogRef = this.dialog.open(UploadComponent, {
+      width: '75vw',
+      height:'100vw',
+      data: data,
+     disableClose: true 
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+      this.getChatMessages(); 
+    });
   }
   
 }

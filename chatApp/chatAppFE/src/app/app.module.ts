@@ -22,6 +22,21 @@ import { UserListComponent } from './user-list/user-list.component';
 import { ChatRoomComponent } from './chat-room/chat-room.component';
 import { SocketService } from 'src/app/services/socket.service';
 import { UserService } from 'src/app/services/user.service';
+import { UploadComponent } from './upload/upload.component';
+
+
+//matdialog module
+import { MatDialogModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+//FileUpload
+import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
+
+//Angular Bootstrap
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+
+
+
 
 @NgModule({
   declarations: [
@@ -30,7 +45,10 @@ import { UserService } from 'src/app/services/user.service';
     LoginComponent,
     HeaderComponent,
     UserListComponent,
-    ChatRoomComponent
+    ChatRoomComponent,
+    UploadComponent,
+    FileSelectDirective,
+    FileDropDirective
   ],
   imports: [
     BrowserModule,
@@ -38,6 +56,8 @@ import { UserService } from 'src/app/services/user.service';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    MatDialogModule,
+    BrowserAnimationsModule
   ],
   providers: [AuthService,
     SocketService,
@@ -48,6 +68,7 @@ import { UserService } from 'src/app/services/user.service';
       useClass : AuthInterceptor,
       multi: true
     }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [UploadComponent]
 })
 export class AppModule { }
