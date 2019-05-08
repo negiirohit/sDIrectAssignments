@@ -11,6 +11,7 @@ import { FileUploadModule } from "ng2-file-upload";
 
 // Socket
 import { SocketService } from '../services/socket.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-upload',
@@ -19,143 +20,68 @@ import { SocketService } from '../services/socket.service';
 })
 export class UploadComponent implements OnInit {
 
-  err: boolean = false;
-  errMessage = "";
-  uploadPrecentage: number = 0;
-  uploadForm: FormGroup;
- 
-  //Accepted File Types
-  acceptedTypes : any = ["image/jpg", "image/jpeg", "image/png"]
- 
-  public imagePath;
-  imageURLs: any ;
-  public message: string;
-  uploadedImages : any ;
-  uploadedImagesURL : any ;
+  formGroup:any;
+  files :any = [];
+  error : any ;
 
-  //itemAlias for backend file match
-  public uploader: FileUploader = new FileUploader({
-    isHTML5: true,
-    itemAlias: "images",
-  });
+  acceptedTypes : any = ["image/jpg", "image/jpeg", "image/png"];
 
 
-  constructor(private socketService : SocketService,public dialogRef: MatDialogRef<UploadComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
-   private fb: FormBuilder, private http: HttpClient) { }
+  constructor(private fb: FormBuilder,  private cd: ChangeDetectorRef) {}
 
-  ngOnInit() {
-    console.log(this.data);
-    this.uploadForm = this.fb.group({
-      inputImage: [null, null],
-      type: [null, Validators.compose([Validators.required])]
-    });
+  ngOnInit(){
+      this.  formGroup = this.fb.group({
+        file: [null, Validators.required]
+      });
   }
 
 
-  //update event on selecting images
-  update($event) {
-    this.uploadPrecentage = 0;
-    this.imageURLs=[];
-    this.err = false;
-    //console.log(event);
+  onFileChange(event) {
+  
+    if(event.target.files && event.target.files.length) {
+        let length = event.target.files.length;
 
-    // Check for number of files
-    if (this.uploader.queue.length > 10  ) {
-      this.err = true;
-      this.errMessage = "Can't send More than 10 files"
-      this.uploader.clearQueue();
-      return;
-    }
-
-
-    //Check for types of Selected Files And Size 
-    for(let i = 0; i < this.uploader.queue.length; i++) {
-      
-        let fileItem = this.uploader.queue[i]._file;
-        console.log(fileItem);
-
-        if (this.acceptedTypes.indexOf(fileItem.type) < 0) {
-          this.err = true;
-          this.errMessage = "Only jpg/png files are supported"
-          this.uploader.clearQueue();
+        if(length > 10){
+          this.error="can't upload more than 10 files at a time";
           return;
-        }
+         }
 
+        for(let i=0;i<length;i++){
 
-      if (fileItem.size > 10000000) {
-        this.err = true;
-        this.errMessage = "File Size can't exceed up to 1 MB"
-        this.uploader.clearQueue();
-        return;
-      }
+          let file = event.target.files[i];
+          if (this.acceptedTypes.indexOf(file.type) < 0) {
+            this.error = "Only jpg/png files are supported"
+            this.files = [];
+            return;
+          }
+          if (file.size > 10000000) {
+            this.error = "File Size can't exceed up to 1 MB"
+            this.files = [];    
+            return;
+          }
+          let reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = (result) => {
+              this.files.push(reader.result);
+          }
+          this.cd.markForCheck();
+        };
+    } 
+     console.log(this.files);
+  } 
 
-      this.preview(fileItem);
-
-
-    //   var reader = new FileReader();
-    //   reader.readAsDataURL(fileItem);
-    //     reader.onload = (_event) => {
-    //  //   this.uploader.queue[i].url =reader.result;
-    //     console.log("uploader quews: " +this.uploader.queue[i])
-    //   }
-     
-    }
+  onSubmit(){
+    console.log(JSON.stringify(this.files))
   }
 
-
-  //preview images before upload
-preview(file) {
-    console.log("preview");
-      var reader = new FileReader();
-      this.imagePath = file;
-      reader.readAsDataURL(file);
-        reader.onload = (_event) => {
-        console.log(reader);
-        let  data = {
-          'name':file.name,
-          'file':reader.result
-        }
-        this.imageURLs.push(data);
-        console.log("file created");
-      }      
-}
-
-      
-//remove image from uploader queue
-removeImage( index) {
-  //console.log("remove image id"+image_id);
-  this.imageURLs.splice(index , 1);
-  return;
-}
-
-
-
-send() {
-  this.uploadedImagesURL = [];
-  
-  let data = new FormData();
-  for (let j = 0; j < this.uploader.queue.length; j++) {
-    let fileItem = this.uploader.queue[j]._file;
-    data.append('images', fileItem);
-    data.append('fileSeq', 'seq' + j);
-    data.append('dataType', this.uploadForm.controls.type.value);
-    //this.preview(fileItem);
+  remove(index){
+    this.files.splice(index,1);
   }
 
-  this.uploadFile(data);
-  console.log(data);
-  this.uploader.clearQueue();
-}
+  //Compress files before sending
+  compress(){
 
-uploadFile(data: FormData) {
-  console.log(data);    
-  this.dialogRef.close(data);
-}
   
-
-
-
-  close() { 
   }
 
 }

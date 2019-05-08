@@ -1,57 +1,11 @@
-<div class="container">
-    
 
-  <div *ngIf="!imageURLs">
-      <h1> Upload Images </h1>
-      <form [formGroup]="uploadForm" (ngSubmit)="submitImages()">
-                  <div class="alert alert-danger" role="alert" *ngIf="err">
-                      {{errMessage}}
-                  </div>
-          
-                  <br>
-          
-                  <input formControlName="inputImage" name="images" type="file" ng2FileSelect [uploader]="uploader" multiple accept="image/*"
-                      ngf-max-size="2MB" (change)="update($event)" required/>
-          
-          
-                  <br>
-          
-                  <div class="drop-zone" style="height:200px; border:1px dotted black">
-                      <input class="drag-drop" formControlName="inputImage" name="images" type="file" ng2FileSelect [uploader]="uploader" multiple
-                          accept="image/*" ngf-max-size="2MB" (change)="update($event)" required/>
-                  </div>
-          
-                  <div>
-          
-                  </div>
-            </form>
-  </div>
- 
+    <form [formGroup]="formGroup" novalidate (ngSubmit)="onSubmit()">
+        input <input type="file" (change)="onFileChange($event)" multiple="multiple"/>
+        <button type="submit" [disabled]="formGroup.invalid || formGroup.prestine">Submit</button>
+      </form>
 
-  <div class="container" *ngIf="imageURLs">
-      <h1>Selected Images</h1>
-
-      <table>
-          <!-- <thead>
-              <tr>
-                  <th> File Name</th>
-                  <th> Remove </th>
-              </tr>
-          </thead> -->
-          <tbody >
-              <tr  *ngFor="let item of uploader.queue; index as i ">
-                  <!-- <div class="image gallery" *ngFor="let imageURL of imageURLs" > -->
-                  <td> {{item._file.name}} </td>
-                   <td *ngIf="imageURLs">  <img [src]="imageURLs[i].file" height=100px > </td>   
-                  <td class="text-center">
-                      <button (click)= "item.remove(); removeImage(i);">Remove </button>
-                  </td>
-                  <!-- </div> -->
-              </tr>
-          </tbody>
-      </table>
-
-    <button (click)="send()"> send </button>
-  </div>
-
-</div>
+    <div *ngIf="files">
+      <div *ngFor="let imgURL of files; let i = index">      
+        <img [src]="imgURL" height="200" *ngIf="imgURL"> <button (click)="remove(i)"> </button>
+      </div>
+    </div>
