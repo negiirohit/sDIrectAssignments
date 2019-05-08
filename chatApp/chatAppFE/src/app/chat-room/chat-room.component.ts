@@ -26,8 +26,11 @@ export class ChatRoomComponent implements OnInit {
   //Message Details
   message: string;
   messageArray: any = [];
+
   isTyping = false;
- 
+  timeOut : any;
+
+
   messageStatus : string;
 
   constructor(private route : ActivatedRoute, private socketService : SocketService, 
@@ -45,6 +48,10 @@ export class ChatRoomComponent implements OnInit {
       //Observable for when user is typing
       this.socketService.receivedTyping().subscribe(bool => {
         this.isTyping = bool.isTyping;
+        clearTimeout(this.timeOut);
+        this.timeOut = setTimeout( ()=> {
+          this.isTyping = false;   
+        } , 250);
       });
 
 
