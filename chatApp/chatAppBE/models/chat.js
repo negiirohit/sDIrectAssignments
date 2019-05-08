@@ -1,15 +1,34 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const User = require('./user');
+/*
+      let data = { userNameTo:this.userNameTo,
+         userIdTo:this.userIdTo, 
+         room: this.chatRoom,
+          userNameFrom: this.userName,
+         message: this.message,
+         messageType:messageType,
+         messageStatus :{status:'sent'} }
+
+{}
+
+*/
+
 
 
 const MsgSchema = new Schema({
-    to : String,
-    from : String,
+    userNameto : String,
+    userIdTo : Schema.Types.ObjectId,
+    userNameFrom : String,
+    messageType : String,
     message : {
         type : String,
         required : true
-    }   
+    },
+    messageStatus :{
+            status : String,
+            time : { type : Date, default: Date.now }
+    } 
 },{
     timestamps : true
 })

@@ -28,21 +28,29 @@ export class ChatRoomComponent implements OnInit {
   messageArray: any = [];
   isTyping = false;
  
+  messageStatus : string;
 
   constructor(private route : ActivatedRoute, private socketService : SocketService, 
               private userService : UserService, private router : Router) {
 
       //Observable for receiving new message
       this.socketService.newMessageReceived().subscribe(data => {
-        this.messageArray.push(data);
+        //this.messageArray.push(data);
+        console.log(JSON.stringify(data))
+        this.messageArray = data.messages;
+        console.log("message receieved" + JSON.stringify(this.messageArray));
         this.isTyping = false;
       });
 
-       //Observable for when user is typing
+      //Observable for when user is typing
       this.socketService.receivedTyping().subscribe(bool => {
         this.isTyping = bool.isTyping;
       });
 
+
+      //mark message read
+
+      
       
  }
 
@@ -60,12 +68,14 @@ export class ChatRoomComponent implements OnInit {
       } else {
         this.chatRoom =  this.userIdTo.concat(this.userId);        
       }
-
+      
+     //Join chat room for 
      this.socketService.joinRoom({user: this.userService.getLoggedInUser(), room: this.chatRoom});
      
-     
+     //fetch previous chat messages of  users
      this.getChatMessages();
 
+     //Observable for checking user status i.e, online or offline 
      this.socketService.changeUserStatus().subscribe(data => {
           if(data.id==this.userIdTo){
             this.userStatus = data.status;
@@ -75,11 +85,14 @@ export class ChatRoomComponent implements OnInit {
      })
 
      this.socketService.goOnline();
-     this.userService.checkOnline(this.userIdTo).subscribe(res => {
-       this.userStatus = res.data.online;
-       console.log(this.userStatus);
 
+     this.userService.checkOnline(this.userIdTo).subscribe(res => {
+         this.userStatus = res.data.online;
+         console.log(this.userStatus);
      })
+
+     //Markread on messages
+     this.markRead();
   }
 
   getChatMessages(){
@@ -90,9 +103,10 @@ export class ChatRoomComponent implements OnInit {
     } )
   }
 
-  sendMessage() {
+  sendMessage(messageType:string) {
     if(this.message!=''){
-      let data = {userNameTo:this.userNameTo, userIdTo:this.userIdTo, room: this.chatRoom, userNameFrom: this.userName, message: this.message}
+      let data = { userNameTo:this.userNameTo, userIdTo:this.userIdTo, room: this.chatRoom, userNameFrom: this.userName,
+         message: this.message,messageType:messageType,messageStatus :{status:'sent'} }
       //console.log(data);
       this.socketService.sendMessage(data);
       this.message = '';
@@ -103,4 +117,9 @@ export class ChatRoomComponent implements OnInit {
     this.socketService.typing({room: this.chatRoom, user: this.userService.getLoggedInUser()});
   }
 
+  markRead(){
+    let data = { userNameTo:this.userNameTo, userIdTo:this.userIdTo, room: this.chatRoom, userNameFrom: this.userName} 
+    this.socketService.markRead(data);
+  }
+  
 }

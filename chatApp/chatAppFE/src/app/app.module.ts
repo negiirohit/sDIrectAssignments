@@ -16,7 +16,6 @@ import { AuthInterceptor } from 'src/app/services/auth/auth.interceptor';
 import { HeaderComponent } from './header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //Mention
-import { MentionModule } from 'angular-mentions';
 
 
 import { UserListComponent } from './user-list/user-list.component';
@@ -39,7 +38,6 @@ import { UserService } from 'src/app/services/user.service';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    MentionModule
   ],
   providers: [AuthService,
     SocketService,

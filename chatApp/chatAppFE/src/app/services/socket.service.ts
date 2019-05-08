@@ -77,4 +77,8 @@ sendMessage(data) {
   this.socket.emit('message', data);
 }
 
+markRead(data){
+  this.socket.emit('markRead', data);  
+}
+
 }

@@ -9,6 +9,8 @@ const swaggerUi = require('swagger-ui-express');
 
 const userRouter = require('./routes/user');
 const userController = require('./controllers/userController');
+const chatController = require('./controllers/chatController');
+
 const chatRouter = require('./routes/chat');
 
 
@@ -121,39 +123,17 @@ io.on('connection', (socket) => {
 
 
     socket.on('message', (data) => {
-        io.in(data.room).emit('messageReceived', {from: data.userNameFrom, message: data.message});
-        Chat.findOneAndUpdate({chatRoom : data.room},{$push:{messages: {from:data.userNameFrom, message: data.message, to: data.userNameTo } } })
-        .then( room =>{
-            //console.log(room);
-        } )
-        User.findById(data.userIdTo)
-        .then(user => {
-                let msg ;
-                console.log(user.online);
-                if(user.online==false){ 
-                    if(/hi/.test(data.message)){
-                        msg = 'hi';
-                    }
-                    else if(/emergency/.test(data.message)||/immediately/.test(data.message)){
-                        msg = 'Please contact me on 9999999999'
-                    }
-                    else if(/Bye/.test(data.message)){
-                        msg = 'Bye.';
-                    }
-                    else{
-                        msg = 'User is currently ofline '
-                    }            
-                   // console.log(msg);
-                    io.in(data.room).emit('messageReceived', {from: 'Auto Generated message', message: msg});                                               
-                }           
-        })
-        
-
+        chatController.sendMessage(data,io,socket);
     });
 
     socket.on('typing', (data) => {
         socket.broadcast.in(data.room).emit('typing', {data: data, isTyping: true});
     });
+
+
+    socket.on('markRead',(data) =>{
+        chatController.markRead(data,io,socket);
+    } )
 
 
 });

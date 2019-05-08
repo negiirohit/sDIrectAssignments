@@ -5,22 +5,34 @@
   <h2 style="text-align: center;">{{ userNameTo }} 
     <span *ngIf="userStatus" class="dot" style="background-color:green;" >  </span>
      <span *ngIf="!userStatus" class="dot" style="background-color:rgb(91, 97, 91);"> </span></h2>
-  <div *ngFor="let item of messageArray">
+  <div *ngFor="let msg of messageArray; let  i = index">
           
-          <div *ngIf="item.from==userName;else other" id="currentuser">
-              <p class="msg">{{ item.message }}</p>    
-              <span class="user">~{{item.from}}</span>    
+          <div *ngIf="msg.userNameFrom==userName;else other" id="currentuser">
+                   <div class="msg">{{ msg.message }}
+                      <span *ngIf="msg.messageStatus.status=='sent'">
+                          <i class='fas fa-check'></i>
+                      </span>
+                      <span *ngIf="msg.messageStatus.status=='delivered'">
+                          <i class='far fa-check-circle'></i>
+                      </span>
+                      <span *ngIf="msg.messageStatus.status=='read'">
+                          <i class='fas fa-check-circle' style='color:rgb(12, 206, 206)'></i>
+                      </span>
+                    </div>  
+                <!-- <div>{{msg.messageStatus.status}}  {{msg.messageStatus.time | date:'medium'}}</div> -->
           </div>    
           <ng-template #other >
-            <div id="otheruser">
-              <p class="msg">{{ item.message }}</p>    
-              <span class="user">~{{item.from}}</span>
-            </div>  
+                <div id="otheruser">
+                  <p class="msg">{{ msg.message }}                      
+                  </p>    
+                  <!-- <span class="user">~{{msg.userNameFrom}}</span>           -->
+                </div>             
           </ng-template>    
    </div>
   <p *ngIf="isTyping" class="isTyping">{{userNameTo}} is typing...</p>
   <div class="msgBox">
       <input (keypress)="typing()"  [(ngModel)]="message" name="message" type="text" placeholder="Message" style="width:100%">            
-      <button id="send" (click)="sendMessage()" style="margin-left:80%; width:15%">Send</button>    
+      <button id="send" (click)="sendMessage('text')" style="margin-left:80%; width:15%">Send</button>    
   </div>
 </div>
+
