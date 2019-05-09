@@ -7,11 +7,14 @@ import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { HttpEvent, HttpEventType } from "@angular/common/http";
 import { HttpResponse } from "@angular/common/http";
-import { FileUploadModule } from "ng2-file-upload";
+
 
 // Socket
 import { SocketService } from '../services/socket.service';
+import { FileService } from '../services/file.service';
+
 import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-upload',
@@ -27,7 +30,7 @@ export class UploadComponent implements OnInit {
   acceptedTypes : any = ["image/jpg", "image/jpeg", "image/png"];
 
 
-  constructor(private fb: FormBuilder,  private cd: ChangeDetectorRef) {}
+  constructor(private fb: FormBuilder,  private cd: ChangeDetectorRef,private fileService : FileService, private socketService: SocketService,@Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(){
       this.  formGroup = this.fb.group({
@@ -59,6 +62,7 @@ export class UploadComponent implements OnInit {
             this.files = [];    
             return;
           }
+
           let reader = new FileReader();
           reader.readAsDataURL(file);
           reader.onload = (result) => {
@@ -70,18 +74,28 @@ export class UploadComponent implements OnInit {
      console.log(this.files);
   } 
 
+
+  //Compress files before sending
+  compress(){
+    
+      
+  }
+      
   onSubmit(){
-    console.log(JSON.stringify(this.files))
+    console.log(this.data);
+
+    for(let i=0;i<this.files.length;i++){
+      this.socketService.sendFile({ data:this.data, file : this.files[i] , fileType:'image' } );        
+    }
+    //this.fileService.uploadImages(this.files);
+    this.dia
   }
 
   remove(index){
     this.files.splice(index,1);
   }
 
-  //Compress files before sending
-  compress(){
 
-  
-  }
+
 
 }

@@ -26,8 +26,7 @@ const MsgSchema = new Schema({
         required : true
     },
     image :{
-        img: 
-        { data: Buffer, contentType: String }
+        type: String 
     },
     messageStatus :{
             status : String,

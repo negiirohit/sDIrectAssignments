@@ -34,7 +34,7 @@ export class SocketService {
   newMessageReceived() {
     const observable = new Observable<any>(observer => {
       this.socket.on('messageReceived', (data) => {
-        console.log("new message received");
+        //console.log("new message received");
         observer.next(data);
       });
       return () => {
@@ -64,7 +64,7 @@ export class SocketService {
 changeUserStatus(){
   const observable = new Observable<any>(observer => {
     this.socket.on('changeUserStatus',( data ) => {
-      console.log("user offline: "+data.id + data.status);
+      //console.log("user offline: "+data.id + data.status);
       observer.next(data);
     })
   })
@@ -79,6 +79,11 @@ sendMessage(data) {
 
 markRead(data){
   this.socket.emit('markRead', data);  
+}
+
+
+sendFile(file){
+  this.socket.emit('file',file);
 }
 
 }

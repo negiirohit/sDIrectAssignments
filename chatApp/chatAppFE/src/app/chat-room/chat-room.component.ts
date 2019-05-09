@@ -42,9 +42,9 @@ export class ChatRoomComponent implements OnInit {
       //Observable for receiving new message
       this.socketService.newMessageReceived().subscribe(data => {
         //this.messageArray.push(data);
-        console.log(JSON.stringify(data))
+        //console.log(JSON.stringify(data))
         this.messageArray = data.messages;
-        console.log("message receieved" + JSON.stringify(this.messageArray));
+        //console.log("message receieved" + JSON.stringify(this.messageArray));
         this.isTyping = false;
       });
 
@@ -89,7 +89,7 @@ export class ChatRoomComponent implements OnInit {
      this.socketService.changeUserStatus().subscribe(data => {
           if(data.id==this.userIdTo){
             this.userStatus = data.status;
-            console.log(data.status);
+            //console.log(data.status);
             //window.alert("user online :"+data.status);
           }
      })
@@ -98,7 +98,7 @@ export class ChatRoomComponent implements OnInit {
 
      this.userService.checkOnline(this.userIdTo).subscribe(res => {
          this.userStatus = res.data.online;
-         console.log(this.userStatus);
+         //console.log(this.userStatus);
      })
 
      //Markread on messages
@@ -128,6 +128,7 @@ export class ChatRoomComponent implements OnInit {
   }
 
   markRead(){
+    console.log("Hover");
     let data = { userNameTo:this.userNameTo, userIdTo:this.userIdTo, room: this.chatRoom, userNameFrom: this.userName} 
     this.socketService.markRead(data);
   }
@@ -138,16 +139,39 @@ export class ChatRoomComponent implements OnInit {
 
     let data = { userNameTo:this.userNameTo, userIdTo:this.userIdTo, room: this.chatRoom, userNameFrom: this.userName} 
     const dialogRef = this.dialog.open(UploadComponent, {
-      width: '75vw',
+      width: '100vw',
       height:'100vw',
       data: data,
      disableClose: true 
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      console.log('The dialog was closed');
+      //console.log('The dialog was closed');
       this.getChatMessages(); 
     });
   }
   
+
+
+  preview(){
+    let modal = document.getElementById('myModal');
+    
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    let img = <HTMLImageElement>document.getElementById('myImg');
+    let modalImg = <HTMLImageElement>document.getElementById("img01");
+    let captionText = document.getElementById("caption");
+    img.onclick = function(){
+      modal.style.display = "block";
+      modalImg.src = img.src;
+      captionText.innerHTML = img.alt;
+    }
+    
+    // Get the <span> element that closes the modal
+    var span = <HTMLElement>document.getElementsByClassName("close")[0];
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() { 
+      modal.style.display = "none";
+    }
+  }
 }

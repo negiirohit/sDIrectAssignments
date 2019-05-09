@@ -115,8 +115,8 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', function(){    
         console.log("disconnect");    
-       //socket.broadcast('userOfline',socket.id);
-       // userController.goOffline(socket.id);        
+        socket.broadcast.emit('userOfline',socket.id);
+        userController.goOffline(socket.id);        
     });
 
 
@@ -135,7 +135,10 @@ io.on('connection', (socket) => {
         chatController.markRead(data,io,socket);
     } )
 
-
+    socket.on('file',data => {
+        chatController.storeFile(data,io,socket);
+    });
+    
 });
 
 
