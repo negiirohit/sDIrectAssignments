@@ -1,0 +1,11 @@
+
+    <form [formGroup]="formGroup" novalidate (ngSubmit)="onSubmit()">
+          input <input type="file" (change)="onFileChange($event)" multiple="multiple" accept="image/*"/>
+          <button type="submit">Send</button>
+    </form>
+
+    <!-- <div *ngIf="files">
+      <div *ngFor="let imgURL of files; let i = index">      
+        <img [src]="imgURL" height="200" *ngIf="imgURL"> <button (click)="remove(i)"> </button>
+      </div>
+    </div> -->

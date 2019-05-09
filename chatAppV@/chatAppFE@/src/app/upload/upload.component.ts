@@ -30,7 +30,7 @@ export class UploadComponent implements OnInit {
   acceptedTypes : any = ["image/jpg", "image/jpeg", "image/png"];
 
 
-  constructor(private fb: FormBuilder,  private cd: ChangeDetectorRef,private fileService : FileService, private socketService: SocketService,@Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(public dialogRef: MatDialogRef<UploadComponent>,private fb: FormBuilder,  private cd: ChangeDetectorRef,private fileService : FileService, private socketService: SocketService,@Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(){
       this.  formGroup = this.fb.group({
@@ -40,7 +40,6 @@ export class UploadComponent implements OnInit {
 
 
   onFileChange(event) {
-  
     if(event.target.files && event.target.files.length) {
         let length = event.target.files.length;
 
@@ -48,9 +47,7 @@ export class UploadComponent implements OnInit {
           this.error="can't upload more than 10 files at a time";
           return;
          }
-
         for(let i=0;i<length;i++){
-
           let file = event.target.files[i];
           if (this.acceptedTypes.indexOf(file.type) < 0) {
             this.error = "Only jpg/png files are supported"
@@ -62,7 +59,6 @@ export class UploadComponent implements OnInit {
             this.files = [];    
             return;
           }
-
           let reader = new FileReader();
           reader.readAsDataURL(file);
           reader.onload = (result) => {
@@ -85,10 +81,16 @@ export class UploadComponent implements OnInit {
     console.log(this.data);
 
     for(let i=0;i<this.files.length;i++){
-      this.socketService.sendFile({ data:this.data, file : this.files[i] , fileType:'image' } );        
+          let timestamp = new Date().getUTCMilliseconds()+this.data.chatRoom;
+          let msg = this.data;
+          msg.messageType = 'image';
+          msg.status = 'sent';
+          msg.msg_id = timestamp;
+          msg.image = this.files[i];
+          this.socketService.sendMessage(msg);
+          this.dialogRef.close();
     }
-    //this.fileService.uploadImages(this.files);
-  
+    //close dialog box
   }
 
   remove(index){

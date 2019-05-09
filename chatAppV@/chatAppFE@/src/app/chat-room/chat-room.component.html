@@ -1,0 +1,65 @@
+<div  style=" width:400px" class="center"> 
+  <h2 style="text-align: center;">{{ userNameTo }} 
+    <span *ngIf="userStatus" class="dot" style="background-color:green;" >  </span>
+     <span *ngIf="!userStatus" class="dot" style="background-color:rgb(91, 97, 91);"> </span></h2>
+
+  <div *ngFor="let msg of messageArray; let  i = index">     
+          <div *ngIf="msg.userNameFrom==userName;else other" id="currentuser">
+               <div class="msg">
+                        <!-- If msg contains text -->
+                        <div *ngIf="msg.messageType=='text'">  <p> {{ msg.message }} </p>  </div>
+                        <!-- If msg contains image -->
+                        <div *ngIf="msg.messageType=='image'">
+                            <img id="myImg" [src]="msg.image" alt="Snow" style="width:100%;max-width:100px" (click)="preview()">
+                            <!-- The Modal -->
+                            <div id="myModal" class="modal">
+                                    <!-- The Close Button -->
+                                    <span class="close">&times;</span>
+                                    <!-- Modal Content (The Image) -->
+                                    <img class="modal-content" id="img01" [src]="msg.image">
+                                    <!-- Modal Caption (Image Text) -->
+                                    <div id="caption"></div>
+                            </div>
+                        </div>
+
+                        <span *ngIf="msg.status=='sent'">
+                          <i class='fas fa-check'></i>{{msg.status}}
+                        </span>
+                        <span *ngIf="msg.status=='delivered'">
+                          <i class='fas fa-check-double'></i>
+                        </span>
+                        <span *ngIf="msg.status=='read'">
+                          <i class='fas fa-check-double' style='color:rgb(9, 189, 189)'></i>
+                        </span>
+                </div>  
+          </div>    
+
+          <ng-template #other >
+                <div id="otheruser" (mouseenter)="markRead(i)">
+                        <div *ngIf="msg.messageType=='image'">
+                                <img id="myImg" [src]="msg.image" alt="Snow" style="width:100%;max-width:100px">
+                        </div>
+                        <div *ngIf="msg.messageType=='text'">  <p> {{ msg.message }} </p>  </div>
+                        
+                </div>             
+          </ng-template>    
+   </div>
+  <p *ngIf="isTyping" class="isTyping">{{userNameTo}} is typing...</p>
+
+  <div class="msgBox">
+      <input (keypress)="typing()"  [(ngModel)]="message" name="message" type="text" placeholder="Message" style="width:80%">
+      <button (click)="uploadMedia()"><span><i class="fa fa-image"></i> </span> </button>          
+      <button id="send" (click)="sendMessage('text')" style="margin-left:80%; width:15%">Send</button>    
+  </div>
+
+</div>
+ 
+
+<div id="myModal" class="modal">
+        <!-- The Close Button -->
+        <span class="close">&times;</span>
+        <!-- Modal Content (The Image) -->
+        <img class="modal-content" id="img01">
+        <!-- Modal Caption (Image Text) -->
+        <div id="caption"></div>
+</div>
