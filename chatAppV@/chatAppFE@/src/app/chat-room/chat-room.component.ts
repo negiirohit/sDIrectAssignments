@@ -135,6 +135,7 @@ getChatMessages(){
     if(this.message!=''){
       console.log("sending msg");
       let timestamp = new Date().getUTCMilliseconds()+this.chatRoom;
+      console.log(timestamp);
       let data = { userNameTo:this.userNameTo, userIdTo:this.userIdTo, room: this.chatRoom, userNameFrom: this.userName,
          message: this.message,messageType:messageType, status:'sent',msg_id :timestamp }
       //console.log(data);
@@ -149,9 +150,11 @@ getChatMessages(){
     this.socketService.typing({room: this.chatRoom, user: this.userService.getLoggedInUser()});
   }
 
-  markRead(i){
-      if(this.messageArray[i].status!='read'){
-          this.socketService.changeMsgStatus(this.messageArray[i],'read');
+  markRead(msg){
+    //  console.log("msg status on hover : ",msg.msg_id)
+      if(msg!='read'){
+          console.log("msg after : ",msg)  
+          this.socketService.changeMsgStatus(msg,'read');
       }
   }
 
@@ -169,31 +172,26 @@ getChatMessages(){
 
     dialogRef.afterClosed().subscribe(() => {
       //console.log('The dialog was closed');
-      this.getChatMessages(); 
+      //this.getChatMessages(); 
     });
   }
+
   
+  preview(event){
+    const modal = <HTMLDivElement>document.getElementById('myModal');
+    console.log(event.srcElement);
+    const modalImg = <HTMLImageElement>document.getElementById("img01");
+    
+      modal.style.display = "block";
+      modalImg.src = event.srcElement.src;
 
 
-  //Open Image for preview
-  preview(){
-    let modal = document.getElementById('myModal');    
-    // Get the image and insert it inside the modal - use its "alt" text as a caption
-    let img = <HTMLImageElement>document.getElementById('myImg');
-    let modalImg = <HTMLImageElement>document.getElementById("img01");
-    let captionText = document.getElementById("caption");
-    img.onclick = function(){
-        modal.style.display = "block";
-        modalImg.src = img.src;
-        captionText.innerHTML = img.alt;
-    }
-    
-    // Get the <span> element that closes the modal
-    var span = <HTMLElement>document.getElementsByClassName("close")[0];
-    
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() { 
-        modal.style.display = "none";
-    }
+     const span = <HTMLSpanElement>document.getElementsByClassName("close")[0];
+     span.onclick = function() { 
+       modal.style.display = "none";
+     }
+
   }
+
 }
+

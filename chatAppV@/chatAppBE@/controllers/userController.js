@@ -52,10 +52,8 @@ module.exports.register = (req,res,next) => {
 }
 
 module.exports.login = (req, res, next) => {
-    //console.log(req.body);
     User.findOne({ email:req.body.email } )
     .then((user) => {
-            //console.log(JSON.stringify(user));
             if(user!=null){
                 if(bcrypt.compareSync(req.body.password,user.password)){                    
                                     let token = jwt.sign({id: user._id,handle: user.handle},config.secret,{ expiresIn: '24h' });
@@ -68,7 +66,6 @@ module.exports.login = (req, res, next) => {
                                     });
                                 } 
                                 else{
-                                    // res.status(401);
                                      res.json({
                                      success: false,
                                      message: 'Incorrect username or password'
@@ -77,7 +74,6 @@ module.exports.login = (req, res, next) => {
                     
             }
             else {
-           // res.status(401);
             res.json({
             success: false,
             message: 'No user found'
@@ -87,7 +83,6 @@ module.exports.login = (req, res, next) => {
       
     })
     .catch((err) => {
-        //res.status(500);        
         res.json({
             success : false,
             message : err.message,
@@ -96,7 +91,6 @@ module.exports.login = (req, res, next) => {
 }
 
 module.exports.getUsers = (req, res, next ) => {
-    //console.log(req.user.id);
     User.find({ _id : { $ne : req.user.id  } },{password : 0})
     .then((users) => {
             res.json({
@@ -106,7 +100,6 @@ module.exports.getUsers = (req, res, next ) => {
             });
     })
     .catch((err) => {
-        //res.status(500);        
         res.json({
             success : false,
             message : err.message,
@@ -158,12 +151,9 @@ module.exports.goOffline = (user_id) =>{
 }  
 
 module.exports.checkUserOnlineSocket = (id) => {
-      //  console.log("id "+id)
         User.findById(id)
         .then(user => {
-        //        console.log(user);
                 if(user.online==true){
-                    console.log(true);
                     return true;                    
                 }
                 else 

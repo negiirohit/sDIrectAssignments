@@ -96,12 +96,12 @@ export class UploadComponent implements OnInit {
   onSubmit(){
     console.log(this.data);
     for(let i=0;i<this.files.length;i++){
-          let timestamp = new Date().getUTCMilliseconds()+this.data.chatRoom;
           let msg = this.data;
-          //msg.messageType = 'image';
+          msg.messageType = 'image';
           msg.status = 'sent';
-          msg.msg_id = timestamp;
+          msg.msg_id = new Date().getUTCMilliseconds()+this.data.room;
           msg.message = this.files[i];
+          console.log("image id :"+msg.msg_id);
           this.socketService.sendMessage(msg);
           this.dialogRef.close();
     }

@@ -8,7 +8,7 @@
                <div class="msg">
                         <div *ngIf="msg.messageType=='text'">  <p> {{ msg.message }} </p>  </div>
                         <div *ngIf="msg.messageType=='image'">
-                            <img id="myImg" [src]="msg.message" alt="Snow" style="width:100%;max-width:100px" (click)="preview()">
+                            <img id="myImg" [src]="msg.message" alt="Snow" style="width:100%;max-width:100px" (click)="preview($event)">
                         </div>
                         <div *ngIf="msg.messageType=='audio'">  <audio controls="controls" [src]='msg.message|domSanitizer'>   </audio> </div>
                         <span *ngIf="msg.status=='sent'">
@@ -24,9 +24,9 @@
           </div>    
 
           <ng-template #other >
-                <div id="otheruser" (mouseenter)="markRead(i)">
+                <div id="otheruser" (mouseenter)="markRead(msg)">
                         <div *ngIf="msg.messageType=='image'">
-                                <img id="myImg" [src]="msg.message" alt="img" style="width:100%;max-width:100px">
+                                <img id="myImg" [src]="msg.message" alt="img" style="width:100%;max-width:100px" (click)="preview($event)">
                         </div>
                         <div *ngIf="msg.messageType=='text'">  <p> {{ msg.message }} </p>  </div>
                         <div *ngIf="msg.messageType=='audio'">  <audio controls="controls" [src]='msg.message|domSanitizer'>   </audio> </div>
@@ -46,3 +46,10 @@
 
 </div>
  
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="img01">
+    <div id="caption"></div>
+  </div>

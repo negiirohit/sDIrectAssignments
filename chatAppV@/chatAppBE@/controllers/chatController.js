@@ -38,7 +38,7 @@ module.exports.saveMsg = (msg) => {
 
 
 module.exports.changeMsgStatus = (msg) => {
-    console.log("msg id"+msg.msg_id);
+    console.log("change msg status:  "+msg.msg_id);
     Chat.updateOne({chatRoom : msg.room,"messages.msg_id":msg.msg_id },
          { $set: { "messages.$.status" : msg.status } })
             .then(res => {

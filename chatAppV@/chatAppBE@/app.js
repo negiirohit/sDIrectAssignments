@@ -103,7 +103,6 @@ io.on('connection', (socket) => {
 
     //On receiving a new Message
     socket.on('message', (data) => {
-        console.log(" New msg recived ");
         io.in(data.room).emit('messageReceived', data);                
         chatController.saveMsg(data);
     });
@@ -118,13 +117,10 @@ io.on('connection', (socket) => {
     socket.on('goOffline', function(id){ 
         socket.broadcast.emit("changeUserStatus",{id:id,status:false});        
         userController.goOffline(socket.id);
-        // socket.broadcast('userOfline',id);
     });
 
 
-    //On getting disconnected
     socket.on('disconnect', function(){    
-        //console.log("disconnect");    
         socket.broadcast.emit('userOfline',socket.id);
         userController.goOffline(socket.id);        
     });
@@ -136,15 +132,11 @@ io.on('connection', (socket) => {
 
     
     socket.on('changeMsgStatus',(msg)=>{
+        console.log("changing msg status ", JSON.stringify(msg.msg_id));
         socket.broadcast.in(msg.room).emit('msgStatusChanged',msg);
         chatController.changeMsgStatus(msg);        
     })
-    
-    
-    socket.on('markRead',(msg) =>{
-       // chatController.markRead(msg,io,socket);
-        io.in(msg.room).emit('messageRead', msg);                        
-    })    
+        
 });
 
 

@@ -61,7 +61,6 @@ export class SocketService {
 changeUserStatus(){
   const observable = new Observable<any>(observer => {
     this.socket.on('changeUserStatus',( data ) => {
-      //console.log("user offline: "+data.id + data.status);
       observer.next(data);
     })
   })
@@ -78,7 +77,6 @@ changeMsgStatus(message,status){
 msgStatusChanged(){
   const observable = new Observable<any>(observer => {
     this.socket.on('msgStatusChanged',( msg ) => {
-      //console.log("user offline: "+data.id + data.status);
       observer.next(msg);
     })
   })
@@ -89,14 +87,5 @@ msgStatusChanged(){
 sendMessage(data) {
   this.socket.emit('message', data);
 }
-
-
-
-// markRead(data){
-//   this.socket.emit('markRead', data);  
-// }
-
-
-
 
 }

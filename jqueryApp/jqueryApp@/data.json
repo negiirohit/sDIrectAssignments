@@ -1,0 +1,194 @@
+/* 1 */
+{
+    "_id" : ObjectId("5cd548d84768b5bb23f04b9e"),
+    "question" : "Brass gets discoloured in air because of the presence of which of the following gases in air?",
+    "options" : [ 
+        "Oxygen", 
+        "Hydrogen sulphide", 
+        "Carbon dioxide", 
+        "Nitrogen"
+    ],
+    "answer" : "Hydrogen sulphide"
+}
+
+/* 2 */
+{
+    "_id" : ObjectId("5cd549474768b5bb23f04da9"),
+    "question" : "Which of the following is a non metal that remains liquid at room temperature?",
+    "options" : [ 
+        "Phosphorous", 
+        "Bromine", 
+        "Chlorine", 
+        "Helium"
+    ],
+    "answer" : "Bromine"
+}
+
+/* 3 */
+{
+    "_id" : ObjectId("5cd549b84768b5bb23f04fa6"),
+    "question" : "Chlorophyll is a naturally occurring chelate compound in which central metal is?",
+    "options" : [ 
+        "copper", 
+        "magnesium", 
+        "iron", 
+        "calcium"
+    ],
+    "answer" : "magnesium"
+}
+
+/* 4 */
+{
+    "_id" : ObjectId("5cd54a1c4768b5bb23f051c7"),
+    "questions" : "Which of the following is used in pencils?",
+    "options" : [ 
+        "Graphite", 
+        "Silicon", 
+        "Charcoal", 
+        "Phosphorous"
+    ],
+    "answer" : "Graphite"
+}
+
+/* 5 */
+{
+    "_id" : ObjectId("5cd54a9f4768b5bb23f0543e"),
+    "question" : "Which of the following metals forms an amalgam with other metals?",
+    "options" : [ 
+        "Tin", 
+        "Mercury", 
+        "Lead", 
+        "Zinc"
+    ],
+    "answer" : "Mercury"
+}
+
+/* 6 */
+{
+    "_id" : ObjectId("5cd5543add4c569989882651"),
+    "question" : "The . . . . . decorator allows us to define the pipe name that is globally available for use in any template in the across application.",
+    "options" : [ 
+        "pipeName", 
+        "pipeDeco", 
+        "Pipe", 
+        "None"
+    ],
+    "answer" : "Pipe"
+}
+
+/* 7 */
+{
+    "_id" : ObjectId("5cd5548cdd4c569989882652"),
+    "question" : "Observables help you manage . . . . . . . . data.",
+    "options" : [ 
+        "synchronous", 
+        "asynchronous", 
+        "  Both asynchronous & synchronous", 
+        "None of above"
+    ],
+    "answer" : "asynchronous  "
+}
+
+/* 8 */
+{
+    "_id" : ObjectId("5cd55510dd4c569989882653"),
+    "question" : "What is the HTML tag under which one can write the JavaScript code?",
+    "options" : [ 
+        "<javascript>", 
+        "<scripted>", 
+        "<script>", 
+        "<js>"
+    ],
+    "answer" : "<script>"
+}
+
+/* 9 */
+{
+    "_id" : ObjectId("5cd55593dd4c569989882654"),
+    "question" : "  Which was the first browser to support JavaScript?",
+    "options" : [ 
+        "IE", 
+        "Mozilla Firefox", 
+        "Netscape", 
+        "Google Chrome"
+    ],
+    "answer" : "Netscape"
+}
+
+/* 10 */
+{
+    "_id" : ObjectId("5cd552b84768b5bb23f0784f"),
+    "questions" : " The Node.js modules can be exposed using:",
+    "options" : [ 
+        "module.expose", 
+        "module", 
+        "module.exports", 
+        "All of the above"
+    ],
+    "answer" : "module.exports"
+}
+
+/* 11 */
+{
+    "_id" : ObjectId("5cd5533a4768b5bb23f07ad5"),
+    "questions" : " Which statement executes the code of sample.js file?",
+    "options" : [ 
+        "nodejs sample.js", 
+        "node sample.js", 
+        "sample.js", 
+        "None of the above"
+    ],
+    "answer" : "node sample.js"
+}
+
+/* 12 */
+{
+    "_id" : ObjectId("5cd5569ddd4c569989882655"),
+    "question" : "  When a user views a page containing a JavaScript program, which machine actually executes the script?",
+    "options" : [ 
+        "The User's machine running a Web browser", 
+        "The Web server", 
+        "A central machine deep within Netscape's corporate offices", 
+        "None of the above"
+    ],
+    "answer" : "The User's machine running a Web browser"
+}
+
+/* 13 */
+{
+    "_id" : ObjectId("5cd554444768b5bb23f07f7c"),
+    "questions" : "How can we check the current version of NPM?",
+    "options" : [ 
+        "npm --version", 
+        "npm --ver", 
+        "npm help", 
+        "None of the above"
+    ],
+    "answer" : "npm --version"
+}
+
+/* 14 */
+{
+    "_id" : ObjectId("5cd557a0dd4c569989882656"),
+    "question" : " Which of the following variable types does not exist in JavaScript?",
+    "options" : [ 
+        "boolean", 
+        "number", 
+        "object", 
+        "double"
+    ],
+    "answer" : "double"
+}
+
+/* 15 */
+{
+    "_id" : ObjectId("5cd55842dd4c569989882657"),
+    "question" : "Which of these operators compares two variables by value AND type?",
+    "options" : [ 
+        " ===", 
+        "None of these", 
+        "==", 
+        "="
+    ],
+    "answer" : "==="
+}
