@@ -14,7 +14,7 @@ import { SocketService } from '../services/socket.service';
 import { FileService } from '../services/file.service';
 
 import { ChangeDetectorRef } from '@angular/core';
-
+import { ImageCompressService, ResizeOptions, ImageUtilityService, IImage, SourceImage } from  'ng2-image-compress';
 
 @Component({
   selector: 'app-upload',
@@ -23,6 +23,13 @@ import { ChangeDetectorRef } from '@angular/core';
 })
 export class UploadComponent implements OnInit {
 
+  //
+    title = 'app';
+    selectedImage: any;
+    processedImages: any = [];
+    showTitle: boolean = false;
+  //
+
   formGroup:any;
   files :any = [];
   error : any ;
@@ -30,7 +37,10 @@ export class UploadComponent implements OnInit {
   acceptedTypes : any = ["image/jpg", "image/jpeg", "image/png"];
 
 
-  constructor(public dialogRef: MatDialogRef<UploadComponent>,private fb: FormBuilder,  private cd: ChangeDetectorRef,private fileService : FileService, private socketService: SocketService,@Inject(MAT_DIALOG_DATA) public data: any) {}
+  constructor(public dialogRef: MatDialogRef<UploadComponent>,private fb: FormBuilder,
+      private cd: ChangeDetectorRef,private fileService : FileService, 
+      private socketService: SocketService,private imgCompressService: ImageCompressService,
+      @Inject(MAT_DIALOG_DATA) public data: any) {}
 
   ngOnInit(){
       this.  formGroup = this.fb.group({
@@ -59,27 +69,24 @@ export class UploadComponent implements OnInit {
             this.files = [];    
             return;
           }
-          let reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onload = (result) => {
-              this.files.push(reader.result);
-          }
           this.cd.markForCheck();
         };
     } 
-     console.log(this.files);
+       let files = Array.from(event.target.files);    
+       ImageCompressService.filesArrayToCompressedImageSource(files).then(observableImages => {
+         observableImages.subscribe((image) => {
+           console.log("image url "+image.imageDataUrl);
+           this.files.push(image.imageDataUrl);
+         }, (error) => {
+           console.log("Error while converting");
+         }, () => {
+         });
+       });
   } 
 
-
-  //Compress files before sending
-  compress(){
-    
-      
-  }
       
   onSubmit(){
     console.log(this.data);
-
     for(let i=0;i<this.files.length;i++){
           let timestamp = new Date().getUTCMilliseconds()+this.data.chatRoom;
           let msg = this.data;

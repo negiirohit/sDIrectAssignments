@@ -34,7 +34,8 @@ import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 
 //Angular Bootstrap
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-
+// Image Compress
+import { ImageCompressService,ResizeOptions,ImageUtilityService } from 'ng2-image-compress';
 
 
 
@@ -63,6 +64,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     SocketService,
     UserService,
     AuthGuardService,
+    ImageCompressService,ResizeOptions,
     {
       provide: HTTP_INTERCEPTORS,
       useClass : AuthInterceptor,
