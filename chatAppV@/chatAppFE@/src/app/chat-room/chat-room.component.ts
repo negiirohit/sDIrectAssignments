@@ -4,7 +4,6 @@ import { UserService } from '../services/user.service';
 import { SocketService } from '../services/socket.service';
 
 import { UploadComponent } from 'src/app/upload/upload.component';
-//Dialog 
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
 @Component({
@@ -151,7 +150,6 @@ getChatMessages(){
   }
 
   markRead(i){
-      console.log(this.messageArray[i]);
       if(this.messageArray[i].status!='read'){
           this.socketService.changeMsgStatus(this.messageArray[i],'read');
       }
@@ -159,8 +157,9 @@ getChatMessages(){
 
 
   //Multimedia upload Dialog
-  uploadMedia(  ){
-    let data = { userNameTo:this.userNameTo, userIdTo:this.userIdTo, room: this.chatRoom, userNameFrom: this.userName} 
+  uploadMedia( msgType ){
+    let data = { userNameTo:this.userNameTo, userIdTo:this.userIdTo, room: this.chatRoom, userNameFrom: this.userName,messageType:msgType } 
+    
     const dialogRef = this.dialog.open(UploadComponent, {
       width: '100vw',
       height:'100vw',

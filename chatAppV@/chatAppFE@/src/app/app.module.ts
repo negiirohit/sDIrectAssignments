@@ -36,6 +36,7 @@ import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 // Image Compress
 import { ImageCompressService,ResizeOptions,ImageUtilityService } from 'ng2-image-compress';
+import { DomSanitizerPipe } from './pipes/dom-sanitizer.pipe';
 
 
 
@@ -49,7 +50,8 @@ import { ImageCompressService,ResizeOptions,ImageUtilityService } from 'ng2-imag
     ChatRoomComponent,
     UploadComponent,
     FileSelectDirective,
-    FileDropDirective
+    FileDropDirective,
+    DomSanitizerPipe
   ],
   imports: [
     BrowserModule,

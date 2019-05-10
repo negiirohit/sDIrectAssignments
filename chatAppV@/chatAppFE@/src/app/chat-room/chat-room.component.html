@@ -6,22 +6,11 @@
   <div *ngFor="let msg of messageArray; let  i = index">     
           <div *ngIf="msg.userNameFrom==userName;else other" id="currentuser">
                <div class="msg">
-                        <!-- If msg contains text -->
                         <div *ngIf="msg.messageType=='text'">  <p> {{ msg.message }} </p>  </div>
-                        <!-- If msg contains image -->
                         <div *ngIf="msg.messageType=='image'">
-                            <img id="myImg" [src]="msg.image" alt="Snow" style="width:100%;max-width:100px" (click)="preview()">
-                            <!-- The Modal -->
-                            <div id="myModal" class="modal">
-                                    <!-- The Close Button -->
-                                    <span class="close">&times;</span>
-                                    <!-- Modal Content (The Image) -->
-                                    <img class="modal-content" id="img01" [src]="msg.image">
-                                    <!-- Modal Caption (Image Text) -->
-                                    <div id="caption"></div>
-                            </div>
+                            <img id="myImg" [src]="msg.message" alt="Snow" style="width:100%;max-width:100px" (click)="preview()">
                         </div>
-
+                        <div *ngIf="msg.messageType=='audio'">  <audio controls="controls" [src]='msg.message|domSanitizer'>   </audio> </div>
                         <span *ngIf="msg.status=='sent'">
                           <i class='fas fa-check'></i>{{msg.status}}
                         </span>
@@ -37,9 +26,10 @@
           <ng-template #other >
                 <div id="otheruser" (mouseenter)="markRead(i)">
                         <div *ngIf="msg.messageType=='image'">
-                                <img id="myImg" [src]="msg.image" alt="Snow" style="width:100%;max-width:100px">
+                                <img id="myImg" [src]="msg.message" alt="img" style="width:100%;max-width:100px">
                         </div>
                         <div *ngIf="msg.messageType=='text'">  <p> {{ msg.message }} </p>  </div>
+                        <div *ngIf="msg.messageType=='audio'">  <audio controls="controls" [src]='msg.message|domSanitizer'>   </audio> </div>
                         
                 </div>             
           </ng-template>    
@@ -47,19 +37,12 @@
   <p *ngIf="isTyping" class="isTyping">{{userNameTo}} is typing...</p>
 
   <div class="msgBox">
-      <input (keypress)="typing()"  [(ngModel)]="message" name="message" type="text" placeholder="Message" style="width:80%">
-      <button (click)="uploadMedia()"><span><i class="fa fa-image"></i> </span> </button>          
+      <br>
+      <input (keypress)="typing()"  [(ngModel)]="message" name="message" type="text" placeholder="Message" style="width:70%">
+      <button (click)="uploadMedia('image')"> <span><i class="fa fa-image"></i></span> </button>  
+      <button (click)="uploadMedia('audio')"> <span class="glyphicon glyphicon-music"></span> </button>       
       <button id="send" (click)="sendMessage('text')" style="margin-left:80%; width:15%">Send</button>    
   </div>
 
 </div>
  
-
-<div id="myModal" class="modal">
-        <!-- The Close Button -->
-        <span class="close">&times;</span>
-        <!-- Modal Content (The Image) -->
-        <img class="modal-content" id="img01">
-        <!-- Modal Caption (Image Text) -->
-        <div id="caption"></div>
-</div>

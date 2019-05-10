@@ -26,7 +26,7 @@ module.exports.getChatMessgaes = (req, res, next ) => {
 
 //chat controller for save files in database
 module.exports.saveMsg = (msg) => {
-    console.log("msg in controller: "+JSON.stringify(msg));
+    //console.log("msg in controller: "+JSON.stringify(msg));
      Chat.findOneAndUpdate({chatRoom : msg.room},{$push:{messages: msg} },{new:true})
      .then(chat => {
             console.log("msg saved succesfully");

@@ -1,14 +1,34 @@
 
+    
+<div *ngIf="data.messageType=='image'">
+    <h1>   Send Images </h1>
     <form [formGroup]="formGroup" novalidate (ngSubmit)="onSubmit()">
-          input <input type="file" (change)="onFileChange($event)" multiple="multiple" accept="image/*"/>
+           <input type="file" (change)="onFileChange($event)" multiple="multiple" accept="image/*"/>
           <button type="submit">Send</button>
     </form>
+
+
 
     <div *ngIf="files">
         <div *ngFor="let imgURL of files; let i = index">      
           <img [src]="imgURL" height="200" *ngIf="imgURL"> <button (click)="remove(i)"> Remove </button>
         </div>
     </div> 
+</div>
+
 
 
     
+<div *ngIf="data.messageType=='audio'">
+        <h1>   Send Audio </h1>        
+    <form [formGroup]="formGroup" novalidate (ngSubmit)="onSubmit()">
+           <input type="file" (change)="onFileChange($event)" multiple="multiple" accept="audio/*"/>
+          <button type="submit">Send</button>
+    </form>
+    <!-- <div *ngIf="files"> -->
+        <!-- <div *ngFor="let imgURL of files; let i = index">       -->
+          <!-- <img [src]="imgURL" height="200" *ngIf="imgURL"> <button (click)="remove(i)"> Remove </button> -->
+        <!-- </div> -->
+    <!-- </div>  -->
+</div>
+

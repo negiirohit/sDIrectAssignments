@@ -34,13 +34,20 @@ export class UploadComponent implements OnInit {
   files :any = [];
   error : any ;
 
-  acceptedTypes : any = ["image/jpg", "image/jpeg", "image/png"];
+  acceptedTypes : any;
 
 
   constructor(public dialogRef: MatDialogRef<UploadComponent>,private fb: FormBuilder,
       private cd: ChangeDetectorRef,private fileService : FileService, 
       private socketService: SocketService,private imgCompressService: ImageCompressService,
-      @Inject(MAT_DIALOG_DATA) public data: any) {}
+      @Inject(MAT_DIALOG_DATA) public data: any) {
+        console.log("msgType:", this.data.messageType);
+          if(this.data.messageType=='image'){
+            this.acceptedTypes  = ["image/jpg", "image/jpeg", "image/png"];
+          } else if(this.data.messageType=='audio'){
+            this.acceptedTypes  = ["audio/*"];
+          }
+      }
 
   ngOnInit(){
       this.  formGroup = this.fb.group({
@@ -72,7 +79,7 @@ export class UploadComponent implements OnInit {
           this.cd.markForCheck();
         };
     } 
-       let files = Array.from(event.target.files);    
+       let files:any = Array.from(event.target.files);    
        ImageCompressService.filesArrayToCompressedImageSource(files).then(observableImages => {
          observableImages.subscribe((image) => {
            console.log("image url "+image.imageDataUrl);
@@ -84,16 +91,17 @@ export class UploadComponent implements OnInit {
        });
   } 
 
-      
+  
+  
   onSubmit(){
     console.log(this.data);
     for(let i=0;i<this.files.length;i++){
           let timestamp = new Date().getUTCMilliseconds()+this.data.chatRoom;
           let msg = this.data;
-          msg.messageType = 'image';
+          //msg.messageType = 'image';
           msg.status = 'sent';
           msg.msg_id = timestamp;
-          msg.image = this.files[i];
+          msg.message = this.files[i];
           this.socketService.sendMessage(msg);
           this.dialogRef.close();
     }

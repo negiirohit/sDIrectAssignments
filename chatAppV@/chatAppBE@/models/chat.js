@@ -30,9 +30,6 @@ const MsgSchema = new Schema({
         type : String,
         required : true
     },
-    image :{
-        type: String 
-    },
     status : String
 },{
     timestamps : true
