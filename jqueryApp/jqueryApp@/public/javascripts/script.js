@@ -19,12 +19,18 @@ $(document).ready(function(){
         startQuiz();
     })
     
+
+    $('#user-form').submit(function( event ) {
+        event.preventDefault()
+        startQuiz();
+    });
     //get Total Questions
     function getQuestionCount(){
         $.getJSON(url+'questions/count', {}, function (res, textStatus, jqXHR){
             totalQuestions =  res.data.count;
             console.log("total questions: ",totalQuestions);
             getNextQuestion();
+
         });
     }
 
@@ -44,7 +50,10 @@ $(document).ready(function(){
             } else {
                 wrongAns++;
             }
+            $('input[name="option"]').prop('checked', false);
         }
+
+
         console.log("rigth : "+rightAns);
         console.log("wrong : "+wrongAns);
 
@@ -80,6 +89,7 @@ $(document).ready(function(){
     function startQuiz(){
         $('#user-form-div').hide();
         getQuestionCount();
+        startTimer();
     }
 
     function submit(){
@@ -93,4 +103,23 @@ $(document).ready(function(){
         $('#result-div').append(p1,p2,p3);
         $('#result-div').show();       
     }
+
+
+
+
+    function startTimer(){
+        count = 10;
+        let timer = setInterval(function(){
+            count--;
+            let min = parseInt(count/60) ;
+            let sec = count%60;
+            $('#timer').html(min + ' min : ' + sec +'sec');
+            console.log(' count: ',count);
+            if(count<0){
+                clearInterval(timer);
+                submit();
+            }
+        },1000)
+    }
+    
 })
