@@ -1,10 +1,8 @@
-
 <!DOCTYPE html>
 <html>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="./javascripts/script.js"> </script>
-
 </head>
 <body>
     <div id="user-form-div">
@@ -12,24 +10,25 @@
             <form id="user-form">
                     <input type='text' required placeholder="name">
                     <br>     
-                    <button onClick='goToTest()'> Proceed </button>
+                    <button type =submit id="start-btn"> Proceed </button>
             </form>
+            
     </div>
+
+
     <div id="question-div">
         <form>
             <p id="question">  </p>
-            <input id="option0Input" type="radio" name="option"> <span id="option0"> </span> <br>
-            <input id="option1Input" type="radio" name="option"> <span id="option1"> </span>    <br>
-            <input id="option2Input" type="radio" name="option"> <span id="option2"> </span> <br>
-            <input id="option3Input" type="radio" name="option"> <span id="option3"> </span>  <br>            
-            <input type="button" id="next-btn"> next
+            <input id="option0Input" type="radio" name="option" value="test0"> <span id="option0"> </span> <br>
+            <input id="option1Input" type="radio" name="option" value="test1"> <span id="option1"> </span>    <br>
+            <input id="option2Input" type="radio" name="option" value="test2"> <span id="option2"> </span> <br>
+            <input id="option3Input" type="radio" name="option" value="test3"> <span id="option3"> </span>  <br>            
+            <input type="button" id="next-btn" value='next'> 
         </form>    
     </div>
     
-    <div id="result">
-            <p> Total Questions :  </p>
-            <p> Correct Answers :  </p>
-            <p> Wrong Answers : </p>
+    <div id="result-div">
+        
     </div>
 </body>
 </html>
