@@ -9,7 +9,6 @@ let qno = 0;
 let ques;
 
 $(document).ready(function(){
-
     $('#user-form-div').show();    
     $('#result-div').hide();        
     $('#question-div').hide();
@@ -18,42 +17,46 @@ $(document).ready(function(){
         $('#user-form-div').hide(); 
         startQuiz();
     })
-    
 
     $('#user-form').submit(function( event ) {
         event.preventDefault()
         startQuiz();
     });
-   
+
+    $('#next-btn').click(function(){
+        getNextQuestion();
+    })   
 })
 
 
- //get Total Questions
- function getQuestionCount(){
-    $.getJSON(url+'questions/count', {}, function (res, textStatus, jqXHR){
-        totalQuestions =  res.data.count;
-        console.log("total questions: ",totalQuestions);
-        let div=document.createElement('div');
-        for(let i=0;i<totalQuestions;i++){
-            let button = document.createElement('button');
-            button.className = 'marker';
-            button.innerHTML = i+1;
-            div.appendChild(button);
-        }
-
-        $('#question-div').prepend(div);
-        $('.marker').click(function(){
-                let qnum = this.innerHTML-1;
-                getQuestion(qnum);
-
-        })
-        getNextQuestion();
-    });
+//Start Quiz
+function startQuiz(){
+    $('#user-form-div').hide();
+    getQuestionCount();
+    startTimer();
 }
 
-$('#next-btn').click(function(){
-    getNextQuestion();
-})
+//get Total Questions
+function getQuestionCount(){
+   $.getJSON(url+'questions/count', {}, function (res, textStatus, jqXHR){
+       totalQuestions =  res.data.count;
+       console.log("total questions: ",totalQuestions);
+       let div=document.createElement('div');
+       for(let i=0;i<totalQuestions;i++){
+           let button = document.createElement('button');
+           button.className = 'marker';
+           button.innerHTML = i+1;
+           div.appendChild(button);
+       }
+       $('#question-div').prepend(div);
+       $('.marker').click(function(){
+               let qnum = this.innerHTML-1;
+               getQuestion(qnum);
+       })
+       getNextQuestion();
+   });
+}
+
 
 
 //get next question 
@@ -109,12 +112,6 @@ function getNextQuestion(){
     }
 }
 
-//Start Quiz
-function startQuiz(){
-    $('#user-form-div').hide();
-    getQuestionCount();
-    startTimer();
-}
 
 function submit(){
     $('#question-div').hide();
@@ -165,6 +162,4 @@ function getQuestion(qnum){
             $('#next-btn').val('submit');
         }
     });    
-
-
 }
