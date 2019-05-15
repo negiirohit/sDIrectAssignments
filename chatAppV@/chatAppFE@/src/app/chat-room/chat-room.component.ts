@@ -1,10 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { SocketService } from '../services/socket.service';
 
 import { UploadComponent } from 'src/app/upload/upload.component';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+
+//
+
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angular/forms";
+import { FileUploader } from "ng2-file-upload";
+import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { HttpEvent, HttpEventType } from "@angular/common/http";
+import { HttpResponse } from "@angular/common/http";
+
+// Socket
+import { FileService } from '../services/file.service';
+
+import { ChangeDetectorRef } from '@angular/core';
+import { ImageCompressService, ResizeOptions, ImageUtilityService, IImage, SourceImage } from  'ng2-image-compress';
+
+//Socket File Upload
+import {SocketIOFileUpload} from 'socketio-file-upload';
+//var SocketIOFileUpload = require('socketio-file-upload');
+
 
 @Component({
   selector: 'app-chat-room',
@@ -32,11 +52,25 @@ export class ChatRoomComponent implements OnInit {
   timeOut : any;
 
   //file upload progress
+  fileUpload : boolean = false;
   uploadStatus : any;
+  uploadMetaData: any;
+
+    
+  selectedImage: any;
+  processedImages: any = [];
+  formGroup:any;
+  files :any = [];
+  error : any ;
+
+  acceptedTypes : any;
+
 
   constructor(private route : ActivatedRoute, private socketService : SocketService, 
-              private userService : UserService, private router : Router,private dialog: MatDialog) {
-
+              private userService : UserService, private router : Router,private dialog: MatDialog,
+              private fb: FormBuilder,
+              private cd: ChangeDetectorRef,private fileService : FileService, 
+              private imgCompressService: ImageCompressService,) {
   }
 
   ngOnInit() {      
@@ -46,6 +80,7 @@ export class ChatRoomComponent implements OnInit {
         this.isUserTyping();
         this.checkMsgStatus();
         this.getUserStatus();
+        this.socketService.goOnline();
 }
 
 joinChatRoom(){
@@ -58,7 +93,7 @@ joinChatRoom(){
           this.chatRoom = this.userId.concat(this.userIdTo);
       } else {
           this.chatRoom =  this.userIdTo.concat(this.userId);        
-         }
+      }
       //Join chat room for 
       this.socketService.joinRoom({user: this.userService.getLoggedInUser(), room: this.chatRoom});  
       this.getChatMessages();      
@@ -169,8 +204,26 @@ sendMessage(messageType:string) {
 
   //Multimedia upload Dialog
   uploadMedia( msgType ){
-    let data = { userNameTo:this.userNameTo, userIdTo:this.userIdTo, room: this.chatRoom, userNameFrom: this.userName,messageType:msgType } 
+    this.uploadMetaData = { userNameTo:this.userNameTo, userIdTo:this.userIdTo, room: this.chatRoom, userNameFrom: this.userName,messageType:msgType } 
     
+    if(this.uploadMetaData.messageType=='image'){
+      this.acceptedTypes  = ["image/jpg", "image/jpeg", "image/png"];
+    } else if(this.uploadMetaData.messageType=='audio'){
+      this.acceptedTypes  = ["audio/*"];
+    }
+
+
+    this.formGroup = this.fb.group({
+      file: [null, Validators.required]
+    });
+
+    this.fileUpload = true;
+
+    this.fileService.currentPercent.subscribe(res =>{
+        this.uploadStatus = res;
+    })
+    /*Dialog Ref
+    let data = { userNameTo:this.userNameTo, userIdTo:this.userIdTo, room: this.chatRoom, userNameFrom: this.userName,messageType:msgType } 
     const dialogRef = this.dialog.open(UploadComponent, {
       width: '100vw',
       height:'100vw',
@@ -182,6 +235,7 @@ sendMessage(messageType:string) {
       //console.log('The dialog was closed');
       //this.getChatMessages(); 
     });
+    */
   }
 
   
@@ -189,7 +243,6 @@ sendMessage(messageType:string) {
     const modal = <HTMLDivElement>document.getElementById('myModal');
     console.log(event.srcElement);
     const modalImg = <HTMLImageElement>document.getElementById("img01");
-    
       modal.style.display = "block";
       modalImg.src = event.srcElement.src;
 
@@ -201,30 +254,66 @@ sendMessage(messageType:string) {
 
   }
 
+  //upload methods
 
-//Spinner for image uploading
-/*
-    uploadFile(data: FormData) {
+  onFileChange(event) {
+    if(event.target.files && event.target.files.length) {
+        let length = event.target.files.length;
 
-    this.uploadPrecentage = 0;
-    this.uploadImageService.uploadImages(data)
-      .subscribe(event => {
-        console.log("event");
-        if (event.type == HttpEventType.UploadProgress) {
-          console.log("upload progress");
-          const percentDone = Math.round(100 * event.loaded / event.total);
-          this.uploadPrecentage = percentDone;
-          console.log(`File is ${percentDone}% uploaded.`);
-        }
+        if(length > 3){
+          this.error="can't upload more than 10 files at a time";
+          return;
+         }
+        for(let i=0;i<length;i++){
+          let file = event.target.files[i];
+          if (this.acceptedTypes.indexOf(file.type) < 0) {
+            this.error = "Only jpg/png files are supported"
+            this.files = [];
+            return;
+          }
+          if (file.size > 10000000) {
+            this.error = "File Size can't exceed up to 1 MB"
+            this.files = [];    
+            return;
+          }
+          this.cd.markForCheck();
+        };
+    } 
+       let files:any = Array.from(event.target.files);    
+       ImageCompressService.filesArrayToCompressedImageSource(files).then(observableImages => {
+         observableImages.subscribe((image) => {
+           console.log("image url "+image.imageDataUrl);
+           this.files.push(image.imageDataUrl);
+         }, (error) => {
+           console.log("Error while converting");
+         }, () => {
+         });
+       });
+  } 
 
-        if(event.type == HttpEventType.Response) {
-           this.uploadedImages = event.body;
-           this.createURL();
-        }
-      });
-    return;
+  
+  
+  onSubmit(){
+    console.log(this.uploadMetaData);
+    for(let i=0;i<this.files.length;i++){
+          let msg = this.uploadMetaData;
+          msg.messageType = 'image';
+          msg.status = 'sent';
+          msg.msg_id = new Date().getUTCMilliseconds()+this.uploadMetaData.room;
+          msg.message = this.files[i];
+          console.log("image id :"+msg.msg_id);
+          
+          this.socketService.sendMessage(msg);
+          //this.dialogRef.close();
+          this.fileUpload = false;
+          
+    }
+    //close dialog box
   }
-*/
+
+  remove(index){
+    this.files.splice(index,1);
+  }
 
 
 }

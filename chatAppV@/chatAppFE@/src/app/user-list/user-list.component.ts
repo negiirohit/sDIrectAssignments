@@ -17,10 +17,10 @@ export class UserListComponent implements OnInit {
   
   ngOnInit() {
       this.getAllUsers();
-     // this.socketService.goOnline(); 
+      this.socketService.goOnline(); 
       this.socketService.changeUserStatus().subscribe(data => {
           this.changeUserStatus(data.id,data.status);
-     })
+      })
   }
 
 
@@ -50,6 +50,4 @@ export class UserListComponent implements OnInit {
     console.log(user);
     this.router.navigate(['user/chatroom'], { queryParams: { name: user.name, id: user._id} });
   }
-
-
 }

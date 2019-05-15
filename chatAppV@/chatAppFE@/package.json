@@ -29,6 +29,7 @@
     "ng2-image-compress": "^7.0.7",
     "rxjs": "~6.3.3",
     "socket.io-client": "^2.0.4",
+    "socketio-file-upload": "^0.7.0",
     "tslib": "^1.9.0",
     "zone.js": "~0.8.26"
   },
