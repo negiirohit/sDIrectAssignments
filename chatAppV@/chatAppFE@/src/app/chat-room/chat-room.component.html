@@ -38,7 +38,7 @@
 
   <div class="msgBox">
       <br>
-      <input (keypress)="typing()"  [(ngModel)]="message" name="message" type="text" placeholder="Message" style="width:70%">
+      <input (keypress)="typing()" (keydown)="keyDownFunction($event)" [(ngModel)]="message" name="message" type="text" placeholder="Message" style="width:70%">
       <button (click)="uploadMedia('image')"> <span><i class="fa fa-image"></i></span> </button>  
       <button (click)="uploadMedia('audio')"> <span class="glyphicon glyphicon-music"></span> </button>       
       <button id="send" (click)="sendMessage('text')" style="margin-left:80%; width:15%">Send</button>    

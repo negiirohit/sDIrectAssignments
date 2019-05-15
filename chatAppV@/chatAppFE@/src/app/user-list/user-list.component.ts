@@ -17,8 +17,7 @@ export class UserListComponent implements OnInit {
   
   ngOnInit() {
       this.getAllUsers();
-      this.socketService.goOnline(); 
-
+     // this.socketService.goOnline(); 
       this.socketService.changeUserStatus().subscribe(data => {
           this.changeUserStatus(data.id,data.status);
      })

@@ -40,7 +40,6 @@ export class ChatRoomComponent implements OnInit {
 
   ngOnInit() {      
         this.joinChatRoom();
-        this.socketService.goOnline();
         this.checkUserStatus();
         this.checkNewMessage();
         this.isUserTyping();
@@ -85,14 +84,15 @@ joinChatRoom(){
 
 checkNewMessage(){
  this.socketService.newMessageReceived().subscribe(message => {
-   console.log("new msg received");
+   //console.log("new msg received");
    this.messageArray.push(message); 
    if(message.userNameFrom!=this.userName){
-       this.socketService.changeMsgStatus(message,'delivered');   
+       this.socketService.changeMsgStatus(message,'read');   
   } 
  });
 }
-   
+ 
+
 isUserTyping(){
  this.socketService.receivedTyping().subscribe(bool => {
    this.isTyping = bool.isTyping;
@@ -107,11 +107,11 @@ isUserTyping(){
 checkMsgStatus(){
   this.socketService.msgStatusChanged().subscribe(message => {
       let length = this.messageArray.length;
-          console.log(length)
+        //  console.log(length)
            for(let i=length-1;i>=0;i--){
              if(this.messageArray[i].msg_id==message.msg_id){
                   this.messageArray[i].status = message.status;
-                  console.log(this.messageArray[i]);
+          //        console.log(this.messageArray[i]);
                   break;
              }
            }
@@ -121,7 +121,7 @@ checkMsgStatus(){
 
 
 
-    //Fetch all previous chat msg from database
+//Fetch all previous chat msg from database
 getChatMessages(){
   this.userService.getChatMessages(this.chatRoom)
   .subscribe( res => {
@@ -148,6 +148,13 @@ getChatMessages(){
 
   typing() {
     this.socketService.typing({room: this.chatRoom, user: this.userService.getLoggedInUser()});
+  }
+
+
+  keyDownFunction(event) {
+    if(event.keyCode == 13) {
+      this.sendMessage('text');
+    }
   }
 
   markRead(msg){

@@ -126,7 +126,7 @@ module.exports.checkUserOnline = (req,res,next) => {
 
 //Functions for socket
 module.exports.goOnline = (user_id,socket_id) =>{
-    console.log("go onlineid : "+user_id)
+    //console.log("go onlineid : "+user_id)
     User.findByIdAndUpdate({ _id : user_id },{online:true,Socket_id:socket_id})
     .then((user) => {
         return true;
@@ -139,15 +139,14 @@ module.exports.goOnline = (user_id,socket_id) =>{
 
 //Functions for socket
 module.exports.goOffline = (user_id) =>{
-    // console.log("id : "+user_id)    
-    // User.findOneAndUpdate({Socket_id:socket_id},{online:false})
-    // .then((user) => {
-        // return true;
-    // })
-    // .catch((err) => {
-        // console.log(err);
-        // return false;
-    // });
+    User.findByIdAndUpdate({ _id : user_id },{online:false})
+    .then((user) => {
+        return true;
+    })
+    .catch((err) => {
+        console.log(err);
+        return false;
+    });
 }  
 
 module.exports.checkUserOnlineSocket = (id) => {

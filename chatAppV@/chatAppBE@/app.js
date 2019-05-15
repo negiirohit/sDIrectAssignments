@@ -78,12 +78,13 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 var server = http.Server(app);
 let socketIO = require('socket.io');
 let io = socketIO(server);
-
+let users =[];
 
 //Socket Configuration
 io.on('connection', (socket) => {
     
     // console.log("new user connected");    
+
 
     socket.on('join', function( data) {
 
@@ -109,14 +110,18 @@ io.on('connection', (socket) => {
 
         
     socket.on('goOnline', function(id){
+        users.push(id);
+        console.log("users:",users);
         userController.goOnline(id,socket.id);
         socket.broadcast.emit("changeUserStatus",{id:id,status:true});
     });
 
 
     socket.on('goOffline', function(id){ 
+        users.splice(users.indexOf(id),1);
+        console.log("offline user",users);
         socket.broadcast.emit("changeUserStatus",{id:id,status:false});        
-        userController.goOffline(socket.id);
+        userController.goOffline(id);
     });
 
 

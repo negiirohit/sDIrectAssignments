@@ -46,6 +46,7 @@ function getQuestionCount(){
            let button = document.createElement('button');
            button.className = 'marker';
            button.innerHTML = i+1;
+           button.setAttribute('id','marker'+i);
            div.appendChild(button);
        }
        $('#question-div').prepend(div);
@@ -110,6 +111,12 @@ function getNextQuestion(){
         console.log("submit test");
         submit();
     }
+
+
+
+    $('input[name="option"]').click(function(){
+        $('marker'+qno).css("background-color","green");
+    })
 }
 
 
@@ -134,6 +141,12 @@ function startTimer(){
         count--;
         let min = parseInt(count/60) ;
         let sec = count%60;
+        if(count==75){
+            $('#myBar').css("background-color",'yellow'); 
+        }
+        if(count==20){
+            $('#myBar').css("background-color",'red'); 
+        }
         $('#timer').html(min + ' min : ' + sec +'sec');
         console.log(' count: ',count);
         if(count<0){
@@ -145,21 +158,28 @@ function startTimer(){
 
 
 function getQuestion(qnum){
-    $.getJSON(url+'questions/question/'+qnum, {}, function (res, textStatus, jqXHR){       
-        ques = res.data.question;
-        $('#question').html(ques.question);
-        $('#option0').html(ques.options[0]);
-        $('#option1').html(ques.options[1]);
-        $('#option2').html(ques.options[2]);
-        $('#option3').html(ques.options[3]); 
-        $('#option0Input').val(ques.options[0]);
-        $('#option1Input').val(ques.options[1]);
-        $('#option2Input').val(ques.options[2]);
-        $('#option3Input').val(ques.options[3]);                
-        $('#question-div').show();
+    //qno = qnum;
+    if(qnum)
+        qno=qnum;
+    else
         qno++;
-        if(qno==totalQuestions-1){
-            $('#next-btn').val('submit');
-        }
+ 
+    $.getJSON(url+'questions/question/'+qnum, {}, function (res, textStatus, jqXHR){       
+    ques = res.data.question;
+    $('#question').html(ques.question);
+    $('#option0').html(ques.options[0]);
+    $('#option1').html(ques.options[1]);
+    $('#option2').html(ques.options[2]);
+    $('#option3').html(ques.options[3]); 
+    $('#option0Input').val(ques.options[0]);
+    $('#option1Input').val(ques.options[1]);
+    $('#option2Input').val(ques.options[2]);
+    $('#option3Input').val(ques.options[3]);                
+    $('#question-div').show();
+    qno++;
+    if(qno==totalQuestions-1){
+        console.log("last question")
+        $('next-btn').val('submit');
+    }
     });    
 }
