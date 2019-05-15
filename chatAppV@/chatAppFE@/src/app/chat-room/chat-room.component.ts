@@ -28,10 +28,11 @@ export class ChatRoomComponent implements OnInit {
   //Message Details
   message: string;
   messageArray: any = [];
-
   isTyping = false;
   timeOut : any;
 
+  //file upload progress
+  uploadStatus : any;
 
   constructor(private route : ActivatedRoute, private socketService : SocketService, 
               private userService : UserService, private router : Router,private dialog: MatDialog) {
@@ -44,7 +45,7 @@ export class ChatRoomComponent implements OnInit {
         this.checkNewMessage();
         this.isUserTyping();
         this.checkMsgStatus();
-        this.getUserStatus();               
+        this.getUserStatus();
 }
 
 joinChatRoom(){
@@ -131,18 +132,18 @@ getChatMessages(){
 
 
   //Send New Message
-  sendMessage(messageType:string) {
-    if(this.message!=''){
-      console.log("sending msg");
-      let timestamp = new Date().getUTCMilliseconds()+this.chatRoom;
-      console.log(timestamp);
-      let data = { userNameTo:this.userNameTo, userIdTo:this.userIdTo, room: this.chatRoom, userNameFrom: this.userName,
-         message: this.message,messageType:messageType, status:'sent',msg_id :timestamp }
-      //console.log(data);
-      this.socketService.sendMessage(data);
-      this.message = '';
-    }
+sendMessage(messageType:string) {
+  if(this.message!=''){
+    console.log("sending msg");
+    let timestamp = new Date().getUTCMilliseconds()+this.chatRoom;
+    console.log(timestamp);
+    let data = { userNameTo:this.userNameTo, userIdTo:this.userIdTo, room: this.chatRoom, userNameFrom: this.userName,
+       message: this.message,messageType:messageType, status:'sent',msg_id :timestamp }
+    //console.log(data);
+    this.socketService.sendMessage(data);
+    this.message = '';
   }
+}
 
 
 
@@ -199,6 +200,32 @@ getChatMessages(){
      }
 
   }
+
+
+//Spinner for image uploading
+/*
+    uploadFile(data: FormData) {
+
+    this.uploadPrecentage = 0;
+    this.uploadImageService.uploadImages(data)
+      .subscribe(event => {
+        console.log("event");
+        if (event.type == HttpEventType.UploadProgress) {
+          console.log("upload progress");
+          const percentDone = Math.round(100 * event.loaded / event.total);
+          this.uploadPrecentage = percentDone;
+          console.log(`File is ${percentDone}% uploaded.`);
+        }
+
+        if(event.type == HttpEventType.Response) {
+           this.uploadedImages = event.body;
+           this.createURL();
+        }
+      });
+    return;
+  }
+*/
+
 
 }
 
