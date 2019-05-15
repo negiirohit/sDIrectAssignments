@@ -30,6 +30,8 @@ const MsgSchema = new Schema({
         type : String,
         required : true
     },
+    fileURL : String,
+    downloaded: boolean,
     status : String
 },{
     timestamps : true

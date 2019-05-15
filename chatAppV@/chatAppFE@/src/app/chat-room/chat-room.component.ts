@@ -65,6 +65,9 @@ export class ChatRoomComponent implements OnInit {
 
   acceptedTypes : any;
 
+  //if files are in queue
+  fileUploadQueue : boolean = false;
+  file : any;
 
   constructor(private route : ActivatedRoute, private socketService : SocketService, 
               private userService : UserService, private router : Router,private dialog: MatDialog,
@@ -280,6 +283,50 @@ sendMessage(messageType:string) {
         };
     } 
        let files:any = Array.from(event.target.files);    
+       /*
+                export declare class ResizeOptions {
+            Resize_Max_Height: number;
+            Resize_Max_Width: number;
+            Resize_Quality: number;
+            Resize_Type: string;
+        }
+       */
+
+       //options for image resize
+       const resizeOptions = {
+          Resize_Max_Height: 100,
+          Resize_Max_Width: 100,
+          Resize_Quality: 25,
+          Resize_Type: 'jpeg'
+      }
+
+
+      //compressing images
+      // for(let i=0;i<files.length;i++){
+         
+      //     console.log(files[i]);
+
+
+      //     ImageCompressService.compressImage(files[i],resizeOptions,(img,err)=>{
+              
+      //         console.log("erro occured",err);
+      //         console.log("image url "+img);
+      //         this.files.push(img.imageDataUrl);
+               
+      //     });
+      // }
+      ImageCompressService.filesArrayToCompressedImageSourceEx(files,resizeOptions).then(observableImages => {
+        observableImages.subscribe((image) => {
+          console.log("image url "+JSON.stringify(image.compressedImage));          
+          //console.log("image url "+image.imageDataUrl);
+//          this.files.push(image.compressedImage.imageDataUrl);
+          this.files.push(image);
+        }, (error) => {
+          console.log("Error while converting");
+        }, () => {
+        });
+      });            
+       /*
        ImageCompressService.filesArrayToCompressedImageSource(files).then(observableImages => {
          observableImages.subscribe((image) => {
            console.log("image url "+image.imageDataUrl);
@@ -289,6 +336,7 @@ sendMessage(messageType:string) {
          }, () => {
          });
        });
+       */
   } 
 
   
@@ -300,15 +348,37 @@ sendMessage(messageType:string) {
           msg.messageType = 'image';
           msg.status = 'sent';
           msg.msg_id = new Date().getUTCMilliseconds()+this.uploadMetaData.room;
-          msg.message = this.files[i];
-          console.log("image id :"+msg.msg_id);
+          msg.message = this.files[i].compressedImage.imageDataUrl; //store thumbnail directly in db
           
-          this.socketService.sendMessage(msg);
-          //this.dialogRef.close();
+          msg.notUploaded=true;
+          
+          this.messageArray.push(msg);
+          let i = this.messageArray.indexOf(msg);
+          console.log("image id :"+msg.msg_id);
+
+          
+          this.fileService.uploadImage(this.files.imageDataUrl).subscribe( event => {
+            if (event.type == HttpEventType.UploadProgress) {
+              console.log("upload progress");
+              const percentDone = Math.round(100 * event.loaded / event.total);
+              msg.uploadPercentage = percentDone ;
+              //console.log(`File is ${percentDone}% uploaded.`);
+            }
+     
+            if(event.type == HttpEventType.Response) {
+                  if(event.body.success=='true'){
+                      //this.messageArray[i].
+                  }
+            
+           }
+            
+     
+           });
+          //this.socketService.sendMessage(msg);
+          
           this.fileUpload = false;
           
     }
-    //close dialog box
   }
 
   remove(index){

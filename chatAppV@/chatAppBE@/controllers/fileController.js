@@ -9,7 +9,7 @@ const app = require('../app');
 
 
 
-module.exports.uploadImages = (req, res, next ) => {
+module.exports.uploadImage = (req, res, next ) => {
     
 
 }

@@ -30,10 +30,20 @@ export class FileService {
         if(event.type == HttpEventType.Response) {
            //this.uploadedImages = event.body;
            //this.createURL();
+           if(event.body.status=='true'){
+            
+           }
         }
 
        })
        
   }
+
+  uploadImage(image) {
+     return this.http.post<any>(baseURL+'files/uploadImage',image, {
+       reportProgress: true, observe: 'events'
+      })      
+ }
+
 
 }

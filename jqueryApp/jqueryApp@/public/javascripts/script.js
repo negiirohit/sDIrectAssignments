@@ -33,7 +33,7 @@ $(document).ready(function(){
 function startQuiz(){
     $('#user-form-div').hide();
     getQuestionCount();
-    startTimer();
+    //startTimer();
 }
 
 //get Total Questions
@@ -58,6 +58,8 @@ function getQuestionCount(){
    });
 }
 
+//check answer
+
 
 
 //get next question 
@@ -68,28 +70,23 @@ function getNextQuestion(){
     let width = ((qno+1)*100)/totalQuestions;
     $('#myBar').css("width",width + '%'); 
     $('#myBar').html(qno+1+'/'+totalQuestions);
-    //
-
-
-    if(qno>0){
-        
+    
+    //skip for the fetching first question
+    if(qno>0){        
         let selectedValue = $("input[name='option']:checked").val();
         if(selectedValue==ques.answer){
             rightAns++;
         } else {
             wrongAns++;
         }
+        //Clear the previous checked option for the next question 
         $('input[name="option"]').prop('checked', false);
     }
 
 
-    console.log("rigth : "+rightAns);
-    console.log("wrong : "+wrongAns);
-
     if(qno<totalQuestions){
         $('#question-div').hide();            
         console.log("getting next question ",qno);
-
         $.getJSON(url+'questions/question/'+qno, {}, function (res, textStatus, jqXHR){       
             ques = res.data.question;
             $('#question').html(ques.question);
@@ -106,6 +103,8 @@ function getNextQuestion(){
             if(qno==totalQuestions-1){
                 $('#next-btn').val('submit');
             }
+            $('#marker'+(qno-1)).css("background-color",'green');
+            startTimer();
         });    
     } else{
         console.log("submit test");
@@ -114,9 +113,9 @@ function getNextQuestion(){
 
 
 
-    $('input[name="option"]').click(function(){
-        $('marker'+qno).css("background-color","green");
-    })
+    // $('input[name="option"]').click(function(){
+        // $('marker'+qno).css("background-color","green");
+    // })
 }
 
 
@@ -136,9 +135,9 @@ function submit(){
 
 
 function startTimer(){
-    count = 150;
+    count = 5;
     let timer = setInterval(function(){
-        count--;
+         /*
         let min = parseInt(count/60) ;
         let sec = count%60;
         if(count==75){
@@ -147,12 +146,14 @@ function startTimer(){
         if(count==20){
             $('#myBar').css("background-color",'red'); 
         }
-        $('#timer').html(min + ' min : ' + sec +'sec');
+        */
+        $('#timer').html( count +'sec');
         console.log(' count: ',count);
-        if(count<0){
+        if(count==0){
             clearInterval(timer);
-            submit();
+            getNextQuestion();
         }
+        count--;        
     },1000)
 }
 
