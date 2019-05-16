@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 const userController = require('../controllers/userController');
 const auth = require('../auth/authenticate')
-
+const bodyParser = require('body-parser');
 
 
 /**
@@ -50,7 +50,7 @@ const auth = require('../auth/authenticate')
  *       403:
  *         description: Username and password don't match
  */
-router.post('/login',userController.login);
+router.post('/login',bodyParser.json(),userController.login);
 
 /**
  * @swagger
@@ -73,7 +73,7 @@ router.post('/login',userController.login);
  *         description:  succesfully
  *      
  */
-router.post('/register',userController.register);
+router.post('/register',bodyParser.json(),userController.register);
 
 /**
  * @swagger
@@ -97,7 +97,7 @@ router.post('/register',userController.register);
  *       400:
  *         description: Not Authorised
  */
-router.get('/getUsers',auth.verifyToken,userController.getUsers);
+router.get('/getUsers',bodyParser.json(),auth.verifyToken,userController.getUsers);
 
 
 /**
@@ -127,7 +127,7 @@ router.get('/getUsers',auth.verifyToken,userController.getUsers);
  *       400:
  *         description: Not Authorised
  */
-router.get('/isOnline/:id',auth.verifyToken,userController.checkUserOnline);
+router.get('/isOnline/:id',bodyParser.json(),auth.verifyToken,userController.checkUserOnline);
 
 module.exports = router;
 

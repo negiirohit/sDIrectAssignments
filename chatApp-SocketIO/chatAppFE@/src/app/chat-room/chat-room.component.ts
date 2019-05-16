@@ -49,7 +49,6 @@ export class ChatRoomComponent implements OnInit {
     
   formGroup:any;
   error : any ;
-
   acceptedTypes : any;
 
   //if files are in queue
@@ -210,7 +209,7 @@ uploadMedia( msgType ){
 
 
 //upload methods
-  onFileChange(event) {
+onFileChange(event) {
     if(event.target.files && event.target.files.length) {
         let length = event.target.files.length;
         if(length > 3){
@@ -247,8 +246,7 @@ uploadMedia( msgType ){
             }, () => {
             });
       });            
-
-  } 
+} 
 
   
   
@@ -260,34 +258,31 @@ uploadMedia( msgType ){
           msg.status = 'sent';
           msg.msg_id = new Date().getUTCMilliseconds()+this.uploadMetaData.room;
           msg.message = this.compressedFiles[i].imageDataUrl; //store thumbnail directly in db
-          msg.uploaded=true;
-
+         
+          msg.uploading=true;
+          
           //show in msg array of chat box
           this.messageArray.push(msg);
           let index = this.messageArray.indexOf(msg);
-          
-
 
           //fileupload formdata
           let data = new FormData();
-          data.append('test','test');
           data.append('image', this.filesToUpload[i],'test');
           data.append('fileSeq', 'seq' + i);
-
           this.fileService.uploadImage(data).subscribe( event => {
             if (event.type == HttpEventType.UploadProgress) {
                 console.log("upload progress");
                 const percentDone = Math.round(100 * event.loaded / event.total);
             }
-            if(event.type == HttpEventType.Response) {
+
+            if(event.type == HttpEventType.Response){
                if(event.body.status=='true'){
-                    msg.uploaded=true 
+                    msg.uploading=false 
                     msg.filePath=event.body.filePath   
                     this.messageArray[index]=msg;              
                     this.socketService.sendMessage(msg);
                 }
                 else{
-
                 }
             }
            });
@@ -308,11 +303,9 @@ uploadMedia( msgType ){
     modal.style.display = "block";
     modalImg.src = event.srcElement.src;
     const span = <HTMLSpanElement>document.getElementsByClassName("close")[0];
-     
      span.onclick = function() { 
        modal.style.display = "none";
      }
-
   }
 
 

@@ -23,13 +23,12 @@ export class AuthInterceptor {
         });
 
 
-        /*
-        if(request.method === 'POST'){
-            request = request.clone({
-            headers : request.headers.set('Content-Type', 'application/json')
-            });
-            }
-        */
+
+        // if(request.method === 'POST'){
+        //     request = request.clone({
+        //     headers : request.headers.set('Content-Type', 'application/json')
+        //     });
+        //     }
         return next.handle(request);
     }
 }

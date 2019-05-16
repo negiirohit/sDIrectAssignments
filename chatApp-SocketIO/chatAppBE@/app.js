@@ -67,7 +67,10 @@ var swaggerDefinition = {
 var swaggerSpec = swaggerJSDoc(options);
 
 
+
 //app.use(bodyParser.json());
+//app.use(bodyParser.json({limit: '10mb', extended: true}))
+//.use(bodyParser.urlencoded({limit: '10mb', extended: true}))
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
@@ -83,19 +86,14 @@ app.get('/swagger.json', function(req, res) {
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 var server = http.Server(app);
+
+
 let socketIO = require('socket.io');
 let io = socketIO(server);
 let users =[];
 let sockets =[];
 //Socket Configuration
 io.on('connection', (socket) => {
-    
-    //file uploader configurations
-    var uploader = new siofu();
-    uploader.dir = "/public/uploads";
-    uploader.listen(socket);
-
-
     socket.on('join', function( data) {
 
     socket.join(data.room,()=>{

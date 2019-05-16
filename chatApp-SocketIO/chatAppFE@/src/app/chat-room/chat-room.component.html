@@ -6,7 +6,7 @@
       
         <div *ngFor="let msg of messageArray; let  i = index">     
                 <div *ngIf="msg.userNameFrom==userName;else other" id="currentuser">
-                     <div class="msg">
+                    <div class="msg">
                               <div *ngIf="msg.messageType=='text'">  <p> {{ msg.message }} </p>  </div>
                               <div *ngIf="msg.messageType=='image'">
                                   <img id="myImg" [src]="msg.message" alt="Snow" style="width:100%;max-width:100px" (click)="preview($event)">
@@ -21,7 +21,7 @@
                               <span *ngIf="msg.status=='read'">
                                 <i class='fas fa-check-double' style='color:rgb(9, 189, 189)'></i>
                               </span>
-                      </div>  
+                    </div>  
                 </div>    
       
                 <ng-template #other >
