@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginComponent } from 'src/app/login/login.component';
-import { RegistrationComponent } from 'src/app/registration/registration.component';
-import { MyTweetsComponent } from 'src/app/my-tweets/my-tweets.component';
-import { MyMentionsComponent } from 'src/app/my-mentions/my-mentions.component';
+import { LoginComponent } from './login/login.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { MyTweetsComponent } from './my-tweets/my-tweets.component';
+import { MyMentionsComponent } from './my-mentions/my-mentions.component';
 
-import { AuthGuardService } from 'src/app/services/auth/auth-guard.service';
-import { ProfileComponent } from 'src/app/profile/profile.component';
+import { AuthGuardService } from './services/auth/auth-guard.service';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   {

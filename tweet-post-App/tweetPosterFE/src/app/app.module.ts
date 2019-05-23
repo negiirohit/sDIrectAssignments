@@ -10,11 +10,11 @@ import { LoginComponent } from './login/login.component';
 import { MyMentionsComponent } from './my-mentions/my-mentions.component';
 import { MyTweetsComponent } from './my-tweets/my-tweets.component';
 //services
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { AuthGuardService } from 'src/app/services/auth/auth-guard.service';
+import { AuthService } from './services/auth/auth.service';
+import { AuthGuardService } from './services/auth/auth-guard.service';
 //interceptors
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from 'src/app/services/auth/auth.interceptor';
+import { AuthInterceptor } from './services/auth/auth.interceptor';
 import { HeaderComponent } from './header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 //Mention
@@ -22,7 +22,7 @@ import { MentionModule } from 'angular-mentions';
 import { ProfileComponent } from './profile/profile.component';
 
 //add pipes
-import { LinkHandlePipe } from 'src/app/pipes/link-handle.pipe';
+import { LinkHandlePipe } from './pipes/link-handle.pipe';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,7 @@ import { LinkHandlePipe } from 'src/app/pipes/link-handle.pipe';
     LinkHandlePipe
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
