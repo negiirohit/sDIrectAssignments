@@ -39,8 +39,8 @@ const connect = mongoose.connect(url, {
 
 
 connect.then((db) => {
-    //console.log("Connected correctly to server");
-}, (err) => { console.log("db connection error "+err); });
+    console.log("Connected correctly to server");
+}, (err) => { console.log("db connection error ",err); });
 
 
 const app = express();
@@ -56,15 +56,15 @@ var swaggerDefinition = {
 };
   
 // options for the swagger docs
-  var options = {
-    // import swaggerDefinitions
-    swaggerDefinition: swaggerDefinition,
-    // path to the API docs
-    apis: ['./routes/*.js'],
-  };
+//   var options = {
+    // // import swaggerDefinitions
+    // swaggerDefinition: swaggerDefinition,
+    // // path to the API docs
+    // apis: ['./routes/*.js'],
+//   };
   
 // initialize swagger-jsdoc
-var swaggerSpec = swaggerJSDoc(options);
+//var swaggerSpec = swaggerJSDoc(options);
 
 
 
@@ -83,7 +83,7 @@ app.get('/swagger.json', function(req, res) {
     res.send(swaggerSpec);
   });
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 var server = http.Server(app);
 

@@ -10,60 +10,53 @@ let socketObject = require('../socket');
 
 module.exports.register = (req,res,next) => {
     console.log("inside register")
-    socketObject.sendDemoData('demo');   
 
-    
-    res.json({ 
-        success : false,
-        message : 'demo',
-        data:null
-    });
-
-    // console.log("io: ",io)    
-    // console.log(req.body);
-    // User.findOne({ email : req.body.email })
-    // .then( (user) => {
-    //         console.log("got user: "+user);
-    //         if(user!=null) {
-    //                 console.log("user already exists: " +user)
-    //                 //res.status(422);
-    //                 res.json({ 
-    //                     success : false,
-    //                     message : 'User already exists',
-    //                     data:null
-    //                 });
-    //         }
-    //         else {
-                
-    //                 console.log("creating user")
-    //                 newUser = User(req.body);   
-    //                 return( 
-    //                     newUser.save()
-    //                     .then((user) => {
-    //                         res.status(200);                    
-    //                         console.log("user created " +user);
-    //                         res.json({ 
-    //                             success : true, 
-    //                             message : 'User created!',
-    //                             data :{user : user }
-    //                          })
-    //                     })
-                    
-    //                 )
-    //         }
-                        
-    // })
-    // .catch((err) => {
-    //     //res.status(500);
-    //     res.json({
-    //         success : false,
-    //         message : err.message,
-    //         data: null
-    //     }); 
-    // });
+     console.log("io: ",io)    
+     console.log(req.body);
+     User.findOne({ email : req.body.email })
+     .then( (user) => {
+             console.log("got user: "+user);
+             if(user!=null) {
+                     console.log("user already exists: " +user)
+                     //res.status(422);
+                     res.json({ 
+                         success : false,
+                         message : 'User already exists',
+                         data:null
+                     });
+             }
+             else {
+          
+                     console.log("creating user")
+                     newUser = User(req.body);   
+                     return( 
+                         newUser.save()
+                         .then((user) => {
+                             res.status(200);                    
+                             console.log("user created " +user);
+                             res.json({ 
+                                 success : true, 
+                                 message : 'User created!',
+                                 data :{user : user }
+                              })
+                         })
+              
+                     )
+             }
+                  
+     })
+     .catch((err) => {
+         //res.status(500);
+         res.json({
+             success : false,
+             message : err.message,
+             data: null
+         }); 
+     });
 }
 
 module.exports.login = (req, res, next) => {
+/*
     console.log(req.body);
     User.findOne({ email:req.body.email } )
     .then((user) => {
@@ -71,6 +64,7 @@ module.exports.login = (req, res, next) => {
                 if(bcrypt.compareSync(req.body.password,user.password)){                    
                                     let token = jwt.sign({id: user._id,handle: user.handle},config.secret,{ expiresIn: '24h' });
                                     user.password = '';
+                                    socketObject.userLoggedIn({'user':user.handle});   
                                     res.status(200);
                                     res.json({
                                         success: true,
@@ -101,6 +95,16 @@ module.exports.login = (req, res, next) => {
             message : err.message,
         }); 
     });
+*/
+let user =  req.body.email;
+socketObject.userLoggedIn({'user':user});  
+let token ='1234rohitnegi'
+res.json({
+    success: true,
+    message: 'Authentication successful!',
+    data : { token: token ,user : user}
+}); 
+
 }
 
 module.exports.getUsers = (req, res, next ) => {

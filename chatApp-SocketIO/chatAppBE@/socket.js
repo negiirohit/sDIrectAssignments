@@ -13,7 +13,6 @@ socketConnection.listen = function listen(app) {
     
     io.sockets.on('connection', function (socket) {
 
-        global.socketIO.emit('test',{data});
 
         socket.on('test',(data) =>{
             console.log("data ",data);
@@ -22,6 +21,7 @@ socketConnection.listen = function listen(app) {
         socket.on('join', function( data) {
 
         socket.join(data.room,()=>{
+        /*
             Chat.findOneAndUpdate({chatRoom : data.room},{})
             .then( room => {
                 if(room==null)
@@ -29,14 +29,15 @@ socketConnection.listen = function listen(app) {
                     .then( room=>{
                     })
             } )
+        */
         });
-
+        
         })
 
         //On receiving a new Message
         socket.on('message', (data) => {
             io.in(data.room).emit('messageReceived', data);                
-            chatController.saveMsg(data);
+        //    chatController.saveMsg(data);
         });
 
 
@@ -44,7 +45,7 @@ socketConnection.listen = function listen(app) {
             if(global.users.indexOf(id)==-1){
                 global.users.push(id);
                 global.sockets.push(socket.id);
-                userController.goOnline(id,socket.id);
+          //      userController.goOnline(id,socket.id);
             }
             socket.broadcast.emit("changeUserStatus",{id:id,status:true});
 
@@ -55,7 +56,7 @@ socketConnection.listen = function listen(app) {
             global.users.splice(global.users.indexOf(id),1);
             global.sockets.splice(global.sockets.indexOf(socket.id),1);
             socket.broadcast.emit("changeUserStatus",{id:id,status:false});        
-            userController.goOffline(id);
+        //  userController.goOffline(id);
         });
 
 
@@ -71,7 +72,7 @@ socketConnection.listen = function listen(app) {
 
         socket.on('changeMsgStatus',(msg)=>{
             socket.broadcast.in(msg.room).emit('msgStatusChanged',msg);
-            chatController.changeMsgStatus(msg);        
+        //    chatController.changeMsgStatus(msg);        
         })
 
         socket.on('demo', data=>{
@@ -93,6 +94,11 @@ socketConnection.sendDemoData= function sendDemoData(msg) {
     console.log("befor emitting ",msg);
     //console.log("globalSocketIO",global.socketIO);
     global.socketIO.emit('demoMsg', { "data": msg });    
+};
+
+socketConnection.userLoggedIn = function userLoggedIn(user) {
+    console.log("befor emitting ",JSON.stringify(user));
+    global.socketIO.emit('newUserLoggedIn', user);    
 };
 
 

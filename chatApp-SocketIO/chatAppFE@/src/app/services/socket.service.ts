@@ -14,17 +14,6 @@ export class SocketService {
   private socket;
   constructor() {
     this.socket = io(baseURL);
-
-    const observable = new Observable<any>(observer => {
-      this.socket.on('demo', (data) => {
-        console.log(data);
-        observer.next(data);
-      });
-      return () => {
-        this.socket.disconnect();
-      };
-    });
-
    }
 
 
@@ -97,6 +86,18 @@ msgStatusChanged(){
 
 sendMessage(data) {
   this.socket.emit('message', data);
+}
+
+newUserLoggedIn(){
+//  global.socketIO.emit('newUserLoggedIn', user);    
+const observable = new Observable<any>(observer => {
+  this.socket.on('newUserLoggedIn', (data) => {
+    console.log("new user Logged In");
+    observer.next(data);
+  });
+});
+return observable;
+  
 }
 
 }

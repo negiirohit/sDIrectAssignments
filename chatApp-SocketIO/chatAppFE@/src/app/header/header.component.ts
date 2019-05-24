@@ -10,9 +10,16 @@ import { SocketService } from 'src/app/services/socket.service';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public authService : AuthService,public socketServie : SocketService) { }
+  constructor(public authService : AuthService,public socketService : SocketService) { }
 
   ngOnInit() {
+    this.checkNewUser();
   }
 
+  checkNewUser(){
+    this.socketService.newUserLoggedIn().subscribe(data => {
+      console.log("new user logged in :",JSON.stringify(data));
+    });
+   }
+    
 }
