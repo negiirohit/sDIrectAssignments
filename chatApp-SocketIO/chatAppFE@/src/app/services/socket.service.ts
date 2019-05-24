@@ -14,6 +14,17 @@ export class SocketService {
   private socket;
   constructor() {
     this.socket = io(baseURL);
+
+    const observable = new Observable<any>(observer => {
+      this.socket.on('demo', (data) => {
+        console.log(data);
+        observer.next(data);
+      });
+      return () => {
+        this.socket.disconnect();
+      };
+    });
+
    }
 
 

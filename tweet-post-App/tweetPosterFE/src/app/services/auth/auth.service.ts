@@ -2,22 +2,22 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { baseURL } from '../../shared/baserurl';
 import { Router } from '@angular/router';
-
+import { LocalStorageService } from '../local-storage.service';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient,private router: Router) { }
+  constructor(private http: HttpClient,private router: Router,public localStorage: LocalStorageService) { }
   
   //Check if any user is logged in or not
   loggedIn(){
-    return !!localStorage.getItem('token')    
+    return !!this.localStorage.getItem('token')    
   }
   //verifyUser from backend
   isAuthenticatedUser(){
       if(this.loggedIn()){
-        let token = localStorage.getItem('token');
+        let token = this.localStorage.getItem('token');
           // check if token is set, then...
           if (token) {
               //.......check from backend
@@ -38,8 +38,8 @@ export class AuthService {
   }
   //Log out User
   logOutUser() {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
+    this.localStorage.removeItem('user');
+    this.localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }  
 }

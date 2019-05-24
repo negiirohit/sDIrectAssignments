@@ -6,49 +6,61 @@ const config = require('../config/config')
 const User = require('../models/user');
 const mongoose =require('mongoose');
 
+let socketObject = require('../socket');
 
 module.exports.register = (req,res,next) => {
-    console.log(req.body);
-    User.findOne({ email : req.body.email })
-    .then( (user) => {
-            console.log("got user: "+user);
-            if(user!=null) {
-                    console.log("user already exists: " +user)
-                    //res.status(422);
-                    res.json({ 
-                        success : false,
-                        message : 'User already exists',
-                        data:null
-                    });
-            }
-            else {
-                
-                    console.log("creating user")
-                    newUser = User(req.body);   
-                    return( 
-                        newUser.save()
-                        .then((user) => {
-                            res.status(200);                    
-                            console.log("user created " +user);
-                            res.json({ 
-                                success : true, 
-                                message : 'User created!',
-                                data :{user : user }
-                             })
-                        })
-                    
-                    )
-            }
-                        
-    })
-    .catch((err) => {
-        //res.status(500);
-        res.json({
-            success : false,
-            message : err.message,
-            data: null
-        }); 
+    console.log("inside register")
+    socketObject.sendDemoData('demo');   
+
+    
+    res.json({ 
+        success : false,
+        message : 'demo',
+        data:null
     });
+
+    // console.log("io: ",io)    
+    // console.log(req.body);
+    // User.findOne({ email : req.body.email })
+    // .then( (user) => {
+    //         console.log("got user: "+user);
+    //         if(user!=null) {
+    //                 console.log("user already exists: " +user)
+    //                 //res.status(422);
+    //                 res.json({ 
+    //                     success : false,
+    //                     message : 'User already exists',
+    //                     data:null
+    //                 });
+    //         }
+    //         else {
+                
+    //                 console.log("creating user")
+    //                 newUser = User(req.body);   
+    //                 return( 
+    //                     newUser.save()
+    //                     .then((user) => {
+    //                         res.status(200);                    
+    //                         console.log("user created " +user);
+    //                         res.json({ 
+    //                             success : true, 
+    //                             message : 'User created!',
+    //                             data :{user : user }
+    //                          })
+    //                     })
+                    
+    //                 )
+    //         }
+                        
+    // })
+    // .catch((err) => {
+    //     //res.status(500);
+    //     res.json({
+    //         success : false,
+    //         message : err.message,
+    //         data: null
+    //     }); 
+    // });
 }
 
 module.exports.login = (req, res, next) => {

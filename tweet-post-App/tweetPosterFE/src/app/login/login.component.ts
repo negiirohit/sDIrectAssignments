@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth/auth.service'
 import { Router } from '@angular/router';
+import { Title, Meta } from '@angular/platform-browser';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -12,12 +14,18 @@ export class LoginComponent implements OnInit {
 
   userLoginForm : FormGroup
   loginError : string;
-  constructor(private fb: FormBuilder,  private authService : AuthService, private router : Router) { 
+  constructor(private fb: FormBuilder,  private authService : AuthService, private router : Router
+  ,  private title: Title,private meta: Meta) { 
   
   }
     
   
   ngOnInit() {
+    this.title.setTitle('Tweet app login');
+    this.meta.updateTag({
+        'description': 'login twitter'
+    });
+
     this.createLoginForm();    
   }
   

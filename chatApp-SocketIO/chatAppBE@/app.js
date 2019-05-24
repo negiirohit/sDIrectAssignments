@@ -88,7 +88,100 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 var server = http.Server(app);
 
 
-let socketIO = require('socket.io');
+global.users = [];
+global.sockets = [];
+require('./socket').listen(server);
+
+/*
+var socketConnection = exports = module.exports = {};
+
+
+socketConnection.listen = function listen(app) {
+  
+    console.log('Socket Called')
+    io = socketio.listen(app);
+    exports.sockets = io.sockets;
+    global.socketIO = io.sockets;
+    io.sockets.on('connection', function (socket) {
+
+    socket.on('join', function( data) {
+
+    socket.join(data.room,()=>{
+        Chat.findOneAndUpdate({chatRoom : data.room},{})
+        .then( room => {
+            if(room==null)
+                Chat.create({chatRoom : data.room})
+                .then( room=>{
+                })
+        } )
+    });
+
+    })
+
+    //On receiving a new Message
+    socket.on('message', (data) => {
+        io.in(data.room).emit('messageReceived', data);                
+        chatController.saveMsg(data);
+    });
+
+        
+    socket.on('goOnline', function(id){
+        if(users.indexOf(id)==-1){
+            users.push(id);
+            sockets.push(socket.id);
+            userController.goOnline(id,socket.id);
+        }
+        socket.broadcast.emit("changeUserStatus",{id:id,status:true});
+
+    });
+
+
+    socket.on('goOffline', function(id){ 
+        users.splice(users.indexOf(id),1);
+        sockets.splice(sockets.indexOf(socket.id),1);
+        socket.broadcast.emit("changeUserStatus",{id:id,status:false});        
+        userController.goOffline(id);
+    });
+
+
+    socket.on('disconnect', function(){    
+        socket.emit('goOffline',users[sockets.indexOf(socket.id)]);
+    });
+
+
+    socket.on('typing', (data) => {
+        socket.broadcast.in(data.room).emit('typing', {data: data, isTyping: true});
+    });
+
+    
+    socket.on('changeMsgStatus',(msg)=>{
+        socket.broadcast.in(msg.room).emit('msgStatusChanged',msg);
+        chatController.changeMsgStatus(msg);        
+    })server
+    
+    socket.on('demo', data=>{
+        console.log("data",data);
+    })
+
+
+    });
+    return io;
+};
+
+
+
+socketConnection.emitEvent = function(data){
+    console.log("emiting event",data);
+    console.log("global",global.socketIO);
+    global.socketIO.emit('demo',data);
+}
+
+
+
+
+
+
+/*
 let io = socketIO(server);
 let users =[];
 let sockets =[];
@@ -151,8 +244,9 @@ io.on('connection', (socket) => {
     })
         
 });
-
+*/
 
 server.listen(3000, () => {
     console.log('server is running on port', server.address().port);
    });
+
